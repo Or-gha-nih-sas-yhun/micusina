@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Serving cloche, drawn inside the 66dp adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Knob -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,35.5a4.5,4.5 0,1 1,0 9a4.5,4.5 0,1 1,0 -9z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M52.25,43h3.5v4h-3.5z" />
+    <!-- Dome -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M31,66A23,23 0,0 1,77 66z" />
+    <!-- Dome highlight -->
+    <path
+        android:pathData="M39.5,61.5A15.5,15.5 0,0 1,49 52"
+        android:strokeWidth="2.6"
+        android:strokeColor="#8D197F"
+        android:strokeLineCap="round" />
+    <!-- Plate -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M29,68.5h50a2.25,2.25 0,0 1,0 4.5h-50a2.25,2.25 0,0 1,0 -4.5z" />
+</vector>

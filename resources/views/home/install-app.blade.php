@@ -24,7 +24,8 @@
             <li>If Android asks, allow your browser or file manager to install apps from this source.</li>
             <li>Tap <strong>Install</strong>, then <strong>Open</strong>.</li>
         </ol>
-        <p class="note">Requires Android 7.0 or later. If installation says the app cannot be installed, uninstall any older Mi Cusina app first and try again.</p>
+        <p class="note">Requires Android 8.0 or later. The app is for customers; staff should keep using the Mi Cusina dashboard.</p>
+        <p class="note">Already have an older Mi Cusina app? Install this version first, sign in, then uninstall the old one so only one Mi Cusina stays on your phone.</p>
         <p><a href="{{ url('/') }}">Back to Mi Cusina</a></p>
     </main>
 </body>
