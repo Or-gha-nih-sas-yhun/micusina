@@ -32,8 +32,10 @@ class ModelDecodingTest {
     @Test
     fun cartRowsAcceptStringQuantitiesAndPrices() {
         val body = """{"items":[{"id":9,"userid":"4","food_id":3,"title":"Chicken Adobo","details":"Classic",
-            "quantity":"2","image":"adobo.jpg","price":"301","created_at":"2026-09-25T07:04:13.000000Z"}]}"""
+            "quantity":"2","image":"adobo.jpg","image_url":"https://example.test/assets/imgs/adobo.png","price":"301",
+            "created_at":"2026-09-25T07:04:13.000000Z"}]}"""
         val item = json.decodeFromString<CartEnvelope>(body).items.single()
+        assertEquals("https://example.test/assets/imgs/adobo.png", item.imageUrl)
         assertEquals(2, item.quantity)
         assertEquals(301.0, item.price, 0.0)
         assertEquals(150.5, item.unitPrice, 0.0)

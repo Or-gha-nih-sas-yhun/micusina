@@ -7,7 +7,7 @@ object SiteUrls {
     /** e.g. https://micusina-pos.com */
     val origin: String = BuildConfig.API_BASE_URL.substringBefore("/api/mobile").trimEnd('/')
 
-    /** Mirrors MobileApiController::foodImageUrl() for cart and order rows that only carry a file name. */
+    /** Mirrors the uploaded-file fallback in App\Support\MenuImages, for rows from servers that send no image_url. */
     fun foodImage(image: String?): String? {
         val trimmed = image?.trim().orEmpty()
         if (trimmed.isEmpty()) return null

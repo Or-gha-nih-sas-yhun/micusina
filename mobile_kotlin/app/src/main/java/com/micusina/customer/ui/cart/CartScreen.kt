@@ -140,7 +140,7 @@ private fun CartRow(
         border = BorderStroke(1.dp, Hairline),
     ) {
         Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-            FoodImage(SiteUrls.foodImage(item.image), contentDescription = item.title, modifier = Modifier.size(84.dp))
+            FoodImage(item.imageUrl ?: SiteUrls.foodImage(item.image), contentDescription = item.title, modifier = Modifier.size(84.dp))
             Column(Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.Top) {
                     Column(Modifier.weight(1f)) {

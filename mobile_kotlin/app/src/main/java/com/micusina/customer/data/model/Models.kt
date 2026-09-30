@@ -38,6 +38,7 @@ data class CartItem(
     val title: String = "",
     val details: String? = null,
     val image: String? = null,
+    @SerialName("image_url") val imageUrl: String? = null,
     @Serializable(LenientIntSerializer::class) val quantity: Int = 0,
     /** Line total (unit price x quantity), as stored by the server. */
     @Serializable(LenientDoubleSerializer::class) val price: Double = 0.0,

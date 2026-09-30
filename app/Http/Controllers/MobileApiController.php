@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Services\PayMongoService;
 use App\Services\RegistrationOtpSender;
+use App\Support\MenuImages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -169,7 +170,7 @@ class MobileApiController extends Controller
 
     public function cart(Request $request): JsonResponse
     {
-        return response()->json(['items' => Cart::where('userid', $request->user()->id)->latest()->get()]);
+        return response()->json(['items' => Cart::where('userid', $request->user()->id)->latest()->get()->map(fn (Cart $cart) => $this->cartItem($cart))]);
     }
 
     public function addCart(Request $request, Food $food): JsonResponse
@@ -210,7 +211,7 @@ class MobileApiController extends Controller
             return $cart->fresh();
         }, 3);
 
-        return response()->json(['message' => 'Added to cart.', 'item' => $cart]);
+        return response()->json(['message' => 'Added to cart.', 'item' => $this->cartItem($cart)]);
     }
 
     public function updateCart(Request $request, Cart $cart): JsonResponse
@@ -222,7 +223,7 @@ class MobileApiController extends Controller
         $unit = $this->price($cart->price) / max(1, (int) $cart->quantity);
         $cart->update(['quantity' => $data['quantity'], 'price' => $unit * $data['quantity']]);
 
-        return response()->json(['item' => $cart->fresh()]);
+        return response()->json(['item' => $this->cartItem($cart->fresh())]);
     }
 
     public function removeCart(Request $request, Cart $cart): JsonResponse
@@ -487,29 +488,17 @@ class MobileApiController extends Controller
 
     private function food(Food $food): array
     {
-        return ['id' => $food->id, 'title' => $food->title, 'detail' => $food->detail, 'category' => $food->category ?: 'All menu', 'price' => $this->price($food->price), 'stock' => (int) $food->stock, 'image' => $food->image, 'image_url' => $this->foodImageUrl($food->image)];
+        return ['id' => $food->id, 'title' => $food->title, 'detail' => $food->detail, 'category' => $food->category ?: 'All menu', 'price' => $this->price($food->price), 'stock' => (int) $food->stock, 'image' => $food->image, 'image_url' => MenuImages::url($food->title, $food->image)];
+    }
+
+    private function cartItem(Cart $cart): array
+    {
+        return $cart->toArray() + ['image_url' => MenuImages::url($cart->title, $cart->image)];
     }
 
     private function user(User $user): array
     {
         return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'phone' => $user->phone, 'address' => $user->address, 'usertype' => $user->usertype, 'staff_role' => $user->staff_role];
-    }
-
-    private function foodImageUrl(?string $image): ?string
-    {
-        $image = trim((string) $image);
-
-        if ($image === '') {
-            return null;
-        }
-
-        if (preg_match('#^https?://#i', $image) === 1) {
-            return $image;
-        }
-
-        $path = ltrim(str_replace('\\', '/', $image), '/');
-
-        return asset(str_starts_with($path, 'food_img/') ? $path : 'food_img/'.$path);
     }
 
     private function normalizePhilippinePhone(string $phone): string

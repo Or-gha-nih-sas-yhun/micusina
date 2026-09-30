@@ -182,6 +182,34 @@ class MobileApiTest extends TestCase
             ->assertJsonPath('foods.0.image_url', asset('food_img/meal.jpg'));
     }
 
+    public function test_known_dishes_use_the_same_menu_photo_as_the_website(): void
+    {
+        $this->food(['title' => '2-Pc Chicken Meal', 'image' => '1779593449.png']);
+
+        $this->getJson('/api/mobile/foods')
+            ->assertOk()
+            ->assertJsonPath('foods.0.image', '1779593449.png')
+            ->assertJsonPath('foods.0.image_url', asset('assets/imgs/2-pcs-chicken-meal-pink-v8.png'));
+    }
+
+    public function test_cart_items_include_an_absolute_image_url(): void
+    {
+        $user = User::factory()->create();
+        $burger = $this->food(['title' => 'Chicken Burger', 'image' => 'burger.png']);
+        $meal = $this->food(['image' => 'meal.jpg']);
+        $this->cart($user, $burger);
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/mobile/cart')
+            ->assertOk()
+            ->assertJsonPath('items.0.image', 'burger.png')
+            ->assertJsonPath('items.0.image_url', asset('assets/imgs/chicken-burger-pink-v8.png'));
+
+        $this->postJson("/api/mobile/cart/{$meal->id}", ['quantity' => 1])
+            ->assertOk()
+            ->assertJsonPath('item.image_url', asset('food_img/meal.jpg'));
+    }
+
     public function test_foods_include_the_menu_category_for_the_mobile_filters(): void
     {
         $this->food(['category' => 'Rice meals']);
