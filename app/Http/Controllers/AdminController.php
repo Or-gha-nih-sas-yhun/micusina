@@ -380,7 +380,7 @@ class AdminController extends Controller
 
     public function assign_rider(Request $request, $id)
     {
-        $this->requireAdminOrCashier();
+        $this->requireOrderManager();
 
         $request->validate([
             'rider_id' => ['required', 'exists:users,id'],
@@ -461,6 +461,7 @@ class AdminController extends Controller
             }
             abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
             abort_unless($orders->every(fn (Order $order) => $order->delivery_status === 'On The Way'), 422, 'Only an order that is On The Way can be marked Delivered.');
+            abort_unless($orders->every(fn (Order $order) => strtolower((string) $order->payment_status) === 'paid'), 422, 'Payment must be marked as paid before an order can be delivered.');
             Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Delivered']);
 
             return $data->rider_id;
@@ -633,6 +634,20 @@ class AdminController extends Controller
         }
 
         if (auth()->user()->usertype === 'staff' && auth()->user()->staff_role === 'cashier') {
+            return;
+        }
+
+        abort(403);
+    }
+
+    /** Allow office staff to dispatch deliveries, but never a delivery rider. */
+    private function requireOrderManager()
+    {
+        if (! auth()->check() || auth()->user()->staff_role === 'rider') {
+            abort(403);
+        }
+
+        if (in_array(auth()->user()->usertype, ['admin', 'staff'], true)) {
             return;
         }
 

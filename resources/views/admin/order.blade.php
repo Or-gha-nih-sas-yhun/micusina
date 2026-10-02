@@ -606,7 +606,7 @@
                 <td class="rider-assignment-cell">
                     @if($order->rider)
                         <span class="rider-name">{{ $order->rider->name }}</span>
-                    @elseif(!in_array($order->delivery_status, ['Delivered', 'Canceled'], true) && (Auth::user()->usertype === 'admin' || Auth::user()->staff_role === 'cashier'))
+                    @elseif(!in_array($order->delivery_status, ['Delivered', 'Canceled'], true) && Auth::user()->staff_role !== 'rider')
                         <button class="btn btn-success rider-toggle" type="button">Assign Rider</button>
                         <form class="rider-form" action="{{ url('assign_rider', $order->id) }}" method="POST">
                             @csrf
@@ -655,7 +655,11 @@
                     @elseif($order->delivery_status === 'Canceled')
                         <span class="text-danger font-weight-bold">Canceled — final</span>
                     @elseif($order->delivery_status === 'On The Way')
+                        @if(($order->payment_status ?? 'Unpaid') === 'Paid')
                         <form method="POST" action="{{ url('delivered', $order->id) }}" data-confirmation-form data-confirmation-title="Mark order as delivered?" data-confirmation-message="This will complete this delivery and make the assigned rider available again." data-confirmation-submit="Yes, deliver it">@csrf<button class="btn btn-warning" type="submit">Delivered</button></form>
+                        @else
+                        <span class="text-muted">Payment required before delivery</span>
+                        @endif
                     @else
                         <form method="POST" action="{{ url('on_the_way', $order->id) }}" class="js-confirm-action" data-title="Mark order as on the way?" data-text="This will update all items in this order to On The Way." data-confirm="Yes, update it">@csrf<button class="btn btn-info" type="submit">On The Way</button></form>
                         @if(($order->payment_status ?? 'Unpaid') !== 'Paid')

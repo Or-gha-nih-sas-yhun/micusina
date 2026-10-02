@@ -48,6 +48,26 @@ class RiderAssignmentTest extends TestCase
             ->assertNotFound();
     }
 
+    public function test_non_rider_staff_can_assign_an_available_rider(): void
+    {
+        $staff = User::factory()->create(['usertype' => 'staff', 'staff_role' => null]);
+        $rider = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'rider', 'rider_available' => true]);
+
+        $this->actingAs($staff)
+            ->post('/assign_rider/'.$this->order()->id, ['rider_id' => $rider->id])
+            ->assertRedirect();
+    }
+
+    public function test_an_unpaid_order_cannot_be_marked_delivered(): void
+    {
+        $cashier = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'cashier']);
+        $rider = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'rider']);
+        $order = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Unpaid']);
+
+        $this->actingAs($cashier)->post('/delivered/'.$order->id)->assertUnprocessable();
+        $this->assertSame('On The Way', $order->fresh()->delivery_status);
+    }
+
     private function order(array $attributes = []): Order
     {
         return Order::create(array_merge([

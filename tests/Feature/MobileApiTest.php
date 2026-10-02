@@ -290,8 +290,8 @@ class MobileApiTest extends TestCase
         $cashier = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'cashier']);
         $rider = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'rider', 'rider_available' => false]);
         $groupId = (string) Str::uuid();
-        $first = $this->order(['checkout_group_id' => $groupId, 'email' => 'group@example.com', 'rider_id' => $rider->id, 'delivery_status' => 'On The Way']);
-        $second = $this->order(['checkout_group_id' => $groupId, 'email' => 'group@example.com', 'rider_id' => $rider->id, 'delivery_status' => 'On The Way']);
+        $first = $this->order(['checkout_group_id' => $groupId, 'email' => 'group@example.com', 'rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Paid']);
+        $second = $this->order(['checkout_group_id' => $groupId, 'email' => 'group@example.com', 'rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Paid']);
         $otherCheckout = $this->order(['checkout_group_id' => (string) Str::uuid(), 'email' => 'group@example.com']);
 
         Sanctum::actingAs($cashier);
@@ -309,8 +309,8 @@ class MobileApiTest extends TestCase
     public function test_legacy_delivery_updates_only_that_row_and_keeps_busy_riders_unavailable(): void
     {
         $rider = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'rider', 'rider_available' => false]);
-        $first = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way']);
-        $second = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way']);
+        $first = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Paid']);
+        $second = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Paid']);
 
         Sanctum::actingAs($rider);
 
@@ -323,6 +323,19 @@ class MobileApiTest extends TestCase
 
         $this->patchJson('/api/mobile/staff/orders/'.$second->id, ['delivery_status' => 'Delivered'])->assertOk();
         $this->assertTrue($rider->fresh()->rider_available);
+    }
+
+    public function test_staff_cannot_mark_an_unpaid_order_delivered(): void
+    {
+        $rider = User::factory()->create(['usertype' => 'staff', 'staff_role' => 'rider']);
+        $order = $this->order(['rider_id' => $rider->id, 'delivery_status' => 'On The Way', 'payment_status' => 'Unpaid']);
+        Sanctum::actingAs($rider);
+
+        $this->patchJson('/api/mobile/staff/orders/'.$order->id, ['delivery_status' => 'Delivered'])
+            ->assertUnprocessable()
+            ->assertJsonPath('message', 'Payment must be marked as paid before an order can be delivered.');
+
+        $this->assertSame('On The Way', $order->fresh()->delivery_status);
     }
 
     public function test_reservations_reject_a_time_that_has_already_passed_in_manila(): void

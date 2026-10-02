@@ -431,10 +431,12 @@ class MobileApiController extends Controller
             if ($user->staff_role === 'rider') {
                 abort_unless($relatedOrders->every(fn (Order $related) => (int) $related->rider_id === (int) $user->id), 403, 'Every item in this checkout must be assigned to you.');
                 abort_unless($nextStatus === 'Delivered' && $relatedOrders->every(fn (Order $related) => $related->delivery_status === 'On The Way'), 422, 'This delivery status change is not allowed.');
+                abort_unless($relatedOrders->every(fn (Order $related) => strtolower((string) $related->payment_status) === 'paid'), 422, 'Payment must be marked as paid before an order can be delivered.');
             } else {
                 abort_unless($user->usertype === 'admin' || $user->staff_role === 'cashier', 403, 'Order management access required.');
                 abort_if($relatedOrders->contains(fn (Order $related) => in_array($related->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
                 abort_if($nextStatus === 'Delivered' && ! $relatedOrders->every(fn (Order $related) => $related->delivery_status === 'On The Way'), 422, 'Assign a rider before marking this order delivered.');
+                abort_if($nextStatus === 'Delivered' && ! $relatedOrders->every(fn (Order $related) => strtolower((string) $related->payment_status) === 'paid'), 422, 'Payment must be marked as paid before an order can be delivered.');
                 abort_if($nextStatus === 'Canceled' && $relatedOrders->contains(fn (Order $related) => $related->delivery_status === 'On The Way' || strtolower((string) $related->payment_status) === 'paid'), 422, 'A paid or dispatched order cannot be cancelled.');
             }
 
