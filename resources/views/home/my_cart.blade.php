@@ -362,36 +362,6 @@
             text-align: center;
         }
 
-        .continue-shopping {
-            border: 1.5px solid #1f2937;
-            border-radius: 999px;
-            box-sizing: border-box;
-            color: #F88379;
-            display: inline-flex;
-            font-size: 14px;
-            font-weight: 800;
-            margin-top: 28px;
-            padding: 9px 14px;
-            text-decoration: none;
-            transition: background-color .18s ease, border-color .18s ease, color .18s ease;
-            width: auto;
-        }
-
-        .continue-shopping:hover {
-            background: #fff1ef;
-            border-color: #F88379;
-            color: #111;
-            text-decoration: none;
-        }
-
-        /* Keep this navigation link compact instead of stretching across the cart. */
-        html body .cart-main .continue-shopping {
-            align-self: flex-start !important;
-            display: inline-flex !important;
-            min-width: 0 !important;
-            width: fit-content !important;
-        }
-
         .order-summary,
         .checkout-details {
             padding: 24px;
@@ -716,8 +686,6 @@
         body.cart-embed .qty-stepper { gap: 3px; min-height: 27px; padding: 1px 3px; }
         body.cart-embed .qty-stepper button { font-size: 14px !important; height: 22px; width: 22px; }
         body.cart-embed .qty-stepper strong { font-size: 12px !important; }
-        body.cart-embed .continue-shopping { display: none; }
-
         body.cart-embed aside { display: block; padding: 0 16px 18px; }
         body.cart-embed .order-summary { background: #fff; border: 0; border-radius: 0; padding: 12px 0 0; }
         body.cart-embed .order-summary h2 { font-family: Arial, Helvetica, sans-serif !important; font-size: 14px !important; font-weight: 800 !important; margin-bottom: 10px; }
@@ -816,8 +784,6 @@
         .qty-stepper { border-radius: 4px; gap: 5px; min-height: 30px; padding: 2px 4px; }
         .qty-stepper button { font-size: 16px; height: 24px; width: 24px; }
         .qty-stepper strong { font-size: 13px !important; }
-        .continue-shopping { flex: 0 0 auto; font-size: 12px !important; margin-top: 16px; padding: 7px 11px; }
-
         .order-summary {
             background: #f7f7f8;
             border: 0;
@@ -1056,7 +1022,6 @@
                             @endforelse
                         </div>
 
-                        <a class="continue-shopping" href="{{ url('/?section=food') }}">&larr; Continue Shopping</a>
                     </div>
 
                     <aside>
