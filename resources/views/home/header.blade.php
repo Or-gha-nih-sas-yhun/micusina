@@ -282,7 +282,10 @@
     }
 
     .front-user-dropdown button.logout-action {
-        border: 1px solid #F88379 !important;
+        border: 2px solid #F88379 !important;
+        box-sizing: border-box;
+        display: block;
+        min-height: 48px;
     }
 
     .front-user-dropdown a {
@@ -1155,7 +1158,10 @@
     }
 
     .inner-navbar .front-user-dropdown button.logout-action {
-        border: 1px solid #9b6b92 !important;
+        border: 2px solid #9b6b92 !important;
+        box-sizing: border-box;
+        display: block;
+        min-height: 48px;
     }
 
     .inner-navbar .front-user-dropdown a {

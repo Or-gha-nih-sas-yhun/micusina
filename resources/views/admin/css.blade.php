@@ -176,8 +176,13 @@
         }
 
         .admin-user-menu .dropdown-item.logout-action {
-            border: 1px solid var(--mc-accent);
+            border: 2px solid var(--mc-accent) !important;
             border-radius: 8px;
+            box-sizing: border-box;
+            display: block;
+            margin: 0;
+            min-height: 52px;
+            width: 100%;
         }
 
         .admin-photo-form { margin: 0; }
