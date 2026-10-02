@@ -46,13 +46,15 @@
                 </li>
                 @endif
 
-                <li class="{{ request()->is('riders') ? 'active' : '' }}">
-                  <a href="{{ url('riders') }}"> <i class="fa fa-motorcycle"></i>Riders</a>
-                </li>
+                @if(Auth::check() && Auth::user()->staff_role !== 'rider')
+                  <li class="{{ request()->is('riders') ? 'active' : '' }}">
+                    <a href="{{ url('riders') }}"> <i class="fa fa-motorcycle"></i>Riders</a>
+                  </li>
 
-                <li class="{{ request()->is('reservations') ? 'active' : '' }}">
-                  <a href="{{ url('reservations') }}"> <i class="icon-logout"></i>Book a Table @if($headerPendingReservationCount > 0)<span class="admin-sidebar-count" aria-label="{{ $headerPendingReservationCount }} reservations awaiting approval">{{ $headerPendingReservationCount }}</span>@endif</a>
-                </li>
+                  <li class="{{ request()->is('reservations') ? 'active' : '' }}">
+                    <a href="{{ url('reservations') }}"> <i class="icon-logout"></i>Book a Table @if($headerPendingReservationCount > 0)<span class="admin-sidebar-count" aria-label="{{ $headerPendingReservationCount }} reservations awaiting approval">{{ $headerPendingReservationCount }}</span>@endif</a>
+                  </li>
+                @endif
                 @if(Auth::check() && Auth::user()->usertype == 'admin')
                 <li class="{{ request()->is('users') ? 'active' : '' }}">
                   <a href="{{ url('users') }}"> <i class="icon-user"></i>Users @if($headerNewUserCount > 0)<span class="admin-sidebar-count" aria-label="{{ $headerNewUserCount }} customers registered today">{{ $headerNewUserCount }}</span>@endif</a>

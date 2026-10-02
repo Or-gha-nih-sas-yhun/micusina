@@ -3,6 +3,47 @@
     $userInitial = Auth::check() ? strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) : 'U';
 @endphp
 
+<style>
+    /* Icon-first tracking links retain visible text while providing an accessible,
+       keyboard-friendly tooltip on both header variants. */
+    .track-action {
+        position: relative;
+    }
+
+    .track-action::after {
+        background: #202124;
+        border-radius: 6px;
+        color: #fff;
+        content: attr(data-tooltip);
+        font-size: 12px;
+        font-weight: 700;
+        left: 50%;
+        opacity: 0;
+        padding: 6px 9px;
+        pointer-events: none;
+        position: absolute;
+        top: calc(100% + 9px);
+        transform: translate(-50%, -4px);
+        transition: opacity .18s ease, transform .18s ease;
+        white-space: nowrap;
+        z-index: 1100;
+    }
+
+    .track-action:hover::after,
+    .track-action:focus-visible::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    .track-action:focus-visible { outline: 2px solid #F88379; outline-offset: 3px; }
+
+    @media (max-width: 767px) {
+        .track-action::after { left: 0; transform: translate(0, -4px); }
+        .track-action:hover::after,
+        .track-action:focus-visible::after { transform: translate(0, 0); }
+    }
+</style>
+
 @if(!request('section') && empty($forceInnerNavbar))
 <style>
     body.front-only {
@@ -810,8 +851,8 @@
             <div class="burger-login">
                 @if (Route::has('login'))
                     @auth
-                        <a class="track-order-link" href="{{ url('my_orders') }}" title="Track Order"><i class="ti-truck"></i> Track Order</a>
-                        <a class="track-order-link" href="{{ route('bookings.index') }}" title="Track Booking"><i class="ti-calendar"></i> Track Booking</a>
+                        <a class="track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i> Track Order</a>
+                        <a class="track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i> Track Booking</a>
                         <details class="front-user-menu">
                             <summary aria-label="Open user menu">@if(Auth::user()->profile_photo_path)<img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">@else{{ $userInitial }}@endif</summary>
                             <div class="front-user-dropdown">
@@ -1178,8 +1219,8 @@
         </ul>
         <ul class="navbar-nav">
             @auth
-                <li class="nav-item"><a class="nav-link track-order-link" href="{{ url('my_orders') }}" title="Track Order"><i class="ti-truck"></i> Track Order</a></li>
-                <li class="nav-item"><a class="nav-link track-order-link" href="{{ route('bookings.index') }}" title="Track Booking"><i class="ti-calendar"></i> Track Booking</a></li>
+                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i> Track Order</a></li>
+                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i> Track Booking</a></li>
             @endauth
             @if (Route::has('login'))
                 @auth

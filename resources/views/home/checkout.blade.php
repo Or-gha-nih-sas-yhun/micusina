@@ -32,8 +32,8 @@
         .payment-qr { display:none; margin-top:13px; max-width:170px; }
         .place-order { background:var(--accent); border:0; border-radius:10px; color:#fff; cursor:pointer; font-size:16px; font-weight:900; margin-top:24px; min-height:54px; width:100%; }
         .place-order:hover { background:#ed6d62; }
-        .back-link { color:#475569; display:inline-block; font-size:14px; font-weight:800; margin-top:24px; text-decoration:none; }
-        .back-link:hover { color:var(--accent); }
+        .back-link { border:1px solid #94a3b8; border-radius:999px; color:#475569; display:inline-flex; font-size:14px; font-weight:800; margin-top:24px; padding:10px 15px; text-decoration:none; transition:background-color .18s ease, border-color .18s ease, color .18s ease; }
+        .back-link:hover { background:#fff1ef; border-color:var(--accent); color:var(--accent); }
         @media(max-width:900px) { .checkout-layout { grid-template-columns:1fr; } .order-card { position:static; } }
         @media(max-width:560px) { .checkout-page { padding:112px 16px 42px; } .checkout-title { font-size:36px; } .billing-card,.order-card { padding:22px; } .form-grid { grid-template-columns:1fr; } }
     </style>
