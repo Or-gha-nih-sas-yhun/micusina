@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 const brand = Color(0xff9b167d);
-const apiBase = String.fromEnvironment('API_URL', defaultValue: 'http://10.0.2.2:8000');
+const apiBase = String.fromEnvironment('API_URL', defaultValue: 'https://micusina-pos.com');
 
 void main() => runApp(const MiCusinaApp());
 
