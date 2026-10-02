@@ -31,24 +31,36 @@
         }
 
         .track-cart {
-            color: #fff;
-            font-size: 18px;
-            font-weight: 900;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #c46cff;
+            border-radius: 999px;
+            color: #000;
+            display: inline-flex;
+            font-size: 22px;
+            height: 52px;
+            justify-content: center;
+            position: relative;
             text-decoration: none;
+            width: 52px;
         }
 
         .track-cart-count {
             align-items: center;
-            background: #F88379;
+            background: #e11d48;
+            border: 2px solid #fff;
             border-radius: 999px;
             color: #fff;
             display: inline-flex;
             font-size: 12px;
+            font-weight: 800;
             height: 22px;
             justify-content: center;
-            margin-left: 4px;
             min-width: 22px;
             padding: 0 6px;
+            position: absolute;
+            right: -8px;
+            top: -8px;
         }
 
         .order-number { color: #dc2626; }
@@ -770,7 +782,10 @@
     @endphp
 
     <div class="track-top">
-        <a class="track-cart" href="{{ url('my_cart') }}">Cart <span class="track-cart-count">{{ $cartBadgeCount }}</span></a>
+        <a class="track-cart" href="{{ url('my_cart') }}" aria-label="Open cart">
+            <i class="ti-shopping-cart" aria-hidden="true"></i>
+            <span class="track-cart-count">{{ $cartBadgeCount }}</span>
+        </a>
         <details class="track-user-menu">
             <summary aria-label="Open user menu">{{ $userInitial }}</summary>
             <div class="track-user-dropdown">
