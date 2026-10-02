@@ -871,7 +871,7 @@
                     </div>
                     <button class="all-orders-button" id="openOrders" type="button">All Orders</button>
                     @if($canCancel)
-                        <form method="POST" action="{{ route('orders.cancel', $order->id) }}" onsubmit="return confirm('Cancel this order?');">
+                        <form method="POST" action="{{ route('orders.cancel', $order->id) }}" data-confirmation-form data-confirmation-title="Cancel this order?" data-confirmation-message="This will cancel your order. This action cannot be undone." data-confirmation-submit="Cancel Order">
                             @csrf
                             <button class="all-orders-button" type="submit" title="Cancel Order" aria-label="Cancel Order" style="margin-top:10px;background:#b91c1c;"> <i class="ti-close"></i> Cancel Order</button>
                         </form>

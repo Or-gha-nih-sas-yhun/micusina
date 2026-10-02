@@ -13,7 +13,7 @@
 <div class="logout-confirmation" id="logoutConfirmation" hidden>
     <div class="logout-confirmation__dialog" role="dialog" aria-modal="true" aria-labelledby="logoutConfirmationTitle">
         <h2 id="logoutConfirmationTitle">Log out?</h2>
-        <p>Are you sure you want to log out?</p>
+        <p id="logoutConfirmationMessage">Are you sure you want to log out?</p>
         <div class="logout-confirmation__actions">
             <button class="logout-confirmation__cancel" type="button" data-logout-cancel>Cancel</button>
             <button class="logout-confirmation__submit" type="button" data-logout-submit>Log Out</button>
@@ -32,25 +32,38 @@
         var pendingForm = null;
         var cancel = modal.querySelector('[data-logout-cancel]');
         var submit = modal.querySelector('[data-logout-submit]');
+        var title = modal.querySelector('#logoutConfirmationTitle');
+        var message = modal.querySelector('#logoutConfirmationMessage');
         var close = function () { modal.hidden = true; pendingForm = null; };
+        var open = function (form) {
+            pendingForm = form;
+            title.textContent = form.dataset.confirmationTitle || 'Log out?';
+            message.textContent = form.dataset.confirmationMessage || 'Are you sure you want to log out?';
+            submit.textContent = form.dataset.confirmationSubmit || 'Log Out';
+            modal.hidden = false;
+            cancel.focus();
+        };
 
         document.querySelectorAll('form[data-logout-form]').forEach(function (form) {
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
-                pendingForm = form;
-                modal.hidden = false;
-                cancel.focus();
+                open(form);
             });
 
             var trigger = form.querySelector('[data-logout-trigger]');
             if (trigger) {
                 trigger.addEventListener('click', function (event) {
                     event.preventDefault();
-                    pendingForm = form;
-                    modal.hidden = false;
-                    cancel.focus();
+                    open(form);
                 });
             }
+        });
+
+        document.querySelectorAll('form[data-confirmation-form]').forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                open(form);
+            });
         });
         cancel.addEventListener('click', close);
         submit.addEventListener('click', function () { if (pendingForm) pendingForm.submit(); });

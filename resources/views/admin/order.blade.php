@@ -650,11 +650,11 @@
                     @elseif($order->delivery_status === 'Canceled')
                         <span class="text-danger font-weight-bold">Canceled — final</span>
                     @elseif($order->delivery_status === 'On The Way')
-                        <form method="POST" action="{{ url('delivered', $order->id) }}" class="js-confirm-action" data-title="Mark order as delivered?" data-text="This will complete this delivery and make the assigned rider available again." data-confirm="Yes, deliver it">@csrf<button class="btn btn-warning" type="submit">Delivered</button></form>
+                        <form method="POST" action="{{ url('delivered', $order->id) }}" data-confirmation-form data-confirmation-title="Mark order as delivered?" data-confirmation-message="This will complete this delivery and make the assigned rider available again." data-confirmation-submit="Yes, deliver it">@csrf<button class="btn btn-warning" type="submit">Delivered</button></form>
                     @else
                         <form method="POST" action="{{ url('on_the_way', $order->id) }}" class="js-confirm-action" data-title="Mark order as on the way?" data-text="This will update all items in this order to On The Way." data-confirm="Yes, update it">@csrf<button class="btn btn-info" type="submit">On The Way</button></form>
                         @if(($order->payment_status ?? 'Unpaid') !== 'Paid')
-                            <form method="POST" action="{{ url('canceled', $order->id) }}" class="js-confirm-action" data-title="Cancel this order?" data-text="This will mark all items in this order as Canceled." data-confirm="Yes, cancel it">@csrf<button class="btn btn-danger" type="submit">Canceled</button></form>
+                            <form method="POST" action="{{ url('canceled', $order->id) }}" data-confirmation-form data-confirmation-title="Cancel this order?" data-confirmation-message="This will mark all items in this order as canceled." data-confirmation-submit="Yes, cancel it">@csrf<button class="btn btn-danger" type="submit">Canceled</button></form>
                         @endif
                     @endif
 
