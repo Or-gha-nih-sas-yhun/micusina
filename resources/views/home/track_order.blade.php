@@ -30,22 +30,22 @@
             z-index: 20;
         }
 
-        .track-cart {
+        html body .track-cart {
             align-items: center;
             background: #fff !important;
-            border: 1px solid #c46cff !important;
+            border: 2px solid #c46cff !important;
             border-radius: 999px;
             color: #000;
             display: inline-flex;
             font-size: 22px;
-            height: 52px;
+            height: 64px;
             justify-content: center;
             position: relative;
             text-decoration: none;
-            width: 52px;
+            width: 64px;
         }
 
-        .track-cart svg {
+        html body .track-cart svg {
             fill: none;
             height: 25px;
             stroke: #000 !important;
@@ -55,7 +55,7 @@
             width: 25px;
         }
 
-        .track-cart-count {
+        html body .track-cart-count {
             align-items: center;
             background: #e11d48 !important;
             border: 2px solid #fff !important;
@@ -64,13 +64,13 @@
             display: inline-flex;
             font-size: 12px;
             font-weight: 800;
-            height: 22px;
+            height: 23px;
             justify-content: center;
             min-width: 22px;
             padding: 0 6px;
             position: absolute;
-            right: -8px;
-            top: -8px;
+            right: -7px;
+            top: -7px;
         }
 
         .order-number { color: #dc2626; }

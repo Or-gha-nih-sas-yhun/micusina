@@ -16,7 +16,7 @@
         .cart-topbar {
             align-items: center;
             background: #050505;
-            display: flex;
+            display: inline-flex;
             justify-content: space-between;
             min-height: 96px;
             padding: 0 34px;
@@ -131,7 +131,7 @@
             font-weight: 800;
             padding: 10px;
             text-align: left;
-            width: 100%;
+            width: fit-content;
         }
 
         .cart-user-dropdown a {
