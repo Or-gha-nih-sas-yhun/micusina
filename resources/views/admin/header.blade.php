@@ -68,7 +68,7 @@
           <div class="dropdown-divider"></div>
           <form method="POST" action="{{ route('logout') }}" data-logout-form>
             @csrf
-            <button class="dropdown-item" type="button" data-logout-trigger>Log Out</button>
+            <button class="dropdown-item logout-action" type="button" data-logout-trigger>Log Out</button>
           </form>
         </div>
       </div>

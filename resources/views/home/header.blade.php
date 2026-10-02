@@ -281,6 +281,10 @@
         width: 100%;
     }
 
+    .front-user-dropdown button.logout-action {
+        border: 1px solid #F88379 !important;
+    }
+
     .front-user-dropdown a {
         border-radius: 6px;
         color: #fff;
@@ -876,7 +880,7 @@
                                 <a href="{{ route('profile.show') }}">Profile</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
-                                    <button type="button" data-logout-trigger>Log Out</button>
+                                    <button class="logout-action" type="button" data-logout-trigger>Log Out</button>
                                 </form>
                             </div>
                         </details>
@@ -1150,6 +1154,10 @@
         width: 100%;
     }
 
+    .inner-navbar .front-user-dropdown button.logout-action {
+        border: 1px solid #9b6b92 !important;
+    }
+
     .inner-navbar .front-user-dropdown a {
         border-radius: 6px;
         color: #000;
@@ -1248,7 +1256,7 @@
                                 <a href="{{ route('profile.show') }}">Profile</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
-                                    <button type="button" data-logout-trigger>Log Out</button>
+                                    <button class="logout-action" type="button" data-logout-trigger>Log Out</button>
                                 </form>
                             </div>
                         </details>

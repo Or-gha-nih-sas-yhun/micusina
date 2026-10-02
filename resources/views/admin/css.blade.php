@@ -175,6 +175,11 @@
             color: #050505;
         }
 
+        .admin-user-menu .dropdown-item.logout-action {
+            border: 1px solid var(--mc-accent);
+            border-radius: 8px;
+        }
+
         .admin-photo-form { margin: 0; }
 
         .admin-photo-label {
