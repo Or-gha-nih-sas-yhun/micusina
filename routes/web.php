@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order_receipt', [HomeController::class, 'order_receipt'])->name('order.receipt');
     Route::post('/confirm_order', [HomeController::class, 'confirm_order']);
 
-    Route::get('/orders', [AdminController::class, 'orders']);
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/orders/updates', [AdminController::class, 'order_updates'])->name('orders.updates');
     Route::get('/sales-report', [AdminController::class, 'sales_report'])->name('admin.sales-report');
     Route::get('/sales-report/pdf', [AdminController::class, 'sales_report_pdf'])->name('admin.sales-report.pdf');

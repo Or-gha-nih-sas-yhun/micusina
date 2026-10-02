@@ -405,7 +405,9 @@ class AdminController extends Controller
         // Database notifications are retained for the rider's next dashboard/API refresh.
         $assignment['rider']->notify(new RiderAssignedToOrder($assignment['order']));
 
-        return redirect()->back()->with('message', $assignment['rider']->name.' assigned to this delivery.');
+        // A form submitted without a reliable Referer used to redirect to an
+        // invalid URL on some deployments. Always return to the Orders page.
+        return redirect()->route('admin.orders')->with('message', $assignment['rider']->name.' assigned to this delivery.');
     }
 
     public function users()

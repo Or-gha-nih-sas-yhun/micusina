@@ -19,7 +19,7 @@ class RiderAssignmentTest extends TestCase
 
         $this->actingAs($cashier)
             ->post('/assign_rider/'.$order->id, ['rider_id' => $rider->id])
-            ->assertRedirect();
+            ->assertRedirect(route('admin.orders'));
 
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
