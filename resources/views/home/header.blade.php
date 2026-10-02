@@ -1319,8 +1319,8 @@
 <style>
     html body .floating-cart-button {
         align-items: center;
-        background: #9b6b92 !important;
-        border: 3px solid #fff !important;
+        background: #fff !important;
+        border: 2px solid #c46cff !important;
         border-radius: 50%;
         bottom: 24px;
         box-shadow: 0 10px 24px rgba(15, 23, 42, .24);
@@ -1330,20 +1330,21 @@
         position: fixed;
         right: 24px;
         text-decoration: none !important;
-        transition: transform .2s ease, background .2s ease;
+        transition: transform .2s ease, background .2s ease, border-color .2s ease;
         width: 64px;
         z-index: 1300;
     }
 
     html body .floating-cart-button:hover {
-        background: #7f526f !important;
+        background: #fdf7ff !important;
+        border-color: #a93ee9 !important;
         transform: translateY(-3px);
     }
 
     html body .floating-cart-button svg {
         fill: none !important;
         height: 31px;
-        stroke: #fff !important;
+        stroke: #000 !important;
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 2.25;
@@ -1352,10 +1353,10 @@
 
     html body .floating-cart-count {
         align-items: center;
-        background: #ef55cf !important;
+        background: #e11d48 !important;
         border: 2px solid #fff;
         border-radius: 999px;
-        color: #fff;
+        color: #fff !important;
         display: flex;
         font-size: 12px;
         font-weight: 800;
@@ -1364,8 +1365,8 @@
         min-width: 23px;
         padding: 0 5px;
         position: absolute;
-        right: -5px;
-        top: -5px;
+        right: -7px;
+        top: -7px;
     }
 
     .cart-popup {
