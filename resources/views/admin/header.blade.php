@@ -66,6 +66,7 @@
             @error('photo')<small class="admin-photo-error">{{ $message }}</small>@enderror
           </form>
           <div class="dropdown-divider"></div>
+          <a class="dropdown-item home-action" href="{{ route('dashboard') }}">Home</a>
           <form method="POST" action="{{ route('logout') }}" data-logout-form>
             @csrf
             <button class="dropdown-item logout-action" type="button" data-logout-trigger>Log Out</button>

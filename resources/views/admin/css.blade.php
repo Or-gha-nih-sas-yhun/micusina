@@ -175,6 +175,7 @@
             color: #050505;
         }
 
+        .admin-user-menu .dropdown-item.home-action,
         .admin-user-menu .dropdown-item.logout-action {
             background: #fff7f7 !important;
             border-bottom: 2px solid #ff746c !important;
@@ -188,6 +189,17 @@
             margin: 0;
             min-height: 52px;
             width: 100%;
+        }
+
+        .admin-user-menu .dropdown-item.home-action {
+            color: var(--mc-text) !important;
+            margin-bottom: 8px;
+        }
+
+        .admin-user-menu .dropdown-item.home-action:hover,
+        .admin-user-menu .dropdown-item.logout-action:hover {
+            background: #ffecec !important;
+            color: var(--mc-text) !important;
         }
 
         .admin-photo-form { margin: 0; }

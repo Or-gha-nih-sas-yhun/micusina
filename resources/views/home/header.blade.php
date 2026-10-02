@@ -281,17 +281,18 @@
         width: 100%;
     }
 
+    .front-user-dropdown .home-action,
     .front-user-dropdown button.logout-action {
-        background: rgba(248, 131, 121, .08) !important;
-        border-bottom: 2px solid #F88379 !important;
-        border-left: 2px solid #F88379 !important;
-        border-right: 2px solid #F88379 !important;
-        border-top: 2px solid #F88379 !important;
+        background: #fff7f7 !important;
+        border: 2px solid #ff746c !important;
+        border-radius: 8px !important;
         box-sizing: border-box;
-        box-shadow: inset 0 0 0 1px #F88379;
+        box-shadow: inset 0 0 0 1px #ff746c;
         display: block;
         min-height: 48px;
     }
+
+    .front-user-dropdown .home-action { color: #202124 !important; margin-bottom: 8px; }
 
     .front-user-dropdown a {
         background: rgba(248, 131, 121, .08);
@@ -307,11 +308,11 @@
         text-decoration: none;
     }
 
-    .front-user-dropdown a:hover,
-    .front-user-dropdown button:hover {
-        background: #F88379;
-        color: #050505;
-    }
+    .front-user-dropdown .home-action:hover,
+    .front-user-dropdown button.logout-action:hover { background: #ffecec !important; color: #050505 !important; }
+
+    .front-user-dropdown a:not(.home-action):hover,
+    .front-user-dropdown button:not(.logout-action):hover { background: #F88379; color: #050505; }
 
     .customer-photo-label {
         border-radius: 6px;
@@ -890,6 +891,7 @@
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
                                 <a href="{{ route('profile.show') }}">Profile</a>
+                                <a class="home-action" href="{{ url('/') }}">Home</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
                                     <button class="logout-action" type="button" data-logout-trigger>Log Out</button>
@@ -1166,17 +1168,18 @@
         width: 100%;
     }
 
+    .inner-navbar .front-user-dropdown .home-action,
     .inner-navbar .front-user-dropdown button.logout-action {
-        background: rgba(155, 107, 146, .08) !important;
-        border-bottom: 2px solid #9b6b92 !important;
-        border-left: 2px solid #9b6b92 !important;
-        border-right: 2px solid #9b6b92 !important;
-        border-top: 2px solid #9b6b92 !important;
+        background: #fff7f7 !important;
+        border: 2px solid #ff746c !important;
+        border-radius: 8px !important;
         box-sizing: border-box;
-        box-shadow: inset 0 0 0 1px #9b6b92;
+        box-shadow: inset 0 0 0 1px #ff746c;
         display: block;
         min-height: 48px;
     }
+
+    .inner-navbar .front-user-dropdown .home-action { color: #000 !important; margin-bottom: 8px; }
 
     .inner-navbar .front-user-dropdown a {
         background: rgba(155, 107, 146, .08);
@@ -1192,11 +1195,11 @@
         text-decoration: none;
     }
 
-    .inner-navbar .front-user-dropdown a:hover,
-    .inner-navbar .front-user-dropdown button:hover {
-        background: #F88379;
-        color: #000;
-    }
+    .inner-navbar .front-user-dropdown .home-action:hover,
+    .inner-navbar .front-user-dropdown button.logout-action:hover { background: #ffecec !important; color: #000; }
+
+    .inner-navbar .front-user-dropdown a:not(.home-action):hover,
+    .inner-navbar .front-user-dropdown button:not(.logout-action):hover { background: #F88379; color: #000; }
 
     .inner-navbar .customer-photo-label {
         border-radius: 6px;
@@ -1278,6 +1281,7 @@
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
                                 <a href="{{ route('profile.show') }}">Profile</a>
+                                <a class="home-action" href="{{ url('/') }}">Home</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
                                     <button class="logout-action" type="button" data-logout-trigger>Log Out</button>

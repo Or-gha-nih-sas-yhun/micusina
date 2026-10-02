@@ -159,6 +159,21 @@
             color: #050505;
         }
 
+        .track-user-dropdown .home-action,
+        .track-user-dropdown button {
+            background: #fff7f7;
+            border: 2px solid #ff746c;
+            border-radius: 8px;
+            box-shadow: inset 0 0 0 1px #ff746c;
+            box-sizing: border-box;
+            min-height: 48px;
+        }
+
+        .track-user-dropdown .home-action { margin-bottom: 8px; }
+
+        .track-user-dropdown .home-action:hover,
+        .track-user-dropdown button:hover { background: #ffecec; }
+
         .track-shell {
             background: #fff;
             border-radius: 22px;
@@ -807,7 +822,7 @@
                     <strong>{{ Auth::user()->name }}</strong>
                     <span>{{ Auth::user()->email }}</span>
                 </div>
-                <a href="{{ url('/') }}">Home</a>
+                <a class="home-action" href="{{ url('/') }}">Home</a>
                 <form action="{{ route('logout') }}" method="POST" data-logout-form>
                     @csrf
                     <button type="button" data-logout-trigger>Log Out</button>
