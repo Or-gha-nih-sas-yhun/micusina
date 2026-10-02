@@ -828,7 +828,7 @@
                                 <a href="{{ route('profile.show') }}">Profile</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
-                                    <button type="submit">Log Out</button>
+                                    <button type="button" data-logout-trigger>Log Out</button>
                                 </form>
                             </div>
                         </details>
@@ -1200,7 +1200,7 @@
                                 <a href="{{ route('profile.show') }}">Profile</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
-                                    <button type="submit">Log Out</button>
+                                    <button type="button" data-logout-trigger>Log Out</button>
                                 </form>
                             </div>
                         </details>

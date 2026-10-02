@@ -25,6 +25,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         var modal = document.getElementById('logoutConfirmation');
         if (!modal) return;
+        if (modal.dataset.logoutConfirmationReady) return;
+        modal.dataset.logoutConfirmationReady = 'true';
         var pendingForm = null;
         var cancel = modal.querySelector('[data-logout-cancel]');
         var submit = modal.querySelector('[data-logout-submit]');

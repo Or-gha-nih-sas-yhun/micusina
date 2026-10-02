@@ -779,7 +779,7 @@
                 <a href="{{ url('/') }}">Home</a>
                 <form action="{{ route('logout') }}" method="POST" data-logout-form>
                     @csrf
-                    <button type="submit">Log Out</button>
+                    <button type="button" data-logout-trigger>Log Out</button>
                 </form>
             </div>
         </details>
