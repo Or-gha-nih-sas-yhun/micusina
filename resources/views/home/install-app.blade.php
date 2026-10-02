@@ -18,7 +18,7 @@
     <main>
         <h1>Install Mi Cusina</h1>
         <p>Download the official Android app, then install it from your phone's downloads.</p>
-        <a class="download" href="{{ route('mobile-app.download') }}">Download Mi Cusina for Android</a>
+        <a class="download" href="{{ asset('downloads/Mi-Cusina.apk') }}?v={{ filemtime(public_path('downloads/Mi-Cusina.apk')) }}" download="Mi-Cusina.apk">Download Mi Cusina for Android</a>
         <ol>
             <li>Open the downloaded <strong>Mi-Cusina.apk</strong> file.</li>
             <li>If Android asks, allow your browser or file manager to install apps from this source.</li>
