@@ -363,15 +363,21 @@
         }
 
         .continue-shopping {
+            border: 1px solid #1f2937;
+            border-radius: 999px;
             color: #F88379;
             display: inline-flex;
             font-size: 14px;
             font-weight: 800;
             margin-top: 28px;
+            padding: 9px 14px;
             text-decoration: none;
+            transition: background-color .18s ease, border-color .18s ease, color .18s ease;
         }
 
         .continue-shopping:hover {
+            background: #fff1ef;
+            border-color: #F88379;
             color: #111;
             text-decoration: none;
         }
@@ -800,7 +806,7 @@
         .qty-stepper { border-radius: 4px; gap: 5px; min-height: 30px; padding: 2px 4px; }
         .qty-stepper button { font-size: 16px; height: 24px; width: 24px; }
         .qty-stepper strong { font-size: 13px !important; }
-        .continue-shopping { flex: 0 0 auto; font-size: 12px !important; margin-top: 16px; }
+        .continue-shopping { flex: 0 0 auto; font-size: 12px !important; margin-top: 16px; padding: 7px 11px; }
 
         .order-summary {
             background: #f7f7f8;

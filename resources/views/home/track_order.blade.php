@@ -51,6 +51,8 @@
             padding: 0 6px;
         }
 
+        .order-number { color: #dc2626; }
+
         .track-user-menu {
             position: relative;
         }
@@ -851,7 +853,7 @@
                     <h2>Order Summary</h2>
                     <div class="summary-line">
                         <span>Order No.</span>
-                        <strong>{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong>
+                        <strong class="order-number">{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong>
                     </div>
                     <div class="summary-line">
                         <span>Status</span>
@@ -910,7 +912,7 @@
                 @endphp
                 <article class="order-row">
                     <div>
-                        <h3>Order No.: {{ $orderItem->order_number }}</h3>
+                        <h3>Order No.: <span class="order-number">{{ $orderItem->order_number }}</span></h3>
                         <p>{{ $orderItem->created_at ? $orderItem->created_at->format('d-M-Y, g:i A') : '' }}</p>
                         <p>{{ $orderItem->item_count }} item(s) - &#8369;{{ number_format($orderItem->total, 2) }}</p>
                         <p>{{ $orderItem->delivery_status }} | <a href="{{ url('track_order', $orderItem->id) }}">Track</a></p>

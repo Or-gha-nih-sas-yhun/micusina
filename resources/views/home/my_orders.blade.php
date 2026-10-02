@@ -74,6 +74,8 @@
             margin: 0;
         }
 
+        .order-number { color: #dc2626; }
+
         .order-feature h2 {
             font-size: 24px;
         }
@@ -292,7 +294,7 @@
                 @endphp
                 <article class="order-feature">
                     <div>
-                        <h2>Order No.: {{ $latestOrder->order_number }}</h2>
+                        <h2>Order No.: <span class="order-number">{{ $latestOrder->order_number }}</span></h2>
                         <p>{{ $latestOrder->created_at ? $latestOrder->created_at->format('d-M-Y, g:i A') : '' }}</p>
                         <p>{{ $latestOrder->item_count }} item(s) - &#8369;{{ number_format($latestOrder->total, 2) }}</p>
                         <span class="order-status {{ $statusClass }}">{{ $latestOrder->delivery_status }}</span>
@@ -324,7 +326,7 @@
                 @endphp
                 <article class="order-row">
                     <div>
-                        <h3>Order No.: {{ $order->order_number }}</h3>
+                        <h3>Order No.: <span class="order-number">{{ $order->order_number }}</span></h3>
                         <p>{{ $order->created_at ? $order->created_at->format('d-M-Y, g:i A') : '' }}</p>
                         <p>{{ $order->item_count }} item(s) - &#8369;{{ number_format($order->total, 2) }}</p>
                         <p><span class="order-status {{ $statusClass }}">{{ $order->delivery_status }}</span> | <a href="{{ url('track_order', $order->id) }}">Track</a></p>

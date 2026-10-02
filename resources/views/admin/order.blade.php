@@ -203,6 +203,11 @@
         overflow:visible;
     }
 
+    .order-number {
+        color: #dc2626;
+        font-weight: 900;
+    }
+
     .rider-assignment-cell.is-picker-open
     {
         z-index:10000;
@@ -581,7 +586,7 @@
 
 
             <tr>
-                <td>{{ $order->order_number }}</td>
+                <td class="order-number">{{ $order->order_number }}</td>
                 <td>{{$order->name }}</td>
 
                 <td>{{$order->phone }}</td>
