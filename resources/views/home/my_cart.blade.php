@@ -386,8 +386,10 @@
 
         /* Keep this navigation link compact instead of stretching across the cart. */
         html body .cart-main .continue-shopping {
+            align-self: flex-start !important;
             display: inline-flex !important;
-            width: auto !important;
+            min-width: 0 !important;
+            width: fit-content !important;
         }
 
         .order-summary,
