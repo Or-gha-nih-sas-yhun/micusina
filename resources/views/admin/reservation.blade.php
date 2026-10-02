@@ -218,6 +218,7 @@
               <th>50% Deposit</th>
               <th>Payment</th>
               <th>Payment Status</th>
+              <th>GCash Transaction Ref</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -236,13 +237,16 @@
               <td>&#8369;{{ number_format((float) ($booking->deposit_amount ?? 0), 2) }}</td>
               <td>{{ $booking->payment_method ?? 'GCash' }}</td>
               <td>{{ $booking->payment_status ?? 'Pending' }}</td>
+              <td>{{ $booking->gcash_transaction_reference ?? '—' }}</td>
               <td>
                 <span class="reservation-status {{ ($booking->status ?? 'Pending') === 'Approved' ? 'reservation-approved' : 'reservation-pending' }}">
                   {{ $booking->status ?? 'Pending' }}
                 </span>
               </td>
               <td>
-                @if(($booking->payment_status ?? 'Pending') !== 'Paid')
+                @if(($booking->payment_status ?? 'Pending') === 'Pending Verification' && $booking->payment_method === 'GCash')
+                  <form method="POST" action="{{ url('verify_reservation_payment', $booking->id) }}">@csrf<button class="btn btn-success" type="submit">Verify Payment</button></form>
+                @elseif(($booking->payment_status ?? 'Pending') !== 'Paid')
                   Awaiting verified payment
                 @elseif(($booking->status ?? 'Pending') === 'Pending')
                   <form method="POST" action="{{ url('approve_reservation', $booking->id) }}">@csrf<button class="btn btn-success" type="submit">Approve</button></form>

@@ -573,6 +573,27 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Reservation approved and added to sales.');
     }
 
+    public function verify_reservation_payment($id)
+    {
+        $this->requireStaffOrAdmin();
+
+        $book = Book::findOrFail($id);
+
+        if (
+            $book->payment_method !== 'GCash'
+            || $book->payment_status !== 'Pending Verification'
+            || ! $book->gcash_transaction_reference
+        ) {
+            return redirect()->back()->with('message', 'This GCash payment is not awaiting verification.');
+        }
+
+        $book->payment_status = 'Paid';
+        $book->paid_at = now();
+        $book->save();
+
+        return redirect()->back()->with('message', 'GCash payment verified. The reservation can now be approved.');
+    }
+
     public function add_staff()
     {
         $this->requireAdmin();

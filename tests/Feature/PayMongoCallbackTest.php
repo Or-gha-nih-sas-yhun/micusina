@@ -48,18 +48,9 @@ class PayMongoCallbackTest extends TestCase
         $this->assertLessThanOrEqual(now()->addDay()->timestamp, (int) $successQuery['expires']);
     }
 
-    public function test_web_booking_persists_the_checkout_url_for_resumption(): void
+    public function test_web_booking_stays_on_the_booking_page_for_gcash_verification(): void
     {
         $user = User::factory()->create();
-        $checkoutUrl = 'https://checkout.paymongo.test/cs_web_resume';
-        $payMongo = $this->mock(PayMongoService::class);
-        $payMongo->shouldReceive('createCheckout')
-            ->once()
-            ->withArgs(fn (Book $booking) => $booking->user_id === $user->id)
-            ->andReturn([
-                'id' => 'cs_web_resume',
-                'attributes' => ['checkout_url' => $checkoutUrl],
-            ]);
 
         $response = $this->actingAs($user)->post('/book_table', [
             'first_name' => 'Web',
@@ -70,15 +61,62 @@ class PayMongoCallbackTest extends TestCase
             'date' => now()->addDays(2)->toDateString(),
             'time' => '6:00 PM',
             'payment_method' => 'GCash',
+            'payment_reference' => 'GCASH-123456',
         ]);
 
-        $response->assertRedirect($checkoutUrl);
+        $response->assertRedirect('/?section=book')
+            ->assertSessionHas('booking_receipt.payment_status', 'Pending Verification');
         $this->assertDatabaseHas('books', [
             'user_id' => $user->id,
-            'paymongo_checkout_id' => 'cs_web_resume',
-            'paymongo_checkout_url' => $checkoutUrl,
-            'payment_status' => 'Pending',
-            'status' => 'Awaiting Payment',
+            'payment_method' => 'GCash',
+            'gcash_transaction_reference' => 'GCASH-123456',
+            'payment_status' => 'Pending Verification',
+            'status' => 'Pending',
+        ]);
+    }
+
+    public function test_booking_page_shows_only_the_gcash_payment_popup(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/?section=book')
+            ->assertOk()
+            ->assertSeeText('Complete Your GCash Payment')
+            ->assertSeeText('GCash transaction reference')
+            ->assertDontSeeText('PayMongo')
+            ->assertSee('form="bookTableForm"', false);
+    }
+
+    public function test_staff_can_verify_a_pending_gcash_payment_before_approval(): void
+    {
+        $booking = $this->booking([
+            'gcash_transaction_reference' => 'GCASH-654321',
+            'payment_status' => 'Pending Verification',
+            'status' => 'Pending',
+        ]);
+        $staff = User::factory()->create(['usertype' => 'staff']);
+
+        $this->actingAs($staff)->get('/reservations')
+            ->assertOk()
+            ->assertSeeText('GCASH-654321')
+            ->assertSeeText('Verify Payment');
+
+        $this->actingAs($staff)
+            ->post('/verify_reservation_payment/'.$booking->id)
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('books', [
+            'id' => $booking->id,
+            'payment_status' => 'Paid',
+        ]);
+
+        $this->actingAs($staff)
+            ->post('/approve_reservation/'.$booking->id)
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('books', [
+            'id' => $booking->id,
+            'status' => 'Approved',
         ]);
     }
 

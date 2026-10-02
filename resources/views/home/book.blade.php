@@ -181,180 +181,57 @@
         .booking-payment-modal.is-visible { display: flex; }
 
         .booking-payment-dialog {
-            background: #111;
-            border: 1px solid #34343d;
+            background: #fff;
+            border: 1px solid #d8d8d8;
             border-radius: 14px;
-            color: #fff;
+            color: #111;
             max-height: calc(100vh - 40px);
-            max-width: 440px;
+            max-width: 520px;
             overflow-y: auto;
             padding: 26px;
             width: 100%;
         }
 
-        .booking-payment-dialog h3 { color: #fff; margin: 0 0 8px; }
-        .booking-payment-dialog p { color: #aaa; margin-bottom: 18px; }
+        .booking-payment-dialog h3 { color: #111; margin: 0 0 8px; }
+        .booking-payment-dialog p { color: #555; margin-bottom: 18px; }
 
-        .booking-payment-options { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
-
-        .booking-payment-option {
-            background: #1b1b23;
-            border: 1px solid #3a3a45;
-            border-radius: 9px;
-            color: #fff;
-            cursor: pointer;
-            font-weight: 800;
-            padding: 13px;
-            text-align: center;
-        }
-
-        .booking-payment-option.is-selected { border-color: #F88379; color: #FFA69E; }
-
-        .booking-payment-qr { display: none; margin: 18px auto 0; text-align: center; }
-        .booking-payment-qr.is-visible { display: block; }
-        .booking-payment-qr img { background: #fff; border-radius: 8px; max-width: 190px; padding: 8px; width: 100%; }
-        .booking-bank-open {
-            background: #159447;
-            border-radius: 999px;
-            color: #fff;
-            display: block;
-            font-size: 18px;
-            font-weight: 800;
-            margin: 16px auto;
-            max-width: 290px;
-            padding: 13px 20px;
-            text-decoration: none;
-        }
-        .booking-bank-open:hover { background: #0d7c39; color: #fff; text-decoration: none; }
-        .booking-bank-launch-status { color: #aaa; display: none; font-size: 14px; margin: 10px auto 14px; max-width: 330px; }
-        .booking-bank-launch-status.is-visible { display: block; }
-
-        .booking-gcash-payment { display: none; }
-
-        .booking-payment-dialog.is-gcash {
-            background: #e9eef3;
-            border: 0;
-            max-width: 520px;
-            padding: 0 0 24px;
-        }
-
-        .booking-payment-dialog.is-gcash > h3,
-        .booking-payment-dialog.is-gcash > p,
-        .booking-payment-dialog.is-gcash .booking-payment-options,
-        .booking-payment-dialog.is-gcash .booking-payment-qr { display: none; }
-
-        .booking-payment-dialog.is-gcash .booking-gcash-payment { display: block; }
-
-        .booking-gcash-header {
-            background: #075fda;
-            color: #fff;
-            font-size: 31px;
-            font-weight: 900;
-            letter-spacing: -.5px;
-            padding: 32px 24px 66px;
-            text-align: center;
-        }
-
-        .booking-gcash-logo-mark {
-            border: 4px solid #fff;
-            border-radius: 50%;
-            display: inline-flex;
-            font-size: 22px;
-            height: 42px;
-            justify-content: center;
-            margin-right: 9px;
-            width: 42px;
-        }
-
-        .booking-gcash-card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 3px 12px rgba(34, 54, 75, .12);
-            color: #213b62;
-            margin: -38px 28px 0;
-            padding: 30px 28px 34px;
-            text-align: center;
-        }
-
-        .booking-gcash-card h4 {
-            color: #213b62;
-            font-size: 22px;
-            font-weight: 900;
-            line-height: 1.25;
-            margin: 0 0 24px;
-        }
-
-        .booking-gcash-open {
-            align-items: center;
-            background: #0868e8;
-            border-radius: 999px;
-            color: #fff;
-            display: flex;
-            font-size: 21px;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
-
-        .booking-gcash-open:hover { background: #0057c8; color: #fff; text-decoration: none; }
-        .booking-gcash-launch-status {
-            color: #64748b;
-            display: none;
-            font-size: 14px;
-            line-height: 1.4;
-            margin: -18px 0 24px;
-        }
-        .booking-gcash-launch-status.is-visible { display: block; }
-        .booking-gcash-instruction { font-size: 16px; font-weight: 800; line-height: 1.45; margin: 0 auto 18px; max-width: 330px; }
-        .booking-gcash-card img { display: block; margin: 0 auto; max-width: 260px; width: 100%; }
-
-        .booking-payment-dialog.is-gcash .booking-payment-reference,
-        .booking-payment-dialog.is-gcash .booking-payment-summary,
-        .booking-payment-dialog.is-gcash .booking-payment-actions { margin-left: 28px; margin-right: 28px; }
-
-        .booking-payment-dialog.is-gcash .booking-payment-reference label { color: #213b62; }
-        .booking-payment-dialog.is-gcash .booking-payment-reference input { background: #fff; border-color: #cbd5e1; color: #1f2937; }
-        .booking-payment-dialog.is-gcash .booking-payment-summary { background: #fff; border-color: #d8e0e8; color: #213b62; }
-        .booking-payment-dialog.is-gcash .booking-payment-summary strong { color: #075fda; }
-        .booking-payment-dialog.is-gcash .booking-payment-confirm { background: #0868e8; }
-
-        .booking-payment-reference { display: none; margin-top: 16px; text-align: left; }
-        .booking-payment-reference.is-visible { display: block; }
-        .booking-payment-reference label { color: #fff; display: block; font-weight: 700; margin-bottom: 7px; }
+        .booking-payment-qr { margin: 18px auto; text-align: center; }
+        .booking-payment-qr img { background: #fff; border-radius: 8px; max-width: 260px; padding: 8px; width: 100%; }
+        .booking-payment-reference { margin-top: 16px; text-align: left; }
+        .booking-payment-reference label { color: #222; display: block; font-weight: 700; margin-bottom: 7px; }
         .booking-payment-reference input {
-            background: #0b0b10;
-            border: 1px solid #3a3a45;
+            background: #fff;
+            border: 1px solid #cbd5e1;
             border-radius: 7px;
-            color: #fff;
+            color: #1f2937;
             font-size: 16px;
             padding: 11px 12px;
             width: 100%;
         }
-        .booking-payment-reference input:focus { border-color: #F88379; outline: none; }
+        .booking-payment-reference input:focus { border-color: #0868e8; outline: none; }
 
         .booking-payment-summary {
-            background: #1b1b23;
-            border: 1px solid #34343d;
+            background: #fff;
+            border: 1px solid #d8d8d8;
             border-radius: 9px;
             margin-top: 18px;
             padding: 14px;
         }
 
-        .booking-payment-summary div { display: flex; justify-content: space-between; margin: 6px 0; }
-        .booking-payment-summary strong { color: #FFA69E; }
+        .booking-payment-summary div { color: #222; display: flex; justify-content: space-between; margin: 6px 0; }
+        .booking-payment-summary strong { color: #0868e8; }
 
         .booking-receipt-dialog { max-width: 480px; }
-        .booking-receipt-number { color: #FFA69E; font-weight: 900; margin-bottom: 14px; }
-        .booking-receipt-row { border-bottom: 1px solid #2d2d36; display: flex; gap: 16px; justify-content: space-between; padding: 9px 0; }
-        .booking-receipt-row span { color: #aaa; }
-        .booking-receipt-row strong { color: #fff; text-align: right; }
-        .booking-receipt-paid { color: #FFA69E !important; font-size: 20px; }
+        .booking-receipt-number { color: #0868e8; font-weight: 900; margin-bottom: 14px; }
+        .booking-receipt-row { border-bottom: 1px solid #e5e7eb; display: flex; gap: 16px; justify-content: space-between; padding: 9px 0; }
+        .booking-receipt-row span { color: #666; }
+        .booking-receipt-row strong { color: #111; text-align: right; }
+        .booking-receipt-paid { color: #0868e8 !important; font-size: 20px; }
 
         .booking-payment-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
         .booking-payment-actions button { border: 0; border-radius: 7px; cursor: pointer; font-weight: 800; padding: 11px 16px; }
-        .booking-payment-cancel { background: #282832; color: #fff; }
-        .booking-payment-confirm { background: #F88379; color: #fff; }
+        .booking-payment-cancel { background: #e5e7eb; color: #111; }
+        .booking-payment-confirm { background: #0868e8; color: #fff; }
         .booking-payment-confirm:disabled { cursor: not-allowed; opacity: .45; }
 
         .reserve-actions a {
@@ -387,11 +264,6 @@
 
             .booking-payment-modal { padding: 10px; }
             .booking-payment-dialog { max-height: calc(100vh - 20px); }
-            .booking-gcash-header { font-size: 27px; padding-top: 26px; }
-            .booking-gcash-card { margin-left: 14px; margin-right: 14px; padding: 26px 18px; }
-            .booking-payment-dialog.is-gcash .booking-payment-reference,
-            .booking-payment-dialog.is-gcash .booking-payment-summary,
-            .booking-payment-dialog.is-gcash .booking-payment-actions { margin-left: 14px; margin-right: 14px; }
         }
         /* Match the Mi Cusina homepage typography. */
         .reserve-page,
@@ -462,8 +334,7 @@
 
             <form id="bookTableForm" class="reserve-form" action="{{ url('book_table') }}" method="POST" target="_top">
                 @csrf
-                <input id="bookingPaymentMethod" type="hidden" name="payment_method" value="">
-                <input id="bookingPaymentReference" type="hidden" name="payment_reference" value="">
+                <input type="hidden" name="payment_method" value="GCash">
 
                 <div class="reserve-row">
                     <label>Name</label>
@@ -529,16 +400,15 @@
     @auth
         <div id="bookingPaymentModal" class="booking-payment-modal" role="dialog" aria-modal="true" aria-labelledby="bookingPaymentTitle">
             <div id="bookingPaymentDialog" class="booking-payment-dialog">
-                <h3 id="bookingPaymentTitle">Choose Payment Method</h3>
-                <p>Complete your downpayment through secure PayMongo checkout.</p>
-                <div class="booking-payment-options">
-                    <button class="booking-payment-option" type="button" data-method="PayMongo">PayMongo</button>
-                    <button class="booking-payment-option" type="button" data-method="GCash">GCash</button>
+                <h3 id="bookingPaymentTitle">Complete Your GCash Payment</h3>
+                <p>Scan the GCash QR code to pay the 50% reservation deposit. You can complete your booking without leaving this page.</p>
+                <div class="booking-payment-qr">
+                    <strong>GCash QR payment</strong>
+                    <div><img src="{{ asset('payment/gcash-qr.jpg') }}" alt="GCash payment QR code"></div>
                 </div>
-                <div id="bookingPaymentQr" class="booking-payment-qr">
-                    <strong id="bookingPaymentQrTitle">PayMongo payment</strong>
-                    <p id="bookingPaymentQrCopy">Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.</p>
-                    <div><img id="bookingPaymentQrImage" src="{{ asset('payment/gcash-qr.jpg') }}" alt="GCash payment QR code" hidden></div>
+                <div class="booking-payment-reference">
+                    <label for="bookingPaymentReference">GCash transaction reference</label>
+                    <input id="bookingPaymentReference" form="bookTableForm" name="payment_reference" type="text" maxlength="100" autocomplete="off" placeholder="Enter the reference from your GCash receipt">
                 </div>
                 <div class="booking-payment-summary">
                     <div><span>Total Reservation Fee</span><strong>&#8369;<span id="bookingTotalFee">250.00</span></strong></div>
@@ -546,7 +416,7 @@
                 </div>
                 <div class="booking-payment-actions">
                     <button id="bookingPaymentCancel" class="booking-payment-cancel" type="button">Cancel</button>
-                    <button id="bookingPaymentConfirm" class="booking-payment-confirm" type="button" disabled>Continue to PayMongo</button>
+                    <button id="bookingPaymentConfirm" class="booking-payment-confirm" type="button" disabled>I've Paid — Submit Booking</button>
                 </div>
             </div>
         </div>
@@ -555,7 +425,7 @@
     @if(session('booking_receipt'))
         <div id="bookingReceiptModal" class="booking-payment-modal is-visible" role="dialog" aria-modal="true" aria-labelledby="bookingReceiptTitle">
             <div class="booking-payment-dialog booking-receipt-dialog">
-                <h3 id="bookingReceiptTitle">Booking Payment Receipt</h3>
+                <h3 id="bookingReceiptTitle">{{ session('booking_receipt.payment_status') === 'Pending Verification' ? 'Booking Submission Receipt' : 'Booking Payment Receipt' }}</h3>
                 <div class="booking-receipt-number">{{ session('booking_receipt.reference') }}</div>
                 <div class="booking-receipt-row"><span>Customer</span><strong>{{ session('booking_receipt.name') }}</strong></div>
                 <div class="booking-receipt-row"><span>Guests</span><strong>{{ session('booking_receipt.guests') }}</strong></div>
@@ -563,7 +433,8 @@
                 <div class="booking-receipt-row"><span>Payment Method</span><strong>{{ session('booking_receipt.payment_method') }}</strong></div>
                 <div class="booking-receipt-row"><span>Payment Reference</span><strong>{{ session('booking_receipt.payment_reference') }}</strong></div>
                 <div class="booking-receipt-row"><span>Total Fee</span><strong>&#8369;{{ number_format(session('booking_receipt.total'), 2) }}</strong></div>
-                <div class="booking-receipt-row"><span>50% Paid</span><strong class="booking-receipt-paid">&#8369;{{ number_format(session('booking_receipt.deposit'), 2) }}</strong></div>
+                <div class="booking-receipt-row"><span>50% Deposit</span><strong class="booking-receipt-paid">&#8369;{{ number_format(session('booking_receipt.deposit'), 2) }}</strong></div>
+                <div class="booking-receipt-row"><span>Payment Status</span><strong>{{ session('booking_receipt.payment_status') }}</strong></div>
                 <div class="booking-receipt-row"><span>Remaining Balance</span><strong>&#8369;{{ number_format(session('booking_receipt.balance'), 2) }}</strong></div>
                 <div class="booking-payment-actions">
                     <button type="button" class="booking-payment-confirm" onclick="document.getElementById('bookingReceiptModal').classList.remove('is-visible')">Done</button>
@@ -579,16 +450,9 @@
         var modal = document.getElementById('bookingPaymentModal');
         if (!form || !modal) return;
 
-        var dialog = document.getElementById('bookingPaymentDialog');
-        var methodInput = document.getElementById('bookingPaymentMethod');
         var referenceInput = document.getElementById('bookingPaymentReference');
         var totalFee = document.getElementById('bookingTotalFee');
         var depositFee = document.getElementById('bookingDepositFee');
-        var options = modal.querySelectorAll('.booking-payment-option');
-        var qr = document.getElementById('bookingPaymentQr');
-        var qrTitle = document.getElementById('bookingPaymentQrTitle');
-        var qrCopy = document.getElementById('bookingPaymentQrCopy');
-        var qrImage = document.getElementById('bookingPaymentQrImage');
         var confirmButton = document.getElementById('bookingPaymentConfirm');
         var cancelButton = document.getElementById('bookingPaymentCancel');
         var confirmed = false;
@@ -604,40 +468,29 @@
             event.preventDefault();
             if (!form.reportValidity()) return;
             updatePaymentAmount();
+            referenceInput.required = true;
+            referenceInput.value = '';
+            confirmButton.disabled = true;
             modal.classList.add('is-visible');
         });
 
-        options.forEach(function (option) {
-            option.addEventListener('click', function () {
-                options.forEach(function (item) { item.classList.remove('is-selected'); });
-                option.classList.add('is-selected');
-                methodInput.value = option.dataset.method;
-                dialog.classList.remove('is-gcash');
-                var isGcash = option.dataset.method === 'GCash';
-                qrTitle.textContent = isGcash ? 'GCash QR payment' : 'PayMongo payment';
-                qrCopy.textContent = isGcash
-                    ? 'Scan this GCash QR code, then continue to PayMongo to complete and securely verify your payment.'
-                    : 'Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.';
-                qrImage.hidden = !isGcash;
-                qr.classList.add('is-visible');
-                referenceInput.value = '';
-                confirmButton.disabled = false;
-            });
+        referenceInput.addEventListener('input', function () {
+            confirmButton.disabled = !referenceInput.value.trim();
         });
 
         cancelButton.addEventListener('click', function () {
             modal.classList.remove('is-visible');
-            dialog.classList.remove('is-gcash');
-            options.forEach(function (item) { item.classList.remove('is-selected'); });
-            qr.classList.remove('is-visible');
-            methodInput.value = '';
+            referenceInput.required = false;
             referenceInput.value = '';
             confirmButton.disabled = true;
         });
         confirmButton.addEventListener('click', function () {
-            if (!methodInput.value) return;
+            if (!referenceInput.value.trim()) {
+                referenceInput.focus();
+                return;
+            }
             confirmButton.disabled = true;
-            confirmButton.textContent = 'Opening PayMongo...';
+            confirmButton.textContent = 'Submitting Booking...';
             confirmed = true;
             form.submit();
         });

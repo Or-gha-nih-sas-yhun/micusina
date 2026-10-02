@@ -20,6 +20,7 @@ class Book extends Model
         'deposit_amount',
         'payment_method',
         'gcash_reference',
+        'gcash_transaction_reference',
         'paymongo_checkout_id',
         'paymongo_checkout_url',
         'paymongo_payment_id',

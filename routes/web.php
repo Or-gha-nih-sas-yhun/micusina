@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bookings/{id}/cancel', [HomeController::class, 'cancel_booking'])->name('bookings.cancel');
     Route::get('/reservations', [AdminController::class, 'reservations']);
     Route::post('/approve_reservation/{id}', [AdminController::class, 'approve_reservation']);
+    Route::post('/verify_reservation_payment/{id}', [AdminController::class, 'verify_reservation_payment']);
     Route::get('/add_staff', [AdminController::class, 'add_staff']);
     Route::post('/store_staff', [AdminController::class, 'store_staff']);
     Route::post('/chatbot/message', [HomeController::class, 'chatbot_message'])->middleware('throttle:30,1');

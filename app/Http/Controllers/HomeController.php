@@ -14,7 +14,6 @@ use App\Models\Book;
 
 use App\Models\Cart;
 
-use App\Services\PayMongoService;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -902,7 +901,7 @@ class HomeController extends Controller
 
     }
 
-    public function book_table(Request $request, PayMongoService $payMongo)
+    public function book_table(Request $request)
     {
         if(!Auth::check())
         {
@@ -917,8 +916,8 @@ class HomeController extends Controller
             'n_guest' => ['required', 'integer', 'min:1'],
             'date' => ['required', 'date'],
             'time' => ['required'],
-            // GCash is accepted only for older app clients; all new reservations use PayMongo.
-            'payment_method' => ['required', 'in:PayMongo,GCash'],
+            'payment_method' => ['required', 'in:GCash'],
+            'payment_reference' => ['required', 'string', 'max:100'],
         ]);
 
         $guestCount = (int) $request->n_guest;
@@ -950,32 +949,31 @@ class HomeController extends Controller
 
         $data->deposit_amount = $depositAmount;
 
-        $data->payment_method = 'PayMongo';
-
-        $data->payment_status = 'Pending';
-
-        $data->status = 'Awaiting Payment';
+        $data->payment_method = 'GCash';
+        $data->payment_status = 'Pending Verification';
+        $data->status = 'Pending';
 
         $data->save();
 
         $data->gcash_reference = 'BK-' . str_pad((string) $data->id, 6, '0', STR_PAD_LEFT);
+        $data->gcash_transaction_reference = trim($request->payment_reference);
         $data->save();
 
-        try {
-            $checkout = $payMongo->createCheckout($data);
-            $data->paymongo_checkout_id = data_get($checkout, 'id');
-            $data->paymongo_checkout_url = data_get($checkout, 'attributes.checkout_url');
-            $data->save();
-
-            return redirect()->away(data_get($checkout, 'attributes.checkout_url'));
-        } catch (\Throwable $exception) {
-            report($exception);
-            $data->delete();
-
-            return redirect()->back()->withInput()->withErrors([
-                'payment' => 'Secure payment could not be started. Please try again.',
+        return redirect('/?section=book')
+            ->with('message', 'Booking submitted. Staff will verify your GCash payment before confirming the reservation.')
+            ->with('booking_receipt', [
+                'reference' => $data->gcash_reference,
+                'name' => $data->name,
+                'guests' => (int) $data->guest,
+                'date' => $data->date,
+                'time' => $data->time,
+                'payment_method' => $data->payment_method,
+                'payment_reference' => $data->gcash_transaction_reference,
+                'payment_status' => $data->payment_status,
+                'total' => (float) $data->reservation_price,
+                'deposit' => (float) $data->deposit_amount,
+                'balance' => (float) $data->reservation_price - (float) $data->deposit_amount,
             ]);
-        }
     }
 
     private function customerOrder($id): Order

@@ -130,6 +130,7 @@ class PayMongoWebhookController extends Controller
             'time' => $booking->time,
             'payment_method' => $booking->payment_method,
             'payment_reference' => $booking->paymongo_payment_id,
+            'payment_status' => $booking->payment_status,
             'total' => (float) $booking->reservation_price,
             'deposit' => (float) $booking->deposit_amount,
             'balance' => (float) $booking->reservation_price - (float) $booking->deposit_amount,
