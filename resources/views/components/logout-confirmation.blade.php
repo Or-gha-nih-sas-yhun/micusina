@@ -1,7 +1,7 @@
 <style>
-    .logout-confirmation[hidden] { display: none; }
-    .logout-confirmation { align-items: center; background: rgba(0, 0, 0, .62); display: flex; inset: 0; justify-content: center; padding: 20px; position: fixed; z-index: 20000; }
-    .logout-confirmation__dialog { background: #fff; border-radius: 12px; box-shadow: 0 18px 50px rgba(0, 0, 0, .3); color: #1f2937; max-width: 390px; padding: 24px; width: 100%; }
+    #logoutConfirmation[hidden] { display: none !important; }
+    #logoutConfirmation { align-items: center; background: rgba(0, 0, 0, .62) !important; display: flex; inset: 0; justify-content: center; padding: 20px; position: fixed !important; z-index: 2147483647 !important; }
+    #logoutConfirmation .logout-confirmation__dialog { background: #fff; border-radius: 12px; box-shadow: 0 18px 50px rgba(0, 0, 0, .3); color: #1f2937; max-width: 390px; padding: 24px; width: 100%; }
     .logout-confirmation__dialog h2 { font-size: 20px; margin: 0 0 10px; }
     .logout-confirmation__dialog p { margin: 0 0 22px; }
     .logout-confirmation__actions { display: flex; gap: 10px; justify-content: flex-end; }
@@ -27,6 +27,8 @@
         if (!modal) return;
         if (modal.dataset.logoutConfirmationReady) return;
         modal.dataset.logoutConfirmationReady = 'true';
+        // Keep the fixed backdrop outside headers, dropdowns, and page containers.
+        document.body.appendChild(modal);
         var pendingForm = null;
         var cancel = modal.querySelector('[data-logout-cancel]');
         var submit = modal.querySelector('[data-logout-submit]');
@@ -42,7 +44,8 @@
 
             var trigger = form.querySelector('[data-logout-trigger]');
             if (trigger) {
-                trigger.addEventListener('click', function () {
+                trigger.addEventListener('click', function (event) {
+                    event.preventDefault();
                     pendingForm = form;
                     modal.hidden = false;
                     cancel.focus();
