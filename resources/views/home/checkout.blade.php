@@ -69,7 +69,7 @@
                     <div class="order-item"><div><strong>{{ $item->title }}</strong><span>&#8369;{{ number_format((float) $item->price / max(1, $item->quantity), 2) }} × {{ $item->quantity }}</span></div><strong>&#8369;{{ number_format((float) $item->price, 2) }}</strong></div>
                 @endforeach
                 <div class="total-line"><span>Total</span><span>&#8369;{{ number_format($total, 2) }}</span></div>
-                <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="Payment QR"></div>
+                <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option><option value="GCash">GCash</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="GCash payment QR code"></div>
                 <button class="place-order" type="submit">Place order</button>
                 <a class="back-link" href="{{ url('my_cart') }}">← Back to Cart</a>
             </aside>
@@ -81,7 +81,7 @@
             var municipality=document.getElementById('municipality'), barangay=document.getElementById('barangay'), payment=document.getElementById('payment_method'), qr=document.getElementById('paymentQr'), copy=document.getElementById('paymentCopy');
             municipality.addEventListener('change', function(){ barangay.innerHTML='<option value="">Select barangay</option>'; (places[municipality.value]||[]).forEach(function(place){ var option=new Option(place,place); barangay.add(option); }); });
             document.getElementById('phone').addEventListener('input', function(){ this.value='+639'+this.value.replace(/[^0-9]/g,'').replace(/^639/,'').slice(0,9); });
-            payment.addEventListener('change', function(){ copy.textContent='Pay with cash when your order arrives.'; qr.style.display='none'; });
+            payment.addEventListener('change', function(){ var gcash=payment.value==='GCash'; copy.textContent=gcash?'Scan the GCash QR code and keep your payment reference for verification.':'Pay with cash when your order arrives.'; qr.style.display=gcash?'block':'none'; if(gcash) qr.src='{{ asset('payment/gcash-qr.jpg') }}'; });
         });
     </script>
 </body>
