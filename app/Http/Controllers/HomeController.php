@@ -674,7 +674,7 @@ class HomeController extends Controller
             'barangay' => ['required', 'string', 'max:100'],
             'purok' => ['required', 'string', 'max:100'],
             'address_details' => ['nullable', 'string', 'max:255'],
-            'payment_method' => ['required', 'in:Cash on Delivery,GCash,Bank Transfer'],
+            'payment_method' => ['required', 'in:Cash on Delivery,GCash'],
             'payment_reference' => ['nullable', 'string', 'max:100'],
         ]);
 
@@ -793,7 +793,8 @@ class HomeController extends Controller
             'n_guest' => ['required', 'integer', 'min:1'],
             'date' => ['required', 'date'],
             'time' => ['required'],
-            'payment_method' => ['required', 'in:GCash,Bank Transfer'],
+            // GCash is accepted only for older app clients; all new reservations use PayMongo.
+            'payment_method' => ['required', 'in:PayMongo,GCash'],
         ]);
 
         $guestCount = (int) $request->n_guest;
@@ -825,7 +826,7 @@ class HomeController extends Controller
 
         $data->deposit_amount = $depositAmount;
 
-        $data->payment_method = $request->payment_method;
+        $data->payment_method = 'PayMongo';
 
         $data->payment_status = 'Pending';
 

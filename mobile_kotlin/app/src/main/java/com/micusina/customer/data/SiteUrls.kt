@@ -21,7 +21,6 @@ object SiteUrls {
     /** The same QR codes the web checkout shows for online payment. */
     fun paymentQr(paymentMethod: String): String? = when (paymentMethod) {
         PaymentMethods.GCASH -> "$origin/payment/gcash-qr.jpg"
-        PaymentMethods.BANK_TRANSFER -> "$origin/payment/bank-qr.jpg"
         else -> null
     }
 }
@@ -29,10 +28,10 @@ object SiteUrls {
 object PaymentMethods {
     const val CASH_ON_DELIVERY = "Cash on Delivery"
     const val GCASH = "GCash"
-    const val BANK_TRANSFER = "Bank Transfer"
+    const val PAYMONGO = "PayMongo"
 
-    val checkout = listOf(CASH_ON_DELIVERY, GCASH, BANK_TRANSFER)
-    val reservation = listOf(GCASH, BANK_TRANSFER)
+    val checkout = listOf(CASH_ON_DELIVERY, GCASH)
+    val reservation = listOf(PAYMONGO)
 }
 
 /** Reservation pricing fixed by MobileApiController::createReservation(). */

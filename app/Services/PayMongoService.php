@@ -45,7 +45,8 @@ class PayMongoService
                         'name' => $reference,
                         'quantity' => 1,
                     ]],
-                    'payment_method_types' => [$method],
+                    // The hosted checkout renders only payment data issued by PayMongo.
+                    'payment_method_types' => ['gcash', 'qrph'],
                     'reference_number' => $reference,
                     'send_email_receipt' => true,
                     'show_description' => true,

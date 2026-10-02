@@ -530,26 +530,13 @@
         <div id="bookingPaymentModal" class="booking-payment-modal" role="dialog" aria-modal="true" aria-labelledby="bookingPaymentTitle">
             <div id="bookingPaymentDialog" class="booking-payment-dialog">
                 <h3 id="bookingPaymentTitle">Choose Payment Method</h3>
-                <p>Select a payment method to complete your table booking.</p>
+                <p>Complete your downpayment through secure PayMongo checkout.</p>
                 <div class="booking-payment-options">
-                    <button class="booking-payment-option" type="button" data-method="GCash" data-qr="{{ asset('payment/gcash-qr.jpg') }}">GCash</button>
-                    <button class="booking-payment-option" type="button" data-method="Bank Transfer" data-qr="{{ asset('payment/bank-qr.jpg') }}">Bank Transfer</button>
+                    <button class="booking-payment-option" type="button" data-method="PayMongo">PayMongo</button>
                 </div>
                 <div id="bookingPaymentQr" class="booking-payment-qr">
-                    <strong id="bookingPaymentQrTitle"></strong>
-                    <a id="bookingBankOpen" class="booking-bank-open" href="#" aria-label="Open the LANDBANK Mobile Banking app">Open in LANDBANK</a>
-                    <p id="bookingBankLaunchStatus" class="booking-bank-launch-status" role="status"></p>
-                    <div><img id="bookingPaymentQrImage" src="" alt="Payment QR code"></div>
-                </div>
-                <div id="bookingGcashPayment" class="booking-gcash-payment">
-                    <div class="booking-gcash-header"><span class="booking-gcash-logo-mark">G</span>GCash</div>
-                    <div class="booking-gcash-card">
-                        <h4>Securely complete the payment with your GCash app</h4>
-                        <a id="bookingGcashOpen" class="booking-gcash-open" href="#" aria-label="Open the GCash app">Open in GCash</a>
-                        <p id="bookingGcashLaunchStatus" class="booking-gcash-launch-status" role="status"></p>
-                        <p class="booking-gcash-instruction">or Log in to GCash and scan this QR with the QR Scanner.</p>
-                        <img id="bookingGcashQrImage" src="{{ asset('payment/gcash-qr.jpg') }}" alt="GCash payment QR code">
-                    </div>
+                    <strong id="bookingPaymentQrTitle">PayMongo payment</strong>
+                    <p>Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.</p>
                 </div>
                 <div class="booking-payment-summary">
                     <div><span>Total Reservation Fee</span><strong>&#8369;<span id="bookingTotalFee">250.00</span></strong></div>
@@ -557,7 +544,7 @@
                 </div>
                 <div class="booking-payment-actions">
                     <button id="bookingPaymentCancel" class="booking-payment-cancel" type="button">Cancel</button>
-                    <button id="bookingPaymentConfirm" class="booking-payment-confirm" type="button" disabled>Proceed to Secure Payment</button>
+                    <button id="bookingPaymentConfirm" class="booking-payment-confirm" type="button" disabled>Continue to PayMongo</button>
                 </div>
             </div>
         </div>
@@ -598,60 +585,9 @@
         var options = modal.querySelectorAll('.booking-payment-option');
         var qr = document.getElementById('bookingPaymentQr');
         var qrTitle = document.getElementById('bookingPaymentQrTitle');
-        var qrImage = document.getElementById('bookingPaymentQrImage');
         var confirmButton = document.getElementById('bookingPaymentConfirm');
         var cancelButton = document.getElementById('bookingPaymentCancel');
-        var gcashOpenButton = document.getElementById('bookingGcashOpen');
-        var gcashLaunchStatus = document.getElementById('bookingGcashLaunchStatus');
-        var bankOpenButton = document.getElementById('bookingBankOpen');
-        var bankLaunchStatus = document.getElementById('bookingBankLaunchStatus');
         var confirmed = false;
-
-        gcashOpenButton.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            var userAgent = navigator.userAgent || '';
-            var isAndroid = /Android/i.test(userAgent);
-            var isIOS = /iPhone|iPad|iPod/i.test(userAgent);
-
-            gcashLaunchStatus.classList.remove('is-visible');
-
-            if (isAndroid) {
-                window.location.href = 'intent://#Intent;scheme=gcash;package=com.globe.gcash.android;end';
-                return;
-            }
-
-            if (isIOS) {
-                window.location.href = 'gcash://';
-                return;
-            }
-
-            gcashLaunchStatus.textContent = 'GCash can only open on a phone with the GCash app installed. Please scan this QR using your phone.';
-            gcashLaunchStatus.classList.add('is-visible');
-        });
-
-        bankOpenButton.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            var userAgent = navigator.userAgent || '';
-            var isAndroid = /Android/i.test(userAgent);
-            var isIOS = /iPhone|iPad|iPod/i.test(userAgent);
-
-            bankLaunchStatus.classList.remove('is-visible');
-
-            if (isAndroid) {
-                window.location.href = 'intent://#Intent;package=com.landbank.mobilebanking;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.landbank.mobilebanking;end';
-                return;
-            }
-
-            if (isIOS) {
-                window.location.href = 'https://apps.apple.com/ph/app/landbank-mobile-banking/id950232162';
-                return;
-            }
-
-            bankLaunchStatus.textContent = 'LANDBANK Mobile Banking can only open on a phone. Please scan this QR using your banking app.';
-            bankLaunchStatus.classList.add('is-visible');
-        });
 
         function updatePaymentAmount() {
             var total = 250;
@@ -672,11 +608,10 @@
                 options.forEach(function (item) { item.classList.remove('is-selected'); });
                 option.classList.add('is-selected');
                 methodInput.value = option.dataset.method;
-                dialog.classList.toggle('is-gcash', option.dataset.method === 'GCash');
-                qrTitle.textContent = option.dataset.method + ' QR Payment';
-                qrImage.src = option.dataset.qr;
+                dialog.classList.remove('is-gcash');
+                qrTitle.textContent = 'PayMongo payment';
                 qr.classList.add('is-visible');
-                referenceInput.value = 'System generated after confirmation';
+                referenceInput.value = '';
                 confirmButton.disabled = false;
             });
         });
@@ -693,7 +628,7 @@
         confirmButton.addEventListener('click', function () {
             if (!methodInput.value) return;
             confirmButton.disabled = true;
-            confirmButton.textContent = 'Opening Secure Payment...';
+            confirmButton.textContent = 'Opening PayMongo...';
             confirmed = true;
             form.submit();
         });

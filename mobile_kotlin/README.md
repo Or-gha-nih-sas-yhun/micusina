@@ -14,7 +14,7 @@ revokes the new token and asks them to use the Mi Cusina dashboard instead.
 | Account | Sign in (including authenticator-app 2FA), register with email verification code, sign out |
 | Menu | Browse dishes by category, search, see live stock, add to cart with a quantity picker |
 | Cart | Change quantities, remove items, see the running total (cart badge on the tab bar) |
-| Checkout | Deliver anywhere in Bantayan, Madridejos or Santa Fe; Cash on Delivery, GCash or Bank Transfer (shows the same QR codes as the website and asks for the payment reference) |
+| Checkout | Deliver anywhere in Bantayan, Madridejos or Santa Fe; Cash on Delivery or GCash |
 | Orders | Track each checkout (Received → On the way → Delivered), auto-refreshes every 30 s, cancel while still allowed |
 | Reservations | Book a table (date, time, guests), pay the ₱125 downpayment via PayMongo in a Custom Tab, cancel upcoming reservations |
 

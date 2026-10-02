@@ -1123,14 +1123,12 @@
                                     <select id="payment_method" name="payment_method" required>
                                         <option value="Cash on Delivery">Cash on Delivery</option>
                                         <option value="GCash">GCash</option>
-                                        <option value="Bank Transfer">Bank Transfer</option>
                                     </select>
                                 </div>
 
                                 <div class="payment-qr-panel" id="paymentQrPanel">
                                     <h3 id="paymentQrTitle">Payment QR</h3>
                                     <a class="gcash-open-button" id="openGcashButton" href="gcash://" aria-label="Open GCash app">Open in GCash</a>
-                                    <a class="bank-open-button" id="openBankButton" href="landbank://" aria-label="Open Landbank app">Open Bank App</a>
                                     <img id="paymentQrImage" src="" alt="Payment QR">
                                     <p id="paymentQrMissing" style="display:none;">QR image not found. Please ask staff for payment details.</p>
                                 </div>
@@ -1171,7 +1169,6 @@
             var paymentQrImage = document.getElementById('paymentQrImage');
             var paymentQrMissing = document.getElementById('paymentQrMissing');
             var openGcashButton = document.getElementById('openGcashButton');
-            var openBankButton = document.getElementById('openBankButton');
             var checkoutModal = document.getElementById('checkoutModal');
             var openCheckout = document.getElementById('openCheckout');
             var closeCheckout = document.getElementById('closeCheckout');
@@ -1220,11 +1217,10 @@
 
             function updatePaymentFields() {
                 var method = paymentMethod.value;
-                var needsReference = method === 'GCash' || method === 'Bank Transfer';
+                var needsReference = method === 'GCash';
 
                 paymentQrPanel.classList.toggle('is-visible', needsReference);
                 openGcashButton.classList.toggle('is-visible', method === 'GCash');
-                openBankButton.classList.toggle('is-visible', method === 'Bank Transfer');
 
                 if (!needsReference) {
                     paymentQrImage.style.display = 'none';
@@ -1232,7 +1228,7 @@
                 }
 
                 paymentQrTitle.textContent = method + ' QR Payment';
-                paymentQrImage.src = method === 'GCash' ? '{{ asset('payment/gcash-qr.jpg') }}' : '{{ asset('payment/bank-qr.jpg') }}';
+                paymentQrImage.src = '{{ asset('payment/gcash-qr.jpg') }}';
                 paymentQrImage.style.display = 'block';
                 paymentQrMissing.style.display = 'none';
             }

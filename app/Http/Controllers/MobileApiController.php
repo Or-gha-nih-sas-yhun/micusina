@@ -240,7 +240,7 @@ class MobileApiController extends Controller
             'name' => ['required', 'string', 'max:255'], 'phone' => ['required', 'regex:/^(09[0-9]{9}|\+639[0-9]{9})$/'],
             'municipality' => ['required', 'in:Bantayan,Madridejos,Santa Fe'], 'barangay' => ['required', 'string', 'max:100'],
             'purok' => ['required', 'string', 'max:100'], 'address_details' => ['nullable', 'string', 'max:255'],
-            'payment_method' => ['required', 'in:Cash on Delivery,GCash,Bank Transfer'],
+            'payment_method' => ['required', 'in:Cash on Delivery,GCash'],
             'payment_reference' => ['required_unless:payment_method,Cash on Delivery', 'nullable', 'string', 'max:100'],
         ]);
         $user = $request->user();
@@ -341,7 +341,8 @@ class MobileApiController extends Controller
             'first_name' => ['required', 'string', 'max:120'], 'last_name' => ['required', 'string', 'max:120'],
             'phone' => ['required', 'regex:/^(09[0-9]{9}|\+639[0-9]{9})$/'], 'guest' => ['required', 'integer', 'min:1', 'max:20'],
             'date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'], 'time' => ['required', 'date_format:g:i A'],
-            'payment_method' => ['required', 'in:GCash,Bank Transfer'],
+            // GCash remains accepted only to let an installed older client reach the hosted PayMongo flow.
+            'payment_method' => ['required', 'in:PayMongo,GCash'],
         ]);
         $reservationAt = Carbon::createFromFormat('Y-m-d g:i A', $data['date'].' '.$data['time'], 'Asia/Manila')->startOfMinute();
         abort_if($reservationAt->lte(Carbon::now('Asia/Manila')), 422, 'Choose a future reservation time.');
@@ -350,7 +351,7 @@ class MobileApiController extends Controller
             'user_id' => $user->id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'],
             'name' => trim($data['first_name'].' '.$data['last_name']), 'email' => $user->email, 'phone' => str_replace('+63', '0', $data['phone']),
             'guest' => $data['guest'], 'date' => $data['date'], 'time' => $data['time'], 'reservation_price' => 250,
-            'deposit_amount' => 125, 'payment_method' => $data['payment_method'], 'payment_status' => 'Pending', 'status' => 'Awaiting Payment',
+            'deposit_amount' => 125, 'payment_method' => 'PayMongo', 'payment_status' => 'Pending', 'status' => 'Awaiting Payment',
         ]);
         $booking->update(['gcash_reference' => 'BK-'.str_pad((string) $booking->id, 6, '0', STR_PAD_LEFT)]);
         try {

@@ -37,6 +37,15 @@
                 modal.hidden = false;
                 cancel.focus();
             });
+
+            var trigger = form.querySelector('[data-logout-trigger]');
+            if (trigger) {
+                trigger.addEventListener('click', function () {
+                    pendingForm = form;
+                    modal.hidden = false;
+                    cancel.focus();
+                });
+            }
         });
         cancel.addEventListener('click', close);
         submit.addEventListener('click', function () { if (pendingForm) pendingForm.submit(); });
