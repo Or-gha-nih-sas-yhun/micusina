@@ -32,8 +32,8 @@
 
         .track-cart {
             align-items: center;
-            background: #fff;
-            border: 1px solid #c46cff;
+            background: #fff !important;
+            border: 1px solid #c46cff !important;
             border-radius: 999px;
             color: #000;
             display: inline-flex;
@@ -45,12 +45,22 @@
             width: 52px;
         }
 
+        .track-cart svg {
+            fill: none;
+            height: 25px;
+            stroke: #000 !important;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2;
+            width: 25px;
+        }
+
         .track-cart-count {
             align-items: center;
-            background: #e11d48;
-            border: 2px solid #fff;
+            background: #e11d48 !important;
+            border: 2px solid #fff !important;
             border-radius: 999px;
-            color: #fff;
+            color: #fff !important;
             display: inline-flex;
             font-size: 12px;
             font-weight: 800;
@@ -783,7 +793,11 @@
 
     <div class="track-top">
         <a class="track-cart" href="{{ url('my_cart') }}" aria-label="Open cart">
-            <i class="ti-shopping-cart" aria-hidden="true"></i>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L20 9H7"></path>
+                <circle cx="10" cy="20" r="1.35"></circle>
+                <circle cx="17" cy="20" r="1.35"></circle>
+            </svg>
             <span class="track-cart-count">{{ $cartBadgeCount }}</span>
         </a>
         <details class="track-user-menu">
