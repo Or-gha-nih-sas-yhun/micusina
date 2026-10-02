@@ -856,8 +856,8 @@
             <div class="burger-login">
                 @if (Route::has('login'))
                     @auth
-                        <a class="track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i><span class="track-action-label">Track Order</span></a>
-                        <a class="track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i><span class="track-action-label">Track Booking</span></a>
+                        <a class="track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" title="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i><span class="track-action-label">Track Order</span></a>
+                        <a class="track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" title="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i><span class="track-action-label">Track Booking</span></a>
                         <details class="front-user-menu">
                             <summary aria-label="Open user menu">@if(Auth::user()->profile_photo_path)<img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">@else{{ $userInitial }}@endif</summary>
                             <div class="front-user-dropdown">
@@ -1224,8 +1224,8 @@
         </ul>
         <ul class="navbar-nav">
             @auth
-                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i><span class="track-action-label">Track Order</span></a></li>
-                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i><span class="track-action-label">Track Booking</span></a></li>
+                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ url('my_orders') }}" data-tooltip="Track Order" title="Track Order" aria-label="Track Order"><i class="ti-truck" aria-hidden="true"></i><span class="track-action-label">Track Order</span></a></li>
+                <li class="nav-item"><a class="nav-link track-order-link track-action" href="{{ route('bookings.index') }}" data-tooltip="Track Booking" title="Track Booking" aria-label="Track Booking"><i class="ti-calendar" aria-hidden="true"></i><span class="track-action-label">Track Booking</span></a></li>
             @endauth
             @if (Route::has('login'))
                 @auth

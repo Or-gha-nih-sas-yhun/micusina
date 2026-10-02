@@ -108,6 +108,20 @@
         background: #b91c1c;
       }
 
+      .assign-order-link {
+        border: 1px solid #dc2626;
+        border-radius: 999px;
+        color: #dc2626;
+        display: inline-flex;
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        padding: 6px 10px;
+        text-decoration: none;
+      }
+
+      .assign-order-link:hover { background: #fff1f2; color: #b91c1c; text-decoration: none; }
+
       @media (max-width: 767px) {
         .riders-top {
           grid-template-columns: 1fr;
@@ -190,7 +204,18 @@
                       </span>
                     </td>
                     <td>
-                      @if(Auth::user()->usertype === 'admin' || Auth::user()->staff_role === 'cashier' || Auth::id() === $rider->id)
+                      @if(Auth::user()->usertype === 'admin' || Auth::user()->staff_role === 'cashier')
+                        @if($rider->rider_available)
+                          <a class="assign-order-link" href="{{ url('orders') }}" title="Choose this rider from an eligible order">Assign to Order</a>
+                        @endif
+                        <form action="{{ url('rider_availability', $rider->id) }}" method="POST">
+                          @csrf
+                          <input type="hidden" name="rider_available" value="{{ $rider->rider_available ? 0 : 1 }}">
+                          <button class="btn btn-sm {{ $rider->rider_available ? 'btn-danger' : 'btn-success' }}" type="submit">
+                            {{ $rider->rider_available ? 'Set Unavailable' : 'Set Available' }}
+                          </button>
+                        </form>
+                      @elseif(Auth::id() === $rider->id)
                         <form action="{{ url('rider_availability', $rider->id) }}" method="POST">
                           @csrf
                           <input type="hidden" name="rider_available" value="{{ $rider->rider_available ? 0 : 1 }}">
