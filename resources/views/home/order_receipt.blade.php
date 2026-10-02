@@ -119,6 +119,10 @@
 
             <div class="receipt-meta">
                 <div>
+                    <span>Order No.</span>
+                    <strong>{{ $firstOrder->order_number }}</strong>
+                </div>
+                <div>
                     <span>Customer</span>
                     <strong>{{ $firstOrder->name }}</strong>
                 </div>
@@ -143,10 +147,6 @@
                         <strong>{{ $referenceNumber }}</strong>
                     </div>
                 @endif
-                <div>
-                    <span>Order IDs</span>
-                    <strong>{{ $orders->pluck('id')->map(fn ($id) => str_pad($id, 6, '0', STR_PAD_LEFT))->implode(', ') }}</strong>
-                </div>
             </div>
 
             <table class="receipt-table">

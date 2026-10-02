@@ -71,7 +71,7 @@
                 <div class="total-line"><span>Total</span><span>&#8369;{{ number_format($total, 2) }}</span></div>
                 <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option><option value="GCash">GCash</option><option value="Bank Transfer">Bank Transfer</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="Payment QR"></div>
                 <button class="place-order" type="submit">Place order</button>
-                <a class="back-link" href="{{ url('my_cart') }}">← Back to cart</a>
+                <a class="back-link" href="{{ url('my_cart') }}">← Back to Cart</a>
             </aside>
         </form>
     </main>

@@ -9,6 +9,13 @@ class Order extends Model
 {
     use HasFactory;
 
+    /**
+     * The application has always exposed an order by its six-digit primary-key
+     * value. Keep that public identifier in one place without changing the
+     * database key or introducing a duplicate column.
+     */
+    protected $appends = ['order_number'];
+
     protected $fillable = [
         'user_id',
         'checkout_group_id',
@@ -37,5 +44,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getOrderNumberAttribute(): string
+    {
+        return str_pad((string) $this->getKey(), 6, '0', STR_PAD_LEFT);
     }
 }

@@ -139,6 +139,18 @@ class MobileApiTest extends TestCase
         $this->assertDatabaseMissing('carts', ['id' => $cart->id]);
     }
 
+    public function test_orders_expose_the_existing_six_digit_public_order_number(): void
+    {
+        $user = User::factory()->create();
+        $order = $this->order(['user_id' => $user->id, 'email' => $user->email]);
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/mobile/orders')
+            ->assertOk()
+            ->assertJsonPath('orders.0.order_number', str_pad((string) $order->id, 6, '0', STR_PAD_LEFT));
+    }
+
     public function test_non_cash_checkout_requires_a_payment_reference(): void
     {
         Sanctum::actingAs(User::factory()->create());

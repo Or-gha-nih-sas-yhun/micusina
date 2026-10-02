@@ -170,9 +170,9 @@
 
     .order-status.is-progress
     {
-        background:rgba(255, 33, 79, .18);
-        border:1px solid rgba(255, 33, 79, .38);
-        color:#FFA69E;
+        background:rgba(37, 99, 235, .24);
+        border:1px solid rgba(96, 165, 250, .55);
+        color:#dbeafe;
     }
 
     .order-status.is-way
@@ -545,6 +545,7 @@
         <div class="table-wrap">
         <table class="orders-table">
             <tr>
+                <th>Order No.</th>
                 <th>Customer</th>
 
                 <th>Phone</th>
@@ -580,6 +581,7 @@
 
 
             <tr>
+                <td>{{ $order->order_number }}</td>
                 <td>{{$order->name }}</td>
 
                 <td>{{$order->phone }}</td>

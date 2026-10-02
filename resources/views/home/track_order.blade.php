@@ -777,7 +777,7 @@
                     <span>{{ Auth::user()->email }}</span>
                 </div>
                 <a href="{{ url('/') }}">Home</a>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" data-logout-form>
                     @csrf
                     <button type="submit">Log Out</button>
                 </form>
@@ -850,7 +850,7 @@
                 <div class="track-summary">
                     <h2>Order Summary</h2>
                     <div class="summary-line">
-                        <span>Order #</span>
+                        <span>Order No.</span>
                         <strong>{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</strong>
                     </div>
                     <div class="summary-line">
@@ -910,7 +910,7 @@
                 @endphp
                 <article class="order-row">
                     <div>
-                        <h3>Order#: {{ $orderItem->order_number }}</h3>
+                        <h3>Order No.: {{ $orderItem->order_number }}</h3>
                         <p>{{ $orderItem->created_at ? $orderItem->created_at->format('d-M-Y, g:i A') : '' }}</p>
                         <p>{{ $orderItem->item_count }} item(s) - &#8369;{{ number_format($orderItem->total, 2) }}</p>
                         <p>{{ $orderItem->delivery_status }} | <a href="{{ url('track_order', $orderItem->id) }}">Track</a></p>
@@ -1012,5 +1012,6 @@
             }, 15000);
         });
     </script>
+    @include('components.logout-confirmation')
 </body>
 </html>

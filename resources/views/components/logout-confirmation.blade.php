@@ -1,0 +1,46 @@
+<style>
+    .logout-confirmation[hidden] { display: none; }
+    .logout-confirmation { align-items: center; background: rgba(0, 0, 0, .62); display: flex; inset: 0; justify-content: center; padding: 20px; position: fixed; z-index: 20000; }
+    .logout-confirmation__dialog { background: #fff; border-radius: 12px; box-shadow: 0 18px 50px rgba(0, 0, 0, .3); color: #1f2937; max-width: 390px; padding: 24px; width: 100%; }
+    .logout-confirmation__dialog h2 { font-size: 20px; margin: 0 0 10px; }
+    .logout-confirmation__dialog p { margin: 0 0 22px; }
+    .logout-confirmation__actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .logout-confirmation__actions button { border: 0; border-radius: 6px; cursor: pointer; font-weight: 700; padding: 10px 16px; }
+    .logout-confirmation__cancel { background: #e5e7eb; color: #111827; }
+    .logout-confirmation__submit { background: #b91c1c; color: #fff; }
+</style>
+
+<div class="logout-confirmation" id="logoutConfirmation" hidden>
+    <div class="logout-confirmation__dialog" role="dialog" aria-modal="true" aria-labelledby="logoutConfirmationTitle">
+        <h2 id="logoutConfirmationTitle">Log out?</h2>
+        <p>Are you sure you want to log out?</p>
+        <div class="logout-confirmation__actions">
+            <button class="logout-confirmation__cancel" type="button" data-logout-cancel>Cancel</button>
+            <button class="logout-confirmation__submit" type="button" data-logout-submit>Log Out</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('logoutConfirmation');
+        if (!modal) return;
+        var pendingForm = null;
+        var cancel = modal.querySelector('[data-logout-cancel]');
+        var submit = modal.querySelector('[data-logout-submit]');
+        var close = function () { modal.hidden = true; pendingForm = null; };
+
+        document.querySelectorAll('form[data-logout-form]').forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                pendingForm = form;
+                modal.hidden = false;
+                cancel.focus();
+            });
+        });
+        cancel.addEventListener('click', close);
+        submit.addEventListener('click', function () { if (pendingForm) pendingForm.submit(); });
+        modal.addEventListener('click', function (event) { if (event.target === modal) close(); });
+        document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && !modal.hidden) close(); });
+    });
+</script>

@@ -66,7 +66,7 @@
             @error('photo')<small class="admin-photo-error">{{ $message }}</small>@enderror
           </form>
           <div class="dropdown-divider"></div>
-          <form method="POST" action="{{ route('logout') }}">
+          <form method="POST" action="{{ route('logout') }}" data-logout-form>
             @csrf
             <button class="dropdown-item" type="submit">Log Out</button>
           </form>
@@ -76,6 +76,8 @@
     </div>
   </nav>
 </header>
+
+@include('components.logout-confirmation')
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

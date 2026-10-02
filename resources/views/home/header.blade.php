@@ -826,7 +826,7 @@
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
                                 <a href="{{ route('profile.show') }}">Profile</a>
-                                <form action="{{ route('customer.logout') }}" method="POST">
+                                <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
                                     <button type="submit">Log Out</button>
                                 </form>
@@ -1198,7 +1198,7 @@
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
                                 <a href="{{ route('profile.show') }}">Profile</a>
-                                <form action="{{ route('customer.logout') }}" method="POST">
+                                <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
                                     <button type="submit">Log Out</button>
                                 </form>
@@ -1379,3 +1379,7 @@
         }, 2000);
     </script>
 @endif
+
+@auth
+    @include('components.logout-confirmation')
+@endauth
