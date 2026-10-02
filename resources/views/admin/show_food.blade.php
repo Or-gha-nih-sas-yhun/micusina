@@ -142,33 +142,36 @@
 
     .mic-swal-popup
     {
-        border-radius:8px;
+        border-radius:20px;
+        box-shadow:0 18px 50px rgba(43,58,85,.16);
         font-family:inherit;
     }
 
     .mic-swal-title
     {
-        color:#111827;
-        font-size:24px;
+        color:#3d4149;
+        font-size:21px;
         font-weight:900;
     }
 
     .mic-swal-confirm
     {
-        background:#dc3545 !important;
-        border-radius:6px !important;
-        box-shadow:none !important;
+        background:#f56060 !important;
+        border-radius:9px !important;
+        box-shadow:0 7px 14px rgba(245,96,96,.22) !important;
         color:#fff !important;
         font-weight:800 !important;
+        min-height:44px;
         padding:10px 22px !important;
     }
 
     .mic-swal-cancel
     {
-        background:#f5d0d9 !important;
-        border-radius:6px !important;
-        color:#7f1235 !important;
+        background:#eeeeef !important;
+        border-radius:9px !important;
+        color:#858992 !important;
         font-weight:800 !important;
+        min-height:44px;
         padding:10px 22px !important;
     }
   </style>

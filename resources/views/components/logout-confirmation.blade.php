@@ -1,13 +1,14 @@
 <style>
     #logoutConfirmation[hidden] { display: none !important; }
-    #logoutConfirmation { align-items: center; background: rgba(0, 0, 0, .62) !important; display: flex; inset: 0; justify-content: center; padding: 20px; position: fixed !important; z-index: 2147483647 !important; }
-    #logoutConfirmation .logout-confirmation__dialog { background: #fff; border-radius: 12px; box-shadow: 0 18px 50px rgba(0, 0, 0, .3); color: #1f2937; max-width: 390px; padding: 24px; width: 100%; }
-    .logout-confirmation__dialog h2 { font-size: 20px; margin: 0 0 10px; }
-    .logout-confirmation__dialog p { margin: 0 0 22px; }
-    .logout-confirmation__actions { display: flex; gap: 10px; justify-content: flex-end; }
-    .logout-confirmation__actions button { border: 0; border-radius: 6px; cursor: pointer; font-weight: 700; padding: 10px 16px; }
-    .logout-confirmation__cancel { background: #e5e7eb; color: #111827; }
-    .logout-confirmation__submit { background: #b91c1c; color: #fff; }
+    #logoutConfirmation { align-items: center; background: rgba(239, 246, 255, .92) !important; display: flex; inset: 0; justify-content: center; padding: 20px; position: fixed !important; z-index: 2147483647 !important; }
+    #logoutConfirmation .logout-confirmation__dialog { background: #fff; border-radius: 20px; box-shadow: 0 18px 50px rgba(43, 58, 85, .16); color: #3d4149; max-width: 382px; padding: 26px; width: 100%; }
+    .logout-confirmation__dialog h2 { font-size: 21px; font-weight: 800; margin: 0 0 16px; }
+    .logout-confirmation__dialog p { color: #9aa1ad; font-size: 14px; line-height: 1.55; margin: 0 0 24px; }
+    .logout-confirmation__actions { display: flex; gap: 12px; }
+    .logout-confirmation__actions button { border: 0; border-radius: 9px; cursor: pointer; flex: 1; font-size: 14px; font-weight: 800; min-height: 44px; padding: 11px 16px; }
+    .logout-confirmation__cancel { background: #eeeeef; color: #858992; }
+    .logout-confirmation__submit { background: #f56060; box-shadow: 0 7px 14px rgba(245, 96, 96, .22); color: #fff; }
+    .logout-confirmation__submit:hover { background: #e94f50; }
 </style>
 
 <div class="logout-confirmation" id="logoutConfirmation" hidden>
