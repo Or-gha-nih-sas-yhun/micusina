@@ -1,5 +1,7 @@
 @php
-    $cartBadgeCount = Auth::check() ? \App\Models\Cart::where('userid', Auth::id())->sum('quantity') : 0;
+    $cartBadgeCount = Auth::check()
+        ? \App\Models\Cart::where('userid', Auth::id())->sum('quantity')
+        : array_sum(array_column(session('guest_cart', []), 'quantity'));
     $userInitial = Auth::check() ? strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) : 'U';
 @endphp
 

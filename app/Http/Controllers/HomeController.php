@@ -296,8 +296,7 @@ class HomeController extends Controller
 
     public function add_cart(Request $request, $id)
     {
-        if(Auth::id())
-        {
+        if(Auth::id()) {
           $request->validate([
               'qty' => ['required', 'integer', 'min:1'],
           ]);
@@ -364,10 +363,10 @@ class HomeController extends Controller
 
 
         }
-        else
-        {
-            return redirect('login');
-        }
+        $this->addGuestCartItem($request, $id);
+
+        return ($request->boolean('buy_now') ? redirect('my_cart') : redirect()->back())
+            ->with('message', 'Added ' . (int) $request->qty . ' ' . Str::plural('item', (int) $request->qty) . ' to your cart.');
 
     }
 
@@ -376,7 +375,12 @@ class HomeController extends Controller
     {
         if(!Auth::id())
         {
-            return response()->json(['message' => 'Please log in first.'], 401);
+            $cartCount = $this->addGuestCartItem($request, $id);
+
+            return response()->json([
+                'message' => 'Added ' . (int) $request->qty . ' ' . Str::plural('item', (int) $request->qty) . ' to your cart.',
+                'cart_count' => $cartCount,
+            ]);
         }
 
         $request->validate([
@@ -430,10 +434,9 @@ class HomeController extends Controller
 
     public function my_cart()
     {
-
-    $user_id = Auth()->user()->id;
-
-    $data = Cart::where('userid', '=', $user_id)->get();
+    $data = Auth::check()
+        ? Cart::where('userid', Auth::id())->get()
+        : $this->guestCartItems(request());
 
     return view('home.my_cart',compact('data'));
 
@@ -442,6 +445,7 @@ class HomeController extends Controller
 
     public function checkout()
     {
+        $this->moveGuestCartToAccount(request());
         $data = Cart::where('userid', Auth::id())->get();
 
         if ($data->isEmpty()) {
@@ -456,6 +460,10 @@ class HomeController extends Controller
         $request->validate([
             'quantity' => ['required', 'integer', 'min:1'],
         ]);
+
+        if (! Auth::check()) {
+            return $this->updateGuestCartItem($request, $id);
+        }
 
         $cart = Cart::where('id', $id)
             ->where('userid', Auth::id())
@@ -477,6 +485,101 @@ class HomeController extends Controller
         $cart->save();
 
         return redirect()->back()->with('message', 'Cart quantity updated.');
+    }
+
+    private function addGuestCartItem(Request $request, $id): int
+    {
+        $request->validate(['qty' => ['required', 'integer', 'min:1']]);
+
+        $food = Food::findOrFail($id);
+        $quantity = (int) $request->qty;
+        $cart = $request->session()->get('guest_cart', []);
+        $existingQuantity = (int) ($cart[$food->id]['quantity'] ?? 0);
+
+        if ($food->stock <= 0) {
+            abort(422, 'This food is out of stock.');
+        }
+
+        if ($existingQuantity + $quantity > (int) $food->stock) {
+            abort(422, 'Only ' . $food->stock . ' item(s) available in stock.');
+        }
+
+        $cart[$food->id] = ['quantity' => $existingQuantity + $quantity];
+        $request->session()->put('guest_cart', $cart);
+
+        return array_sum(array_column($cart, 'quantity'));
+    }
+
+    private function guestCartItems(Request $request)
+    {
+        $cart = $request->session()->get('guest_cart', []);
+        $foods = Food::whereIn('id', array_keys($cart))->get()->keyBy('id');
+
+        return collect($cart)->map(function (array $item, $foodId) use ($foods) {
+            $food = $foods->get($foodId);
+            if (! $food) {
+                return null;
+            }
+
+            $quantity = min((int) $item['quantity'], max(0, (int) $food->stock));
+            if ($quantity < 1) {
+                return null;
+            }
+
+            $unitPrice = (float) preg_replace('/[^0-9.]/', '', $food->price);
+
+            return (object) [
+                'id' => (string) $food->id,
+                'food_id' => $food->id,
+                'title' => $food->title,
+                'details' => $food->detail,
+                'price' => $unitPrice * $quantity,
+                'image' => $food->image,
+                'quantity' => $quantity,
+            ];
+        })->filter()->values();
+    }
+
+    private function updateGuestCartItem(Request $request, $id)
+    {
+        $cart = $request->session()->get('guest_cart', []);
+        $food = Food::findOrFail($id);
+        $quantity = (int) $request->quantity;
+
+        if (! isset($cart[$food->id])) {
+            abort(404);
+        }
+
+        if ($quantity > (int) $food->stock) {
+            return redirect()->back()->with('message', 'Only ' . $food->stock . ' item(s) available in stock.');
+        }
+
+        $cart[$food->id]['quantity'] = $quantity;
+        $request->session()->put('guest_cart', $cart);
+
+        return redirect()->back()->with('message', 'Cart quantity updated.');
+    }
+
+    private function moveGuestCartToAccount(Request $request): void
+    {
+        $guestItems = $this->guestCartItems($request);
+        if ($guestItems->isEmpty()) {
+            return;
+        }
+
+        foreach ($guestItems as $item) {
+            $cart = Cart::firstOrNew(['userid' => Auth::id(), 'food_id' => $item->food_id]);
+            $existingQuantity = (int) ($cart->quantity ?? 0);
+            $cart->fill([
+                'title' => $item->title,
+                'details' => $item->details,
+                'image' => $item->image,
+                'quantity' => $existingQuantity + $item->quantity,
+                'price' => ((float) $item->price / $item->quantity) * ($existingQuantity + $item->quantity),
+            ])->save();
+        }
+
+        $request->session()->forget('guest_cart');
     }
 
     public function my_orders()
@@ -667,6 +770,14 @@ class HomeController extends Controller
 
     public function remove_cart($id)
     {
+        if (! Auth::check()) {
+            $cart = request()->session()->get('guest_cart', []);
+            unset($cart[$id]);
+            request()->session()->put('guest_cart', $cart);
+
+            return redirect()->back()->with('message', 'Item removed from cart.');
+        }
+
         Cart::where('id', $id)
             ->where('userid', Auth::id())
             ->firstOrFail()

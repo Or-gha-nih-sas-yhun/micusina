@@ -1093,7 +1093,7 @@
                         <form action="{{ url('confirm_order') }}" method="post">
                             @csrf
                             <div class="checkout-form">
-                                <input type="hidden" name="email" value="{{ Auth()->user()->email }}">
+                                <input type="hidden" name="email" value="{{ Auth::user()?->email ?? '' }}">
 
                                 <div class="form-row">
                                     <label for="name">Name</label>
