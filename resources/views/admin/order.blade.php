@@ -646,7 +646,7 @@
                 <td>
                     <div class="order-actions">
                     @if($order->delivery_status === 'Delivered')
-                        <span class="text-success font-weight-bold">Delivered — final</span>
+                        <span class="text-success font-weight-bold">Delivered</span>
                     @elseif($order->delivery_status === 'Canceled')
                         <span class="text-danger font-weight-bold">Canceled — final</span>
                     @elseif($order->delivery_status === 'On The Way')

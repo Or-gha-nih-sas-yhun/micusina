@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
-
-use App\Models\Food;
-
-use App\Models\Order;
-
 use App\Models\Book;
-
+use App\Models\Food;
+use App\Models\Order;
 use App\Models\User;
-
-use Illuminate\Support\Facades\Hash;
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
+use App\Notifications\RiderAssignedToOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -47,16 +40,15 @@ class AdminController extends Controller
         return view('admin.add_food');
     }
 
-
     public function upload_food(Request $request)
     {
         $this->requireAdmin();
 
         $validated = $request->validate([
-              'title' => ['required', 'string', 'max:255'],
-              'details' => ['required', 'string'],
-              'category' => ['required', 'string', 'max:80'],
-              'price' => ['required', 'numeric', 'min:0'],
+            'title' => ['required', 'string', 'max:255'],
+            'details' => ['required', 'string'],
+            'category' => ['required', 'string', 'max:80'],
+            'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'img' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:51200'],
         ], [
@@ -68,9 +60,9 @@ class AdminController extends Controller
 
         $data->title = $request->title;
 
-          $data->detail = $request->details;
+        $data->detail = $request->details;
 
-          $data->category = $request->category;
+        $data->category = $request->category;
 
         $data->price = $request->price;
 
@@ -82,27 +74,23 @@ class AdminController extends Controller
 
         $request->img->move('food_img', $filename);
 
-
         $data->image = $filename;
-        
+
         $data->save();
 
         return redirect('view_food')->with('message', 'Food Added Successfully');
 
-
-
-
     }
-
 
     public function view_food()
     {
         $this->requireAdmin();
-        
+
         $data = Food::orderByDesc('updated_at')
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->get();
+
         return view('admin.show_food', compact('data'));
     }
 
@@ -133,8 +121,6 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Stock Updated Successfully');
     }
 
-
-
     public function delete_food($id)
     {
         $this->requireAdmin();
@@ -146,62 +132,59 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Food Deleted Successfully');
     }
 
-
     public function update_food($id)
     {
         $this->requireAdmin();
-    
+
         $food = Food::findOrFail($id);
+
         return view('admin.update_food', compact('food'));
     }
 
-
     public function edit_food(Request $request, $id)
     {
-    $this->requireAdmin();
+        $this->requireAdmin();
 
-    $request->validate([
-          'title' => ['required', 'string', 'max:255'],
-          'details' => ['required', 'string'],
-          'category' => ['required', 'string', 'max:80'],
-          'price' => ['required', 'numeric', 'min:0'],
-        'stock' => ['required', 'integer', 'min:0'],
-        'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:51200'],
-    ], [
-        'image.mimes' => 'The food image must be a .jpg, .jpeg, .png, or .webp file.',
-        'image.max' => 'The food image must not be larger than 50 MB.',
-    ]);
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'details' => ['required', 'string'],
+            'category' => ['required', 'string', 'max:80'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:51200'],
+        ], [
+            'image.mimes' => 'The food image must be a .jpg, .jpeg, .png, or .webp file.',
+            'image.max' => 'The food image must not be larger than 50 MB.',
+        ]);
 
-    $data = Food::findOrFail($id);
+        $data = Food::findOrFail($id);
 
-    $data->title = $request->title;
+        $data->title = $request->title;
 
-      $data->detail = $request->details;
+        $data->detail = $request->details;
 
-      $data->category = $request->category;
+        $data->category = $request->category;
 
-    $data->price  = $request->price;
+        $data->price = $request->price;
 
-    $data->stock  = $request->stock;
+        $data->stock = $request->stock;
 
-    $image = $request->image;
+        $image = $request->image;
 
-    if($image)
-    {
-        $imagename = Str::uuid().'.'.$image->guessExtension();
+        if ($image) {
+            $imagename = Str::uuid().'.'.$image->guessExtension();
 
-        $request->image->move('food_img', $imagename);
+            $request->image->move('food_img', $imagename);
 
-        $data->image = $imagename;
-     
+            $data->image = $imagename;
+
+        }
+
+        $data->save();
+
+        return redirect('view_food');
+
     }
-
-    $data->save();
-
-    return redirect('view_food');
-
-    }
-
 
     public function orders()
     {
@@ -211,11 +194,16 @@ class AdminController extends Controller
         // Orders created after this timestamp will make the badge appear again.
         session(['admin_orders_seen_at' => now()->toDateTimeString()]);
 
-        $data = Order::orderByDesc('updated_at')
+        $orders = Order::query();
+        if (auth()->user()->staff_role === 'rider') {
+            $orders->where('rider_id', auth()->id());
+        }
+
+        $data = $orders->orderByDesc('updated_at')
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->get();
-        $availableRiders = User::where('staff_role', 'rider')
+        $availableRiders = auth()->user()->staff_role === 'rider' ? collect() : User::where('staff_role', 'rider')
             ->where('rider_available', true)
             ->whereDoesntHave('riderOrders', function ($query) {
                 $query->whereNotIn('delivery_status', ['Delivered', 'Canceled']);
@@ -229,8 +217,13 @@ class AdminController extends Controller
     public function order_updates()
     {
         $this->requireStaffOrAdmin();
+        $latest = Order::query()
+            ->when(auth()->user()->staff_role === 'rider', fn ($query) => $query->where('rider_id', auth()->id()))
+            ->latest('updated_at')
+            ->first();
+
         return response()->json([
-            'latest' => optional(Order::latest('updated_at')->first())->updated_at?->toIso8601String(),
+            'latest' => $latest?->updated_at?->toIso8601String(),
             'pending' => Order::where('delivery_status', 'In Progress')->count(),
         ]);
     }
@@ -259,7 +252,7 @@ class AdminController extends Controller
 
         return Pdf::loadView('admin.sales.sales_report_pdf', $data)
             ->setPaper('a4', 'portrait')
-            ->download('sales-report-' . $data['from']->toDateString() . '-to-' . $data['to']->toDateString() . '.pdf');
+            ->download('sales-report-'.$data['from']->toDateString().'-to-'.$data['to']->toDateString().'.pdf');
     }
 
     private function salesReportData(Request $request): array
@@ -340,7 +333,7 @@ class AdminController extends Controller
 
         return Pdf::loadView('admin.sales.transaction_history_pdf', $data)
             ->setPaper('a4', 'landscape')
-            ->download('transaction-history-' . $data['from']->toDateString() . '-to-' . $data['to']->toDateString() . '.pdf');
+            ->download('transaction-history-'.$data['from']->toDateString().'-to-'.$data['to']->toDateString().'.pdf');
     }
 
     private function transactionHistoryData(Request $request): array
@@ -359,7 +352,7 @@ class AdminController extends Controller
                 'date' => $order->created_at,
                 'type' => 'Food order',
                 'customer' => $order->name ?: $order->email,
-                'description' => $order->title . ' x ' . $order->quantity,
+                'description' => $order->title.' x '.$order->quantity,
                 'amount' => (float) $order->price,
                 'method' => $order->payment_method ?: 'Cash on Delivery',
                 'status' => $order->delivery_status === 'Canceled' ? 'Canceled' : ($order->payment_status ?: 'Unpaid'),
@@ -371,8 +364,8 @@ class AdminController extends Controller
             return (object) [
                 'date' => $book->created_at,
                 'type' => 'Table reservation',
-                'customer' => $book->name ?: trim(($book->first_name ?? '') . ' ' . ($book->last_name ?? '')),
-                'description' => $book->guest . ' guest(s) · ' . $book->date . ' ' . $book->time,
+                'customer' => $book->name ?: trim(($book->first_name ?? '').' '.($book->last_name ?? '')),
+                'description' => $book->guest.' guest(s) · '.$book->date.' '.$book->time,
                 'amount' => (float) $book->deposit_amount,
                 'method' => $book->payment_method,
                 'status' => $book->status === 'Approved' ? 'Approved' : ($book->payment_status ?: $book->status),
@@ -393,19 +386,26 @@ class AdminController extends Controller
             'rider_id' => ['required', 'exists:users,id'],
         ]);
 
-        DB::transaction(function () use ($request, $id) {
+        $assignment = DB::transaction(function () use ($request, $id): array {
             $order = Order::query()->lockForUpdate()->findOrFail($id);
+            $orders = $this->matchingOrderRows($order)->lockForUpdate()->get();
+            abort_if($orders->contains(fn (Order $item) => $item->delivery_status !== 'In Progress'), 422, 'Only an unassigned order in progress can receive a rider.');
+            abort_if($orders->contains(fn (Order $item) => $item->rider_id !== null), 422, 'A rider has already been assigned to this delivery.');
+
             $rider = User::query()->whereKey($request->rider_id)->where('staff_role', 'rider')->lockForUpdate()->firstOrFail();
             $activeDelivery = Order::query()->where('rider_id', $rider->id)
                 ->whereNotIn('delivery_status', ['Delivered', 'Canceled'])->lockForUpdate()->exists();
             abort_if(! $rider->rider_available || $activeDelivery, 422, 'This rider is unavailable or already assigned to an active delivery.');
-            $orders = $this->matchingOrderRows($order)->lockForUpdate()->get();
-            abort_if($orders->contains(fn (Order $item) => in_array($item->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
             Order::whereKey($orders->pluck('id'))->update(['rider_id' => $rider->id, 'confirmed_by' => auth()->id(), 'confirmed_at' => now(), 'delivery_status' => 'On The Way']);
             $rider->forceFill(['rider_available' => false])->save();
+
+            return ['rider' => $rider, 'order' => $order->fresh()];
         }, 3);
 
-        return redirect()->back()->with('message', $rider->name . ' assigned to this delivery.');
+        // Database notifications are retained for the rider's next dashboard/API refresh.
+        $assignment['rider']->notify(new RiderAssignedToOrder($assignment['order']));
+
+        return redirect()->back()->with('message', $assignment['rider']->name.' assigned to this delivery.');
     }
 
     public function users()
@@ -434,7 +434,7 @@ class AdminController extends Controller
 
     public function on_the_way($id)
     {
-        $this->requireStaffOrAdmin();
+        $this->requireAdminOrCashier();
 
         DB::transaction(function () use ($id): void {
             $data = Order::query()->lockForUpdate()->findOrFail($id);
@@ -453,23 +453,29 @@ class AdminController extends Controller
         $riderId = DB::transaction(function () use ($id): ?int {
             $data = Order::query()->lockForUpdate()->findOrFail($id);
             $orders = $this->matchingOrderRows($data)->lockForUpdate()->get();
+            $user = auth()->user();
+            if ($user->staff_role === 'rider') {
+                abort_unless($orders->every(fn (Order $order) => (int) $order->rider_id === (int) $user->id), 403, 'You can only complete deliveries assigned to you.');
+            } else {
+                $this->requireAdminOrCashier();
+            }
             abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
             abort_unless($orders->every(fn (Order $order) => $order->delivery_status === 'On The Way'), 422, 'Only an order that is On The Way can be marked Delivered.');
             Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Delivered']);
+
             return $data->rider_id;
         }, 3);
 
-        if($riderId)
-        {
+        if ($riderId) {
             $this->refreshRiderAvailability($riderId);
         }
 
         return redirect()->back();
     }
 
-     public function canceled($id)
+    public function canceled($id)
     {
-        $this->requireStaffOrAdmin();
+        $this->requireAdminOrCashier();
 
         $riderId = DB::transaction(function () use ($id): ?int {
             $data = Order::query()->lockForUpdate()->findOrFail($id);
@@ -477,11 +483,11 @@ class AdminController extends Controller
             abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled', 'On The Way'], true)), 422, 'An order that is dispatched or final cannot be cancelled.');
             abort_if($orders->contains(fn (Order $order) => strtolower((string) $order->payment_status) === 'paid'), 422, 'A paid order cannot be cancelled.');
             Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Canceled']);
+
             return $data->rider_id;
         }, 3);
 
-        if($riderId)
-        {
+        if ($riderId) {
             $this->refreshRiderAvailability($riderId);
         }
 
@@ -496,8 +502,7 @@ class AdminController extends Controller
             'rider_available' => ['required', 'boolean'],
         ]);
 
-        if(auth()->user()->usertype !== 'admin' && auth()->id() !== (int) $id && auth()->user()->staff_role !== 'cashier')
-        {
+        if (auth()->user()->usertype !== 'admin' && auth()->id() !== (int) $id && auth()->user()->staff_role !== 'cashier') {
             abort(403);
         }
 
@@ -507,16 +512,16 @@ class AdminController extends Controller
         }
         $rider->forceFill(['rider_available' => (bool) $request->rider_available])->save();
 
-        return redirect()->back()->with('message', $rider->name . ' availability updated.');
+        return redirect()->back()->with('message', $rider->name.' availability updated.');
     }
 
-     public function paid($id)
+    public function paid($id)
     {
-        $this->requireStaffOrAdmin();
+        $this->requireAdminOrCashier();
 
         $data = Order::findOrFail($id);
 
-        $data->payment_status = "Paid";
+        $data->payment_status = 'Paid';
 
         $data->save();
 
@@ -535,8 +540,7 @@ class AdminController extends Controller
         $depositValues = [];
         $bookingValues = [];
 
-        for($i = 6; $i >= 0; $i--)
-        {
+        for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
             $salesLabels[] = $date->format('M d');
             $depositValues[] = Book::where('status', 'Approved')
@@ -552,13 +556,13 @@ class AdminController extends Controller
     {
         $this->requireStaffOrAdmin();
 
-          $book = Book::findOrFail($id);
+        $book = Book::findOrFail($id);
 
-          if (($book->payment_status ?? 'Pending') !== 'Paid') {
-              return redirect()->back()->with('message', 'This reservation cannot be approved until payment is verified.');
-          }
+        if (($book->payment_status ?? 'Pending') !== 'Paid') {
+            return redirect()->back()->with('message', 'This reservation cannot be approved until payment is verified.');
+        }
 
-          $book->status = 'Approved';
+        $book->status = 'Approved';
         $book->approved_by = auth()->id();
         $book->approved_at = now();
         $book->save();
@@ -595,8 +599,7 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ];
 
-        if(Schema::hasColumn('users', 'staff_role'))
-        {
+        if (Schema::hasColumn('users', 'staff_role')) {
             $staffData['staff_role'] = $request->staff_role;
         }
 
@@ -607,34 +610,29 @@ class AdminController extends Controller
 
     private function requireAdmin()
     {
-        if(!auth()->check() || auth()->user()->usertype !== 'admin')
-        {
+        if (! auth()->check() || auth()->user()->usertype !== 'admin') {
             abort(403);
         }
     }
 
     private function requireStaffOrAdmin()
     {
-        if(!auth()->check() || !in_array(auth()->user()->usertype, ['admin', 'staff']))
-        {
+        if (! auth()->check() || ! in_array(auth()->user()->usertype, ['admin', 'staff'])) {
             abort(403);
         }
     }
 
     private function requireAdminOrCashier()
     {
-        if(!auth()->check())
-        {
+        if (! auth()->check()) {
             abort(403);
         }
 
-        if(auth()->user()->usertype === 'admin')
-        {
+        if (auth()->user()->usertype === 'admin') {
             return;
         }
 
-        if(auth()->user()->usertype === 'staff' && auth()->user()->staff_role === 'cashier')
-        {
+        if (auth()->user()->usertype === 'staff' && auth()->user()->staff_role === 'cashier') {
             return;
         }
 
@@ -655,5 +653,4 @@ class AdminController extends Controller
         $hasActiveDelivery = Order::where('rider_id', $riderId)->whereNotIn('delivery_status', ['Delivered', 'Canceled'])->exists();
         User::whereKey($riderId)->update(['rider_available' => ! $hasActiveDelivery]);
     }
-
 }
