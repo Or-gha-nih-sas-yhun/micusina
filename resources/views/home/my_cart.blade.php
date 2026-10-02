@@ -367,14 +367,14 @@
             border-radius: 999px;
             box-sizing: border-box;
             color: #F88379;
-            display: flex;
+            display: inline-flex;
             font-size: 14px;
             font-weight: 800;
             margin-top: 28px;
             padding: 9px 14px;
             text-decoration: none;
             transition: background-color .18s ease, border-color .18s ease, color .18s ease;
-            width: 100%;
+            width: auto;
         }
 
         .continue-shopping:hover {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,7 +44,24 @@ class _LoginPageState extends State<LoginPage> {
   ])));
 }
 
-class RegisterPage extends StatelessWidget { const RegisterPage({super.key}); @override Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text('Create Account')), body: const Center(child: Text('Registration stays inside the Mi Cusina app.'))); }
+class RegisterPage extends StatefulWidget { const RegisterPage({super.key}); @override State<RegisterPage> createState() => _RegisterPageState(); }
+class _RegisterPageState extends State<RegisterPage> {
+  final phone = TextEditingController();
+  @override void dispose() { phone.dispose(); super.dispose(); }
+  @override Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('Create Account')),
+    body: SafeArea(child: ListView(padding: const EdgeInsets.all(24), children: [
+      const Text('Create customer account', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+      const SizedBox(height: 16),
+      TextField(
+        controller: phone,
+        keyboardType: TextInputType.phone,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
+        decoration: const InputDecoration(labelText: 'Phone number', hintText: '09XXXXXXXXX', helperText: 'Enter exactly 11 digits'),
+      ),
+    ])),
+  );
+}
 
 class MenuPage extends StatefulWidget { final String token; const MenuPage({super.key, required this.token}); @override State<MenuPage> createState() => _MenuPageState(); }
 class _MenuPageState extends State<MenuPage> {
