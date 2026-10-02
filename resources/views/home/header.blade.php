@@ -294,11 +294,15 @@
     }
 
     .front-user-dropdown a {
+        background: rgba(248, 131, 121, .08);
+        border: 2px solid #F88379;
         border-radius: 6px;
+        box-sizing: border-box;
         color: #fff;
         display: block;
         font-size: 14px;
         font-weight: 800;
+        min-height: 48px;
         padding: 10px;
         text-decoration: none;
     }
@@ -1175,11 +1179,15 @@
     }
 
     .inner-navbar .front-user-dropdown a {
+        background: rgba(155, 107, 146, .08);
+        border: 2px solid #9b6b92;
         border-radius: 6px;
+        box-sizing: border-box;
         color: #000;
         display: block;
         font-size: 14px;
         font-weight: 800;
+        min-height: 48px;
         padding: 10px;
         text-decoration: none;
     }
