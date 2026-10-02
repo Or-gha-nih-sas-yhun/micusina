@@ -128,6 +128,9 @@
 
   .rider-available { background: #15803d; }
   .rider-unavailable { background: #b91c1c; }
+  .staff-order-number { color: #dc2626; font-weight: 900; }
+  .staff-assign-link { border: 1px solid #dc2626; border-radius: 999px; color: #dc2626; display: inline-flex; font-size: 12px; font-weight: 800; padding: 5px 9px; text-decoration: none; }
+  .staff-assign-link:hover { background: #fff1f2; color: #b91c1c; text-decoration: none; }
 </style>
 
 <div class="staff-dashboard">
@@ -238,21 +241,31 @@
         </div>
         <table class="staff-table">
           <tr>
+            <th>Order No.</th>
             <th>Customer</th>
             <th>Food</th>
             <th>Price</th>
             <th>Status</th>
             <th>Rider</th>
             <th>Payment</th>
+            <th>Action</th>
           </tr>
           @foreach($recent_orders as $order)
             <tr>
+              <td class="staff-order-number">{{ $order->order_number }}</td>
               <td>{{ $order->name }}</td>
               <td>{{ $order->title }}</td>
               <td>&#8369;{{ number_format((float) $order->price, 2) }}</td>
               <td>{{ $order->delivery_status }}</td>
               <td>{{ $order->rider?->name ?? 'Awaiting assignment' }}</td>
               <td>{{ $order->payment_method ?? 'Cash on Delivery' }} - {{ $order->payment_status ?? 'Unpaid' }}</td>
+              <td>
+                @if(!$order->rider && !in_array($order->delivery_status, ['Delivered', 'Canceled'], true))
+                  <a class="staff-assign-link" href="{{ url('orders') }}">Assign Rider</a>
+                @else
+                  —
+                @endif
+              </td>
             </tr>
           @endforeach
         </table>
