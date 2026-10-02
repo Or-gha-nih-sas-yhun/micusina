@@ -33,7 +33,7 @@
                 </li>
                 @endif
                 <li class="{{ request()->is('orders') ? 'active' : '' }}">
-                  <a href="{{ url('orders') }}"> <i class="icon-logout"></i>Orders @if($headerUnreadPendingOrderCount > 0)<span class="admin-sidebar-count" aria-label="{{ $headerUnreadPendingOrderCount }} new orders awaiting fulfillment">{{ $headerUnreadPendingOrderCount }}</span>@endif</a>
+                  <a href="{{ url('orders') }}"> <i class="icon-logout"></i>Orders @if($headerUnreadPendingOrderCount > 0)<span class="admin-sidebar-count" style="align-items:center!important;background:#e5252a!important;border:2px solid #fff!important;border-radius:50%!important;color:#fff!important;display:inline-flex!important;font-size:10px!important;font-weight:900!important;height:22px!important;justify-content:center!important;line-height:1!important;margin-left:auto!important;min-width:22px!important;padding:0!important;width:22px!important;" aria-label="{{ $headerUnreadPendingOrderCount }} new orders awaiting fulfillment">{{ $headerUnreadPendingOrderCount }}</span>@endif</a>
                 </li>
 
                 @if(Auth::check() && Auth::user()->usertype == 'admin')
