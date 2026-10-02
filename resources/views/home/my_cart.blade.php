@@ -384,6 +384,12 @@
             text-decoration: none;
         }
 
+        /* Keep this navigation link compact instead of stretching across the cart. */
+        html body .cart-main .continue-shopping {
+            display: inline-flex !important;
+            width: auto !important;
+        }
+
         .order-summary,
         .checkout-details {
             padding: 24px;
