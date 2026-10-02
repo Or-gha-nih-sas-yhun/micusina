@@ -46,20 +46,27 @@ class _LoginPageState extends State<LoginPage> {
 
 class RegisterPage extends StatefulWidget { const RegisterPage({super.key}); @override State<RegisterPage> createState() => _RegisterPageState(); }
 class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   final phone = TextEditingController();
   @override void dispose() { phone.dispose(); super.dispose(); }
   @override Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Create Account')),
-    body: SafeArea(child: ListView(padding: const EdgeInsets.all(24), children: [
-      const Text('Create customer account', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 16),
-      TextField(
-        controller: phone,
-        keyboardType: TextInputType.phone,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
-        decoration: const InputDecoration(labelText: 'Phone number', hintText: '09XXXXXXXXX', helperText: 'Enter exactly 11 digits'),
-      ),
-    ])),
+    body: SafeArea(child: Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: ListView(padding: const EdgeInsets.all(24), children: [
+        const Text('Create customer account', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 16),
+        TextFormField(
+          controller: phone,
+          keyboardType: TextInputType.phone,
+          maxLength: 11,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
+          validator: (value) => (value ?? '').length == 11 ? null : 'Phone number must contain exactly 11 digits.',
+          decoration: const InputDecoration(labelText: 'Phone number', hintText: '09XXXXXXXXX', helperText: 'Enter exactly 11 digits'),
+        ),
+      ]),
+    )),
   );
 }
 
