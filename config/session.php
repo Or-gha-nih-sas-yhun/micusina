@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Str;
 
+$appUrl = (string) env('APP_URL', '');
+$appHost = parse_url($appUrl, PHP_URL_HOST);
+$sessionDomain = env('SESSION_DOMAIN');
+$sessionSecure = env('SESSION_SECURE_COOKIE');
+
 return [
 
     /*
@@ -156,7 +161,10 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    // On a hosted HTTPS site this keeps the GET /login CSRF token and the
+    // POST /login request on the same cookie domain. SESSION_DOMAIN still
+    // takes precedence for installations that intentionally use a subdomain.
+    'domain' => $sessionDomain ?: $appHost,
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +177,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => $sessionSecure === null
+        ? parse_url($appUrl, PHP_URL_SCHEME) === 'https'
+        : filter_var($sessionSecure, FILTER_VALIDATE_BOOL),
 
     /*
     |--------------------------------------------------------------------------

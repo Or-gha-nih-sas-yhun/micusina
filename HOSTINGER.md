@@ -12,8 +12,10 @@ the domain root, the repository-level `.htaccess` forwards web requests to
    `curl`, `zip`, and `gd`.
 2. Deploy the `main` branch with Hostinger Git deployment.
 3. Create `.env` in the project root. Start from `.env.example`, then set at
-   least `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, a generated
-   `APP_KEY`, the production database values, and the mail/PayMongo values.
+   least `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://micusina-pos.com`,
+   a generated `APP_KEY`, the production database values, and the mail/PayMongo values.
+   For reliable login sessions on HTTPS also set
+   `SESSION_DOMAIN=micusina-pos.com` and `SESSION_SECURE_COOKIE=true`.
 4. Run `bash hostinger-deploy.sh` from the project root over SSH. The script
    installs only production packages, runs migrations, creates the public
    storage link, and rebuilds Laravel's caches.

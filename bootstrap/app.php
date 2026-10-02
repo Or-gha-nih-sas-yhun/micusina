@@ -18,5 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $exception, \Illuminate\Http\Request $request) {
+            if ($request->is('login') && ! $request->expectsJson()) {
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Your sign-in session expired. Please try again.',
+                ]);
+            }
+        });
     })->create();
