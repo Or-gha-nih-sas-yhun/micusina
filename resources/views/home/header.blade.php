@@ -1286,7 +1286,6 @@
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
                                 <a class="profile-action" href="{{ route('profile.show') }}">Profile</a>
-                                <a class="home-action" href="{{ url('/') }}">Home</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
                                     <button class="logout-action" type="button" data-logout-trigger>Log Out</button>
