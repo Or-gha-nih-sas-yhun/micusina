@@ -53,7 +53,34 @@ class _MenuPageState extends State<MenuPage> {
   Future<void> load() async { try { final r=await http.get(Uri.parse('$apiBase/api/mobile/foods')); if(r.statusCode < 300 && mounted)setState(()=>foods=(jsonDecode(r.body) as Map<String,dynamic>)['foods'] as List<dynamic>); } finally { if(mounted)setState(()=>loading=false); } }
   Future<void> add(dynamic food) async { final r = await http.post(Uri.parse('$apiBase/api/mobile/cart/${food['id']}'), headers: headers, body: {'quantity':'1'}); if (!mounted) return; final body=jsonDecode(r.body) as Map<String,dynamic>; ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body['message'] as String? ?? 'Unable to add item.'))); }
   Future<void> logout() async { await http.post(Uri.parse('$apiBase/api/mobile/logout'), headers: headers); if(mounted)Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_)=>const LoginPage()), (_)=>false); }
-  Future<void> confirmLogout() async { final confirmed=await showDialog<bool>(context: context, builder: (dialogContext)=>AlertDialog(title: const Text('Log out?'), content: const Text('Are you sure you want to log out?'), actions:[TextButton(onPressed:()=>Navigator.pop(dialogContext, false), child:const Text('Cancel')), FilledButton(onPressed:()=>Navigator.pop(dialogContext, true), style:FilledButton.styleFrom(backgroundColor: Colors.red.shade700), child:const Text('Log Out'))])); if(confirmed == true) await logout(); }
+  Future<void> confirmLogout() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Log out?'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: brand,
+              side: const BorderSide(color: brand),
+            ),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red.shade700,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Log Out'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) await logout();
+  }
   @override Widget build(BuildContext c)=>Scaffold(appBar:AppBar(title:const Text('Mi Cusina Menu'), actions:[IconButton(onPressed:()=>Navigator.push(c, MaterialPageRoute(builder:(_)=>CartPage(token:widget.token))), icon:const Icon(Icons.shopping_cart), tooltip:'Cart'), IconButton(onPressed:confirmLogout, icon:const Icon(Icons.logout), tooltip:'Log Out')]),body:loading?const Center(child:CircularProgressIndicator()):ListView(children:foods.map((f)=>ListTile(title:Text(f['title']),subtitle:Text('P${f['price']}'),trailing:FilledButton(onPressed:()=>add(f), style:FilledButton.styleFrom(backgroundColor:brand), child:const Text('Add')))).toList()));
 }
 
