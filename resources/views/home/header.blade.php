@@ -281,6 +281,7 @@
         width: 100%;
     }
 
+    .front-user-dropdown .profile-action,
     .front-user-dropdown .home-action,
     .front-user-dropdown button.logout-action {
         background: #fff7f7 !important;
@@ -292,6 +293,7 @@
         min-height: 48px;
     }
 
+    .front-user-dropdown .profile-action,
     .front-user-dropdown .home-action { color: #202124 !important; margin-bottom: 8px; }
 
     .front-user-dropdown a {
@@ -308,10 +310,11 @@
         text-decoration: none;
     }
 
+    .front-user-dropdown .profile-action:hover,
     .front-user-dropdown .home-action:hover,
     .front-user-dropdown button.logout-action:hover { background: #ffecec !important; color: #050505 !important; }
 
-    .front-user-dropdown a:not(.home-action):hover,
+    .front-user-dropdown a:not(.profile-action):not(.home-action):hover,
     .front-user-dropdown button:not(.logout-action):hover { background: #F88379; color: #050505; }
 
     .customer-photo-label {
@@ -890,7 +893,7 @@
                                     <input id="customerProfilePhotoHome" type="file" name="photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden onchange="if(this.files.length)this.form.submit()">
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
-                                <a href="{{ route('profile.show') }}">Profile</a>
+                                <a class="profile-action" href="{{ route('profile.show') }}">Profile</a>
                                 <a class="home-action" href="{{ url('/') }}">Home</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf
@@ -1168,6 +1171,7 @@
         width: 100%;
     }
 
+    .inner-navbar .front-user-dropdown .profile-action,
     .inner-navbar .front-user-dropdown .home-action,
     .inner-navbar .front-user-dropdown button.logout-action {
         background: #fff7f7 !important;
@@ -1179,6 +1183,7 @@
         min-height: 48px;
     }
 
+    .inner-navbar .front-user-dropdown .profile-action,
     .inner-navbar .front-user-dropdown .home-action { color: #000 !important; margin-bottom: 8px; }
 
     .inner-navbar .front-user-dropdown a {
@@ -1195,10 +1200,11 @@
         text-decoration: none;
     }
 
+    .inner-navbar .front-user-dropdown .profile-action:hover,
     .inner-navbar .front-user-dropdown .home-action:hover,
     .inner-navbar .front-user-dropdown button.logout-action:hover { background: #ffecec !important; color: #000; }
 
-    .inner-navbar .front-user-dropdown a:not(.home-action):hover,
+    .inner-navbar .front-user-dropdown a:not(.profile-action):not(.home-action):hover,
     .inner-navbar .front-user-dropdown button:not(.logout-action):hover { background: #F88379; color: #000; }
 
     .inner-navbar .customer-photo-label {
@@ -1280,7 +1286,7 @@
                                     <input id="customerProfilePhotoInner" type="file" name="photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden onchange="if(this.files.length)this.form.submit()">
                                     @error('photo')<small class="customer-photo-error">{{ $message }}</small>@enderror
                                 </form>
-                                <a href="{{ route('profile.show') }}">Profile</a>
+                                <a class="profile-action" href="{{ route('profile.show') }}">Profile</a>
                                 <a class="home-action" href="{{ url('/') }}">Home</a>
                                 <form action="{{ route('customer.logout') }}" method="POST" data-logout-form>
                                     @csrf

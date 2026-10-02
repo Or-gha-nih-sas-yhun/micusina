@@ -175,6 +175,7 @@
             color: #050505;
         }
 
+        .admin-user-menu .dropdown-item.profile-action,
         .admin-user-menu .dropdown-item.home-action,
         .admin-user-menu .dropdown-item.logout-action {
             background: #fff7f7 !important;
@@ -191,11 +192,13 @@
             width: 100%;
         }
 
+        .admin-user-menu .dropdown-item.profile-action,
         .admin-user-menu .dropdown-item.home-action {
             color: var(--mc-text) !important;
             margin-bottom: 8px;
         }
 
+        .admin-user-menu .dropdown-item.profile-action:hover,
         .admin-user-menu .dropdown-item.home-action:hover,
         .admin-user-menu .dropdown-item.logout-action:hover {
             background: #ffecec !important;
