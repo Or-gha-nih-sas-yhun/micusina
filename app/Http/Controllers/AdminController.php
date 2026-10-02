@@ -436,11 +436,12 @@ class AdminController extends Controller
     {
         $this->requireStaffOrAdmin();
 
-        $data = Order::findOrFail($id);
-
-        $this->matchingOrderRows($data)->update([
-            'delivery_status' => "On The Way",
-        ]);
+        DB::transaction(function () use ($id): void {
+            $data = Order::query()->lockForUpdate()->findOrFail($id);
+            $orders = $this->matchingOrderRows($data)->lockForUpdate()->get();
+            abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
+            Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'On The Way']);
+        }, 3);
 
         return redirect()->back();
     }
@@ -449,12 +450,14 @@ class AdminController extends Controller
     {
         $this->requireStaffOrAdmin();
 
-        $data = Order::findOrFail($id);
-        $riderId = $data->rider_id;
-
-        $this->matchingOrderRows($data)->update([
-            'delivery_status' => "Delivered",
-        ]);
+        $riderId = DB::transaction(function () use ($id): ?int {
+            $data = Order::query()->lockForUpdate()->findOrFail($id);
+            $orders = $this->matchingOrderRows($data)->lockForUpdate()->get();
+            abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
+            abort_unless($orders->every(fn (Order $order) => $order->delivery_status === 'On The Way'), 422, 'Only an order that is On The Way can be marked Delivered.');
+            Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Delivered']);
+            return $data->rider_id;
+        }, 3);
 
         if($riderId)
         {
@@ -468,12 +471,14 @@ class AdminController extends Controller
     {
         $this->requireStaffOrAdmin();
 
-        $data = Order::findOrFail($id);
-        $riderId = $data->rider_id;
-
-        $this->matchingOrderRows($data)->update([
-            'delivery_status' => "Canceled",
-        ]);
+        $riderId = DB::transaction(function () use ($id): ?int {
+            $data = Order::query()->lockForUpdate()->findOrFail($id);
+            $orders = $this->matchingOrderRows($data)->lockForUpdate()->get();
+            abort_if($orders->contains(fn (Order $order) => in_array($order->delivery_status, ['Delivered', 'Canceled', 'On The Way'], true)), 422, 'An order that is dispatched or final cannot be cancelled.');
+            abort_if($orders->contains(fn (Order $order) => strtolower((string) $order->payment_status) === 'paid'), 422, 'A paid order cannot be cancelled.');
+            Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Canceled']);
+            return $data->rider_id;
+        }, 3);
 
         if($riderId)
         {

@@ -310,7 +310,7 @@ class MobileApiController extends Controller
         $orders = $order->checkout_group_id
             ? Order::where('checkout_group_id', $order->checkout_group_id)->where('user_id', $user->id)->get()
             : Order::where('email', $user->email)->whereBetween('created_at', [$order->created_at->copy()->subSeconds(5), $order->created_at->copy()->addSeconds(5)])->get();
-        $allowed = $orders->every(fn (Order $item) => in_array($item->delivery_status, ['In Progress', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true)
+        $allowed = $orders->every(fn (Order $item) => in_array($item->delivery_status, ['In Progress', 'Preparing', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true)
             && strtolower((string) $item->payment_status) !== 'paid' && empty($item->rider_id));
         abort_unless($allowed, 422, 'This order can no longer be cancelled because it is already being prepared, paid, or dispatched.');
         Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Canceled']);
@@ -435,6 +435,7 @@ class MobileApiController extends Controller
                 abort_unless($user->usertype === 'admin' || $user->staff_role === 'cashier', 403, 'Order management access required.');
                 abort_if($relatedOrders->contains(fn (Order $related) => in_array($related->delivery_status, ['Delivered', 'Canceled'], true)), 422, 'This order is already final.');
                 abort_if($nextStatus === 'Delivered' && ! $relatedOrders->every(fn (Order $related) => $related->delivery_status === 'On The Way'), 422, 'Assign a rider before marking this order delivered.');
+                abort_if($nextStatus === 'Canceled' && $relatedOrders->contains(fn (Order $related) => $related->delivery_status === 'On The Way' || strtolower((string) $related->payment_status) === 'paid'), 422, 'A paid or dispatched order cannot be cancelled.');
             }
 
             Order::whereKey($relatedOrders->pluck('id')->all())->update(['delivery_status' => $nextStatus]);

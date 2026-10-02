@@ -716,7 +716,7 @@
         $isDelivered = $status === 'Delivered';
         $isOnWay = $status === 'On The Way';
         $isCanceled = $status === 'Canceled';
-        $canCancel = !$isCanceled && !$isDelivered && !$isOnWay && !$rider && strtolower((string) $order->payment_status) !== 'paid' && in_array($order->delivery_status, ['In Progress', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true);
+        $canCancel = !$isCanceled && !$isDelivered && !$isOnWay && !$rider && strtolower((string) $order->payment_status) !== 'paid' && in_array($order->delivery_status, ['In Progress', 'Preparing', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true);
         $eta = $isDelivered ? '0 mins' : ($isOnWay ? '3 mins' : '20 mins');
         $headline = $isDelivered ? 'Your food was delivered.' : ($isOnWay ? 'Your rider has picked up your food.' : ($isCanceled ? 'Your order was canceled.' : 'Your order is being prepared.'));
         $progress = $isDelivered ? [100,100,100,100] : ($isOnWay ? [100,100,100,35] : ($isCanceled ? [0,0,0,0] : [100,35,0,0]));

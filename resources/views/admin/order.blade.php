@@ -601,7 +601,7 @@
                 <td class="rider-assignment-cell">
                     @if($order->rider)
                         <span class="rider-name">{{ $order->rider->name }}</span>
-                    @elseif(Auth::user()->usertype === 'admin' || Auth::user()->staff_role === 'cashier')
+                    @elseif(!in_array($order->delivery_status, ['Delivered', 'Canceled'], true) && (Auth::user()->usertype === 'admin' || Auth::user()->staff_role === 'cashier'))
                         <button class="btn btn-success rider-toggle" type="button">Assign Rider</button>
                         <form class="rider-form" action="{{ url('assign_rider', $order->id) }}" method="POST">
                             @csrf
@@ -645,13 +645,20 @@
                 
                 <td>
                     <div class="order-actions">
-                    <form method="POST" action="{{ url('on_the_way', $order->id) }}" class="js-confirm-action" data-title="Mark order as on the way?" data-text="This will update all items in this order to On The Way." data-confirm="Yes, update it">@csrf<button class="btn btn-info" type="submit">On The Way</button></form>
+                    @if($order->delivery_status === 'Delivered')
+                        <span class="text-success font-weight-bold">Delivered — final</span>
+                    @elseif($order->delivery_status === 'Canceled')
+                        <span class="text-danger font-weight-bold">Canceled — final</span>
+                    @elseif($order->delivery_status === 'On The Way')
+                        <form method="POST" action="{{ url('delivered', $order->id) }}" class="js-confirm-action" data-title="Mark order as delivered?" data-text="This will complete this delivery and make the assigned rider available again." data-confirm="Yes, deliver it">@csrf<button class="btn btn-warning" type="submit">Delivered</button></form>
+                    @else
+                        <form method="POST" action="{{ url('on_the_way', $order->id) }}" class="js-confirm-action" data-title="Mark order as on the way?" data-text="This will update all items in this order to On The Way." data-confirm="Yes, update it">@csrf<button class="btn btn-info" type="submit">On The Way</button></form>
+                        @if(($order->payment_status ?? 'Unpaid') !== 'Paid')
+                            <form method="POST" action="{{ url('canceled', $order->id) }}" class="js-confirm-action" data-title="Cancel this order?" data-text="This will mark all items in this order as Canceled." data-confirm="Yes, cancel it">@csrf<button class="btn btn-danger" type="submit">Canceled</button></form>
+                        @endif
+                    @endif
 
-                    <form method="POST" action="{{ url('delivered', $order->id) }}" class="js-confirm-action" data-title="Mark order as delivered?" data-text="This will complete this delivery and make the assigned rider available again." data-confirm="Yes, deliver it">@csrf<button class="btn btn-warning" type="submit">Delivered</button></form>
-
-                    <form method="POST" action="{{ url('canceled', $order->id) }}" class="js-confirm-action" data-title="Cancel this order?" data-text="This will mark all items in this order as Canceled." data-confirm="Yes, cancel it">@csrf<button class="btn btn-danger" type="submit">Canceled</button></form>
-
-                    @if(($order->payment_status ?? 'Unpaid') !== 'Paid')
+                    @if(!in_array($order->delivery_status, ['Delivered', 'Canceled'], true) && ($order->payment_status ?? 'Unpaid') !== 'Paid')
                         <form method="POST" action="{{ url('paid', $order->id) }}" class="js-confirm-action" data-title="Mark payment as paid?" data-text="Confirm that this customer already paid." data-confirm="Yes, mark paid">@csrf<button class="btn btn-success" type="submit">Paid</button></form>
                     @endif
                     </div>

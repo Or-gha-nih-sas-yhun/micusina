@@ -873,7 +873,7 @@ class HomeController extends Controller
 
     private function orderCanBeCancelled(Order $order): bool
     {
-        return in_array($order->delivery_status, ['In Progress', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true)
+        return in_array($order->delivery_status, ['In Progress', 'Preparing', 'Pending', 'Awaiting Confirmation', 'Awaiting Payment'], true)
             && strtolower((string) $order->payment_status) !== 'paid'
             && empty($order->rider_id);
     }
