@@ -533,10 +533,12 @@
                 <p>Complete your downpayment through secure PayMongo checkout.</p>
                 <div class="booking-payment-options">
                     <button class="booking-payment-option" type="button" data-method="PayMongo">PayMongo</button>
+                    <button class="booking-payment-option" type="button" data-method="GCash">GCash</button>
                 </div>
                 <div id="bookingPaymentQr" class="booking-payment-qr">
                     <strong id="bookingPaymentQrTitle">PayMongo payment</strong>
-                    <p>Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.</p>
+                    <p id="bookingPaymentQrCopy">Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.</p>
+                    <div><img id="bookingPaymentQrImage" src="{{ asset('payment/gcash-qr.jpg') }}" alt="GCash payment QR code" hidden></div>
                 </div>
                 <div class="booking-payment-summary">
                     <div><span>Total Reservation Fee</span><strong>&#8369;<span id="bookingTotalFee">250.00</span></strong></div>
@@ -585,6 +587,8 @@
         var options = modal.querySelectorAll('.booking-payment-option');
         var qr = document.getElementById('bookingPaymentQr');
         var qrTitle = document.getElementById('bookingPaymentQrTitle');
+        var qrCopy = document.getElementById('bookingPaymentQrCopy');
+        var qrImage = document.getElementById('bookingPaymentQrImage');
         var confirmButton = document.getElementById('bookingPaymentConfirm');
         var cancelButton = document.getElementById('bookingPaymentCancel');
         var confirmed = false;
@@ -609,7 +613,12 @@
                 option.classList.add('is-selected');
                 methodInput.value = option.dataset.method;
                 dialog.classList.remove('is-gcash');
-                qrTitle.textContent = 'PayMongo payment';
+                var isGcash = option.dataset.method === 'GCash';
+                qrTitle.textContent = isGcash ? 'GCash QR payment' : 'PayMongo payment';
+                qrCopy.textContent = isGcash
+                    ? 'Scan this GCash QR code, then continue to PayMongo to complete and securely verify your payment.'
+                    : 'Continue to PayMongo to view the secure payment information and any QR payment option available for this checkout.';
+                qrImage.hidden = !isGcash;
                 qr.classList.add('is-visible');
                 referenceInput.value = '';
                 confirmButton.disabled = false;
