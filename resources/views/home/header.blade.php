@@ -282,8 +282,13 @@
     }
 
     .front-user-dropdown button.logout-action {
-        border: 2px solid #F88379 !important;
+        background: rgba(248, 131, 121, .08) !important;
+        border-bottom: 2px solid #F88379 !important;
+        border-left: 2px solid #F88379 !important;
+        border-right: 2px solid #F88379 !important;
+        border-top: 2px solid #F88379 !important;
         box-sizing: border-box;
+        box-shadow: inset 0 0 0 1px #F88379;
         display: block;
         min-height: 48px;
     }
@@ -1158,8 +1163,13 @@
     }
 
     .inner-navbar .front-user-dropdown button.logout-action {
-        border: 2px solid #9b6b92 !important;
+        background: rgba(155, 107, 146, .08) !important;
+        border-bottom: 2px solid #9b6b92 !important;
+        border-left: 2px solid #9b6b92 !important;
+        border-right: 2px solid #9b6b92 !important;
+        border-top: 2px solid #9b6b92 !important;
         box-sizing: border-box;
+        box-shadow: inset 0 0 0 1px #9b6b92;
         display: block;
         min-height: 48px;
     }

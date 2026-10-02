@@ -176,9 +176,14 @@
         }
 
         .admin-user-menu .dropdown-item.logout-action {
-            border: 2px solid var(--mc-accent) !important;
+            background: #fff7f7 !important;
+            border-bottom: 2px solid #ff746c !important;
+            border-left: 2px solid #ff746c !important;
+            border-right: 2px solid #ff746c !important;
+            border-top: 2px solid #ff746c !important;
             border-radius: 8px;
             box-sizing: border-box;
+            box-shadow: inset 0 0 0 1px #ff746c;
             display: block;
             margin: 0;
             min-height: 52px;
