@@ -16,9 +16,11 @@
     .track-action-label { display: none; }
 
     .track-action::after {
-        background: #202124;
+        background: #fff;
+        border: 1px solid #F88379;
         border-radius: 6px;
-        color: #fff;
+        box-shadow: 0 6px 16px rgba(15, 23, 42, .14);
+        color: #1f2937;
         content: attr(data-tooltip);
         font-size: 12px;
         font-weight: 700;

@@ -233,8 +233,8 @@
     <div class="col-lg-12">
       <div class="staff-panel">
         <div class="staff-panel-header">
-          <h3>Recent Deliveries</h3>
-          <a class="btn btn-primary" href="{{ url('orders') }}">Manage Orders</a>
+          <h3>Recent Deliveries & Rider Assignment</h3>
+          <a class="btn btn-primary" href="{{ url('orders') }}">Assign Riders</a>
         </div>
         <table class="staff-table">
           <tr>
@@ -242,6 +242,7 @@
             <th>Food</th>
             <th>Price</th>
             <th>Status</th>
+            <th>Rider</th>
             <th>Payment</th>
           </tr>
           @foreach($recent_orders as $order)
@@ -250,6 +251,7 @@
               <td>{{ $order->title }}</td>
               <td>&#8369;{{ number_format((float) $order->price, 2) }}</td>
               <td>{{ $order->delivery_status }}</td>
+              <td>{{ $order->rider?->name ?? 'Awaiting assignment' }}</td>
               <td>{{ $order->payment_method ?? 'Cash on Delivery' }} - {{ $order->payment_status ?? 'Unpaid' }}</td>
             </tr>
           @endforeach

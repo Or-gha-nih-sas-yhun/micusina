@@ -233,6 +233,19 @@ class HomeController extends Controller
             else
             if($usertype=='staff')
             {
+                if (Auth::user()->staff_role === 'rider') {
+                    $assignedOrders = Order::where('rider_id', Auth::id())
+                        ->whereNotIn('delivery_status', ['Delivered', 'Canceled'])
+                        ->orderByDesc('updated_at')
+                        ->get();
+
+                    $completedDeliveries = Order::where('rider_id', Auth::id())
+                        ->where('delivery_status', 'Delivered')
+                        ->count();
+
+                    return view('staff.rider', compact('assignedOrders', 'completedDeliveries'));
+                }
+
                 $today_delivery_sales = Order::where('delivery_status','=','Delivered')
                     ->where('payment_status','=','Paid')
                     ->whereDate('created_at', now()->toDateString())
