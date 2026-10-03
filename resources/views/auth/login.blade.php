@@ -468,7 +468,7 @@
                 </div>
 
                 <div class="auth-field auth-password-field">
-                    <input id="password" type="password" name="password" placeholder="Password" required autocomplete="off">
+                    <input id="password" type="password" name="password" placeholder="Password" required autocomplete="off" minlength="8" maxlength="15">
                     <button class="auth-password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false" data-password-toggle>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path>
