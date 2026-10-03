@@ -346,6 +346,26 @@
         .auth-submit { background: linear-gradient(135deg, #ff6b72, #ed0da8) !important; border-radius: 999px; box-shadow: 0 12px 25px rgba(237, 13, 168, .25); color: #fff !important; font-size: 14px; height: 45px; margin: 20px auto 18px; width: 100%; }
         .auth-switch { font-size: 13px; }
         .auth-switch a { color: #ed0da8 !important; }
+        .auth-password-field { position: relative; }
+        .auth-password-field input { padding-right: 56px; }
+        .auth-field .auth-password-toggle {
+            align-items: center;
+            background: transparent !important;
+            border: 0 !important;
+            color: #666 !important;
+            cursor: pointer;
+            display: flex;
+            height: 44px;
+            justify-content: center;
+            padding: 0;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+        }
+        .auth-field .auth-password-toggle:hover { background: transparent !important; color: #222 !important; }
+        .auth-password-toggle svg { height: 20px; width: 20px; }
         @media (max-width: 640px) { .auth-logo::after { font-size: 24px; } .auth-content { padding-top: 100px; } .auth-card { padding: 26px 22px; } .auth-grid { grid-template-columns: 1fr; } }
     </style>
     <main class="auth-scene">
@@ -400,12 +420,26 @@
                         <input id="address" type="text" name="address" value="{{ old('address') }}" placeholder="Address" required autocomplete="off">
                     </div>
 
-                    <div class="auth-field">
+                    <div class="auth-field auth-password-field">
                         <input id="password" type="password" name="password" placeholder="Password" required autocomplete="off" minlength="8" maxlength="15">
+                        <button class="auth-password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false" data-password-toggle>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="m3 3 18 18" data-password-slash></path>
+                            </svg>
+                        </button>
                     </div>
 
-                    <div class="auth-field">
+                    <div class="auth-field auth-password-field">
                         <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm password" required autocomplete="off" minlength="8" maxlength="15">
+                        <button class="auth-password-toggle" type="button" aria-label="Show password" aria-controls="password_confirmation" aria-pressed="false" data-password-toggle>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="m3 3 18 18" data-password-slash></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 

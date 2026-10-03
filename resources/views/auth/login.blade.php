@@ -402,6 +402,26 @@
         .auth-switch { font-size: 13px; }
         .auth-switch a { color: #ed0da8 !important; }
         .auth-content .auth-card { z-index: 5; }
+        .auth-password-field { position: relative; }
+        .auth-password-field input { padding-right: 56px; }
+        .auth-field .auth-password-toggle {
+            align-items: center;
+            background: transparent !important;
+            border: 0 !important;
+            color: #666 !important;
+            cursor: pointer;
+            display: flex;
+            height: 44px;
+            justify-content: center;
+            padding: 0;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+        }
+        .auth-field .auth-password-toggle:hover { background: transparent !important; color: #222 !important; }
+        .auth-password-toggle svg { height: 20px; width: 20px; }
         @media (max-width: 640px) { .auth-logo::after { font-size: 24px; } .auth-content { padding-top: 100px; } .auth-card { padding: 28px 24px; } }
     </style>
     <main class="auth-scene">
@@ -447,8 +467,15 @@
                     <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus autocomplete="off">
                 </div>
 
-                <div class="auth-field">
+                <div class="auth-field auth-password-field">
                     <input id="password" type="password" name="password" placeholder="Password" required autocomplete="off">
+                    <button class="auth-password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false" data-password-toggle>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="m3 3 18 18" data-password-slash></path>
+                        </svg>
+                    </button>
                 </div>
 
                 @if (Route::has('password.request'))
