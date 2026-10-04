@@ -18,7 +18,9 @@ class CartHeadingTest extends TestCase
             ->assertOk()
             ->assertDontSeeText('Cart Page')
             ->assertSeeText('Shopping Cart')
-            ->assertSeeText('Order Summary');
+            ->assertSeeText('Order Summary')
+            ->assertSeeText('Continue Shopping')
+            ->assertSee('href="' . url('/?section=food') . '"', false);
     }
 
     public function test_embedded_cart_keeps_cart_content_without_the_redundant_page_heading(): void
@@ -29,6 +31,7 @@ class CartHeadingTest extends TestCase
             ->assertOk()
             ->assertDontSeeText('Cart Page')
             ->assertSeeText('Shopping Cart')
-            ->assertSeeText('Order Summary');
+            ->assertSeeText('Order Summary')
+            ->assertDontSeeText('Continue Shopping');
     }
 }

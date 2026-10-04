@@ -432,6 +432,29 @@
             opacity: 1;
         }
 
+        .continue-shopping-button {
+            align-items: center;
+            align-self: flex-start;
+            background: #fff;
+            border: 1px solid #111;
+            border-radius: 2px;
+            color: #111;
+            display: inline-flex;
+            font-size: 14px;
+            font-weight: 700;
+            justify-content: center;
+            margin-top: 18px;
+            min-height: 44px;
+            padding: 0 20px;
+            text-decoration: none;
+        }
+
+        .continue-shopping-button:hover {
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+        }
+
         .checkout-details {
             max-height: calc(100vh - 80px);
             overflow-y: auto;
@@ -1022,6 +1045,9 @@
                             @endforelse
                         </div>
 
+                        @unless($embeddedCart)
+                            <a class="continue-shopping-button" href="{{ url('/?section=food') }}">Continue Shopping</a>
+                        @endunless
                     </div>
 
                     <aside>
