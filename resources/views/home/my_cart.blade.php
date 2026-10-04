@@ -435,11 +435,13 @@
         .continue-shopping-button {
             align-items: center;
             align-self: flex-start;
-            background: #fff;
-            border: 1px solid #111;
-            border-radius: 2px;
-            color: #111;
+            background: #ed0da8;
+            border: 1px solid #ed0da8;
+            border-radius: 999px;
+            box-shadow: 0 12px 25px rgba(237, 13, 168, .25);
+            color: #fff;
             display: inline-flex;
+            gap: 8px;
             font-size: 14px;
             font-weight: 700;
             justify-content: center;
@@ -450,7 +452,8 @@
         }
 
         .continue-shopping-button:hover {
-            background: #111;
+            background: #d90a99;
+            border-color: #d90a99;
             color: #fff;
             text-decoration: none;
         }
@@ -1046,7 +1049,7 @@
                         </div>
 
                         @unless($embeddedCart)
-                            <a class="continue-shopping-button" href="{{ url('/?section=food') }}">Continue Shopping</a>
+                            <a class="continue-shopping-button" href="{{ url('/?section=food') }}"><span aria-hidden="true">&larr;</span> Continue Shopping</a>
                         @endunless
                     </div>
 
