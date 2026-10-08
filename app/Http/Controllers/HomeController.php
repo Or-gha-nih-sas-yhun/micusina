@@ -914,7 +914,10 @@ class HomeController extends Controller
         $data = $request->validate([
             'phone' => ['required', 'regex:/^(09[0-9]{9}|\+639[0-9]{9})$/'],
             'address' => ['required', 'string', 'max:255', 'regex:/\S/'],
+            'payment_method' => ['sometimes', 'required', 'in:Cash on Delivery,GCash'],
+            'payment_reference' => ['required_if:payment_method,GCash', 'nullable', 'string', 'max:100'],
         ]);
+        $data['payment_method'] = $data['payment_method'] ?? 'Cash on Delivery';
         $cart = $request->session()->get('guest_cart', []);
         if (empty($cart)) {
             return redirect('my_cart')->with('message', 'Your cart is empty.');
@@ -939,8 +942,12 @@ class HomeController extends Controller
                     'quantity' => $quantity,
                     'price' => round((float) preg_replace('/[^0-9.]/', '', $food->price) * $quantity, 2),
                     'image' => $food->image, 'delivery_status' => 'In Progress',
-                    'payment_method' => 'Cash on Delivery', 'payment_status' => 'Unpaid',
+                    'payment_method' => $data['payment_method'],
+                    'payment_status' => $data['payment_method'] === 'GCash' ? 'Pending Verification' : 'Unpaid',
                 ]);
+                if (Schema::hasColumn('orders', 'payment_reference')) {
+                    $order->payment_reference = $data['payment_method'] === 'GCash' ? $data['payment_reference'] : null;
+                }
                 if (Schema::hasColumn('orders', 'checkout_group_id')) {
                     $order->checkout_group_id = $groupId;
                 }

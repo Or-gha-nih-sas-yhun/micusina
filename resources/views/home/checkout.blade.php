@@ -43,9 +43,6 @@
     @php($total = $data->sum(fn ($item) => (float) $item->price))
     <main class="checkout-page">
         <h1 class="checkout-title">Checkout</h1>
-        @guest
-            <div class="notice">Guest checkout — no registration or login needed. Enter only your phone number and delivery address.</div>
-        @endguest
         @if($errors->any())
             <div class="notice" role="alert">@foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach</div>
         @endif
@@ -82,26 +79,41 @@
                     <div class="order-item"><div><strong>{{ $item->title }}</strong><span>&#8369;{{ number_format((float) $item->price / max(1, $item->quantity), 2) }} × {{ $item->quantity }}</span></div><strong>&#8369;{{ number_format((float) $item->price, 2) }}</strong></div>
                 @endforeach
                 <div class="total-line"><span>Total</span><span>&#8369;{{ number_format($total, 2) }}</span></div>
-                @guest
-                    <div class="payment-box"><h3>Cash on Delivery</h3><p>Pay with cash when your order arrives.</p></div>
-                @else
-                    <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option><option value="GCash">GCash</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="GCash payment QR code"></div>
-                @endguest
+                <div class="payment-box">
+                    <h3><label for="payment_method">Payment method</label></h3>
+                    <select id="payment_method" name="payment_method" required><option value="Cash on Delivery" @selected(old('payment_method', 'Cash on Delivery') === 'Cash on Delivery')>Cash on Delivery</option><option value="GCash" @selected(old('payment_method') === 'GCash')>GCash</option></select>
+                    <p id="paymentCopy">Pay with cash when your order arrives.</p>
+                    <img id="paymentQr" class="payment-qr" src="{{ asset('payment/gcash-qr.jpg') }}" alt="GCash payment QR code">
+                    <div id="paymentReferenceField" hidden>
+                        <label for="payment_reference">GCash reference number <span class="required">*</span></label>
+                        <input id="payment_reference" name="payment_reference" value="{{ old('payment_reference') }}" maxlength="100" disabled>
+                    </div>
+                </div>
                 <button class="place-order" type="submit">Place order</button>
                 <a class="back-link" href="{{ url('my_cart') }}">← Back to Cart</a>
             </aside>
         </form>
     </main>
-    @auth
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var places = { Bantayan:['Atop-atop','Baigad','Baod','Binaobao','Botigues','Doong','Guiwanon','Hilotongan','Kabac','Kabangbang','Kampingganon','Kangkaibe','Lipayran','Luyongbaybay','Mojon','Obo-ob','Patao','Putian','Sillon','Suba','Sulangan','Sungko','Tamiao','Ticad'], Madridejos:['Bunakan','Kangwayan','Kaongkod','Kodia','Maalat','Malbago','Mancilang','Pili','Poblacion','San Agustin','Tabagak','Talangnan','Tarong','Tugas'], 'Santa Fe':['Balidbid','Hagdan','Hilantagaan','Kinatarkan','Langub','Maricaban','Okoy','Poblacion','Pooc','Talisay'] };
             var municipality=document.getElementById('municipality'), barangay=document.getElementById('barangay'), payment=document.getElementById('payment_method'), qr=document.getElementById('paymentQr'), copy=document.getElementById('paymentCopy');
-            municipality.addEventListener('change', function(){ barangay.innerHTML='<option value="">Select barangay</option>'; (places[municipality.value]||[]).forEach(function(place){ var option=new Option(place,place); barangay.add(option); }); });
-            document.getElementById('phone').addEventListener('input', function(){ this.value='+639'+this.value.replace(/[^0-9]/g,'').replace(/^639/,'').slice(0,9); });
-            payment.addEventListener('change', function(){ var gcash=payment.value==='GCash'; copy.textContent=gcash?'Scan the GCash QR code and keep your payment reference for verification.':'Pay with cash when your order arrives.'; qr.style.display=gcash?'block':'none'; if(gcash) qr.src='{{ asset('payment/gcash-qr.jpg') }}'; });
+            if (municipality) {
+                municipality.addEventListener('change', function(){ barangay.innerHTML='<option value="">Select barangay</option>'; (places[municipality.value]||[]).forEach(function(place){ var option=new Option(place,place); barangay.add(option); }); });
+                document.getElementById('phone').addEventListener('input', function(){ this.value='+639'+this.value.replace(/[^0-9]/g,'').replace(/^639/,'').slice(0,9); });
+            }
+            function updatePayment() {
+                var gcash = payment.value === 'GCash';
+                copy.textContent = gcash ? 'Scan the GCash QR code, pay the order total, and enter your reference number. Payment is subject to verification.' : 'Pay with cash when your order arrives.';
+                qr.style.display = gcash ? 'block' : 'none';
+                document.getElementById('paymentReferenceField').hidden = !gcash;
+                var reference = document.getElementById('payment_reference');
+                reference.disabled = !gcash;
+                reference.required = gcash;
+            }
+            payment.addEventListener('change', updatePayment);
+            updatePayment();
         });
     </script>
-    @endauth
 </body>
 </html>

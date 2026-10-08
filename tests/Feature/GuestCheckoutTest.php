@@ -21,9 +21,9 @@ class GuestCheckoutTest extends TestCase
     {
         $food = $this->food();
         $this->post('/add_cart/'.$food->id, ['qty' => 2])->assertRedirect();
-        $this->get('/checkout')->assertOk()->assertSeeText('Guest checkout')
+        $this->get('/checkout')->assertOk()->assertDontSeeText('Guest checkout')->assertSeeText('GCash')
             ->assertSee('name="address"', false)->assertDontSee('name="email"', false)->assertDontSee('name="name"', false);
-        $this->post('/confirm_order', ['phone' => '09171234567', 'address' => 'Purok 1, Poblacion, Santa Fe', 'payment_method' => 'GCash'])
+        $this->post('/confirm_order', ['phone' => '09171234567', 'address' => 'Purok 1, Poblacion, Santa Fe', 'payment_method' => 'Cash on Delivery'])
             ->assertRedirect(route('guest.receipt'))->assertSessionMissing('guest_cart');
         $this->assertDatabaseCount('users', 0);
         $this->assertDatabaseHas('orders', ['name' => 'Guest', 'phone' => '09171234567', 'quantity' => 2, 'price' => 200, 'payment_method' => 'Cash on Delivery', 'payment_status' => 'Unpaid']);
@@ -42,7 +42,20 @@ class GuestCheckoutTest extends TestCase
             ->post('/confirm_order', ['phone' => '123', 'address' => '   '])
             ->assertSessionHasErrors(['phone', 'address'])->assertSessionHas('guest_cart');
         $this->assertDatabaseCount('orders', 0);
-        $this->get('/checkout')->assertOk()->assertSeeText('Enter only your phone number');
+        $this->get('/checkout')->assertOk()->assertSeeText('Delivery address');
+    }
+
+    public function test_gcash_requires_a_reference_and_records_payment_for_verification(): void
+    {
+        $food = $this->food();
+        $payload = ['phone' => '09171234567', 'address' => 'Poblacion, Santa Fe', 'payment_method' => 'GCash'];
+        $this->withSession(['guest_cart' => [$food->id => ['quantity' => 1]]])
+            ->post('/confirm_order', $payload)->assertSessionHasErrors('payment_reference')->assertSessionHas('guest_cart');
+        $this->assertDatabaseCount('orders', 0);
+        $this->post('/confirm_order', $payload + ['payment_reference' => 'GCASH-123456'])
+            ->assertRedirect(route('guest.receipt'));
+        $this->assertDatabaseHas('orders', ['payment_method' => 'GCash', 'payment_status' => 'Pending Verification', 'payment_reference' => 'GCASH-123456']);
+        $this->get('/guest/receipt')->assertOk()->assertSeeText('GCash')->assertSeeText('Pending Verification')->assertSeeText('GCASH-123456');
     }
 
     public function test_unavailable_item_rolls_back_the_entire_guest_order(): void
