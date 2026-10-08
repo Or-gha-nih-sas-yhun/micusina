@@ -176,8 +176,12 @@
             <p class="receipt-muted">{{ $firstOrder->address }}</p>
 
             <div class="receipt-actions">
+                @if($guestReceipt ?? false)
+                <a class="secondary" href="{{ url('/?section=food') }}">Back to Menu</a>
+                @else
                 <a href="{{ url('track_order', $firstOrder->id) }}">Track Order</a>
                 <a class="secondary" href="{{ url('my_orders') }}">My Orders</a>
+                @endif
                 <button type="button" onclick="window.print()">Print</button>
             </div>
         </section>

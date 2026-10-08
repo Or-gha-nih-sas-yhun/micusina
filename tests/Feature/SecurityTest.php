@@ -14,11 +14,16 @@ class SecurityTest extends TestCase
             ['get', '/add_food'],
             ['post', '/upload_food'],
             ['delete', '/delete_food/1'],
-            ['delete', '/remove_cart/1'],
-            ['post', '/confirm_order'],
+            ['get', '/my_orders'],
+            ['get', '/track_order/1'],
         ] as [$method, $uri]) {
             $this->{$method}($uri)->assertRedirect('/login');
         }
+    }
+
+    public function test_guest_checkout_requires_valid_delivery_details(): void
+    {
+        $this->post('/confirm_order')->assertSessionHasErrors(['phone', 'address']);
     }
 
     public function test_browser_security_headers_are_applied(): void

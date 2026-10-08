@@ -43,11 +43,23 @@
     @php($total = $data->sum(fn ($item) => (float) $item->price))
     <main class="checkout-page">
         <h1 class="checkout-title">Checkout</h1>
+        @guest
+            <div class="notice">Guest checkout — no registration or login needed. Enter only your phone number and delivery address.</div>
+        @endguest
+        @if($errors->any())
+            <div class="notice" role="alert">@foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach</div>
+        @endif
         <div class="notice">Please review your delivery details before placing your order. We will use these details to prepare and deliver your food.</div>
         <form action="{{ url('confirm_order') }}" method="post" class="checkout-layout">
             @csrf
             <section class="billing-card">
                 <h2>Billing & delivery details</h2>
+                @guest
+                <div class="checkout-form">
+                    <div><label for="phone">Phone <span class="required">*</span></label><input id="phone" type="tel" name="phone" value="{{ old('phone') }}" pattern="(09[0-9]{9}|\+639[0-9]{9})" maxlength="13" placeholder="09XXXXXXXXX" required></div>
+                    <div><label for="address">Delivery address <span class="required">*</span></label><textarea id="address" name="address" maxlength="255" placeholder="House / purok, barangay, municipality, and landmark" required>{{ old('address') }}</textarea></div>
+                </div>
+                @else
                 <input type="hidden" name="email" value="{{ Auth::user()->email }}">
                 <div class="checkout-form">
                     <div class="form-grid">
@@ -61,6 +73,7 @@
                     <div><label for="purok">Purok / street address <span class="required">*</span></label><input id="purok" name="purok" value="{{ old('purok') }}" placeholder="Purok, house number, or street" required></div>
                     <div><label for="address_details">Delivery notes <small>(optional)</small></label><textarea id="address_details" name="address_details" placeholder="House color, landmark, gate number, or delivery instructions">{{ old('address_details') }}</textarea></div>
                 </div>
+                @endguest
             </section>
             <aside class="order-card">
                 <h2>Your order</h2>
@@ -69,12 +82,17 @@
                     <div class="order-item"><div><strong>{{ $item->title }}</strong><span>&#8369;{{ number_format((float) $item->price / max(1, $item->quantity), 2) }} × {{ $item->quantity }}</span></div><strong>&#8369;{{ number_format((float) $item->price, 2) }}</strong></div>
                 @endforeach
                 <div class="total-line"><span>Total</span><span>&#8369;{{ number_format($total, 2) }}</span></div>
-                <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option><option value="GCash">GCash</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="GCash payment QR code"></div>
+                @guest
+                    <div class="payment-box"><h3>Cash on Delivery</h3><p>Pay with cash when your order arrives.</p></div>
+                @else
+                    <div class="payment-box"><h3>Payment method</h3><select id="payment_method" name="payment_method" required><option value="Cash on Delivery">Cash on Delivery</option><option value="GCash">GCash</option></select><p id="paymentCopy">Pay with cash when your order arrives.</p><img id="paymentQr" class="payment-qr" alt="GCash payment QR code"></div>
+                @endguest
                 <button class="place-order" type="submit">Place order</button>
                 <a class="back-link" href="{{ url('my_cart') }}">← Back to Cart</a>
             </aside>
         </form>
     </main>
+    @auth
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var places = { Bantayan:['Atop-atop','Baigad','Baod','Binaobao','Botigues','Doong','Guiwanon','Hilotongan','Kabac','Kabangbang','Kampingganon','Kangkaibe','Lipayran','Luyongbaybay','Mojon','Obo-ob','Patao','Putian','Sillon','Suba','Sulangan','Sungko','Tamiao','Ticad'], Madridejos:['Bunakan','Kangwayan','Kaongkod','Kodia','Maalat','Malbago','Mancilang','Pili','Poblacion','San Agustin','Tabagak','Talangnan','Tarong','Tugas'], 'Santa Fe':['Balidbid','Hagdan','Hilantagaan','Kinatarkan','Langub','Maricaban','Okoy','Poblacion','Pooc','Talisay'] };
@@ -84,5 +102,6 @@
             payment.addEventListener('change', function(){ var gcash=payment.value==='GCash'; copy.textContent=gcash?'Scan the GCash QR code and keep your payment reference for verification.':'Pay with cash when your order arrives.'; qr.style.display=gcash?'block':'none'; if(gcash) qr.src='{{ asset('payment/gcash-qr.jpg') }}'; });
         });
     </script>
+    @endauth
 </body>
 </html>

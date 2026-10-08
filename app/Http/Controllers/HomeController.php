@@ -18,6 +18,7 @@ use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Str;
 
@@ -444,8 +445,12 @@ class HomeController extends Controller
 
     public function checkout()
     {
-        $this->moveGuestCartToAccount(request());
-        $data = Cart::where('userid', Auth::id())->get();
+        if (Auth::check()) {
+            $this->moveGuestCartToAccount(request());
+            $data = Cart::where('userid', Auth::id())->get();
+        } else {
+            $data = $this->guestCartItems(request());
+        }
 
         if ($data->isEmpty()) {
             return redirect('my_cart')->with('message', 'Your cart is empty. Add something from the menu first.');
@@ -789,6 +794,9 @@ class HomeController extends Controller
 
     public function confirm_order(Request $request)
     {
+        if (! Auth::check()) {
+            return $this->confirmGuestOrder($request);
+        }
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'in:'.Auth::user()->email],
@@ -899,6 +907,64 @@ class HomeController extends Controller
 
 
 
+    }
+
+    private function confirmGuestOrder(Request $request)
+    {
+        $data = $request->validate([
+            'phone' => ['required', 'regex:/^(09[0-9]{9}|\+639[0-9]{9})$/'],
+            'address' => ['required', 'string', 'max:255', 'regex:/\S/'],
+        ]);
+        $cart = $request->session()->get('guest_cart', []);
+        if (empty($cart)) {
+            return redirect('my_cart')->with('message', 'Your cart is empty.');
+        }
+        $email = $request->session()->get('guest_order_email') ?? 'guest-'.Str::uuid().'@guest.invalid';
+        $groupId = (string) Str::uuid();
+        $orderIds = DB::transaction(function () use ($cart, $data, $email, $groupId) {
+            $ids = [];
+            ksort($cart);
+            foreach ($cart as $foodId => $item) {
+                $food = Food::whereKey($foodId)->lockForUpdate()->first();
+                $quantity = (int) $item['quantity'];
+                if (! $food || $quantity < 1 || $food->stock < $quantity) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'cart' => 'An item is no longer available in the requested quantity. Please update your cart.',
+                    ]);
+                }
+                $order = new Order;
+                $order->fill([
+                    'name' => 'Guest', 'email' => $email, 'phone' => $data['phone'],
+                    'address' => trim($data['address']), 'title' => $food->title,
+                    'quantity' => $quantity,
+                    'price' => round((float) preg_replace('/[^0-9.]/', '', $food->price) * $quantity, 2),
+                    'image' => $food->image, 'delivery_status' => 'In Progress',
+                    'payment_method' => 'Cash on Delivery', 'payment_status' => 'Unpaid',
+                ]);
+                if (Schema::hasColumn('orders', 'checkout_group_id')) {
+                    $order->checkout_group_id = $groupId;
+                }
+                $order->save();
+                $food->decrement('stock', $quantity);
+                $ids[] = $order->id;
+            }
+            return $ids;
+        }, 3);
+        $request->session()->put('guest_order_email', $email);
+        $request->session()->put('guest_receipt_order_ids', $orderIds);
+        $request->session()->forget('guest_cart');
+
+        return redirect()->route('guest.receipt');
+    }
+
+    public function guest_receipt(Request $request)
+    {
+        $orders = Order::whereIn('id', $request->session()->get('guest_receipt_order_ids', []))
+            ->where('email', $request->session()->get('guest_order_email'))
+            ->orderBy('id')->get();
+        abort_if($orders->isEmpty(), 404);
+
+        return view('home.order_receipt', ['orders' => $orders, 'guestReceipt' => true]);
     }
 
     public function book_table(Request $request)

@@ -483,6 +483,7 @@
                 @endif
 
                 <button class="auth-submit" type="submit">Login</button>
+                <div class="auth-switch"><a href="{{ url('/?section=food') }}">Continue as guest</a><br>No registration needed to order.</div>
 
                 <div class="auth-switch">
                     Don't have an account?

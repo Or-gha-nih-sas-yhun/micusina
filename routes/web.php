@@ -40,13 +40,15 @@ Route::middleware('guest')->group(function () {
         ->name('register.confirm');
 });
 
-// Guests may build a cart in their session. Checkout remains protected below,
-// where Laravel will send unauthenticated customers to the login page.
+// Guest carts and checkout are isolated by the browser session.
 Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::post('/add_cart_ajax/{id}', [HomeController::class, 'add_cart_ajax']);
 Route::get('/my_cart', [HomeController::class, 'my_cart']);
 Route::post('/update_cart/{id}', [HomeController::class, 'update_cart']);
 Route::delete('/remove_cart/{id}', [HomeController::class, 'remove_cart']);
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+Route::post('/confirm_order', [HomeController::class, 'confirm_order'])->middleware('throttle:10,1');
+Route::get('/guest/receipt', [HomeController::class, 'guest_receipt'])->name('guest.receipt');
 
 
 Route::middleware('auth')->group(function () {
@@ -66,13 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/update_food/{id}', [AdminController::class, 'update_food']);
     Route::post('/edit_food/{id}', [AdminController::class, 'edit_food']);
 
-    Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::get('/my_orders', [HomeController::class, 'my_orders']);
     Route::get('/track_order/{id}', [HomeController::class, 'track_order']);
     Route::get('/track_order/{id}/status', [HomeController::class, 'order_status']);
     Route::post('/orders/{id}/cancel', [HomeController::class, 'cancel_order'])->name('orders.cancel');
     Route::get('/order_receipt', [HomeController::class, 'order_receipt'])->name('order.receipt');
-    Route::post('/confirm_order', [HomeController::class, 'confirm_order']);
 
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/orders/updates', [AdminController::class, 'order_updates'])->name('orders.updates');
