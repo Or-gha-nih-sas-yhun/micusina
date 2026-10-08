@@ -75,6 +75,26 @@
 :root:root body input::placeholder, :root:root body textarea::placeholder { color: #916798 !important; }
 :root:root body input[type="checkbox"], :root:root body input[type="radio"] { accent-color: #cd17aa; }
 
+/* Menu text and the two ordering actions use distinct requested colors. */
+:root:root body .mic-marketplace h2,
+:root:root body .mic-product-title,
+:root:root body .mic-product-price,
+:root:root body .mic-product-description,
+:root:root body .mic-stock,
+:root:root body .mic-product-meta,
+:root:root body .mic-product-meta span,
+:root:root body .mic-detail-info { color: #000 !important; }
+:root:root body .mic-card-cart button[type="submit"],
+:root:root body #micAddCartButton {
+    background: #861bb0 !important; border-color: #861bb0 !important;
+    color: #fff !important; box-shadow: none;
+}
+:root:root body .mic-card-cart button[name="buy_now"],
+:root:root body #micBuyNowButton {
+    background: #f20a9d !important; border-color: #f20a9d !important;
+    color: #fff !important; box-shadow: none;
+}
+
 /* The homepage keeps real navigation and text over a food photograph. */
 :root:root body.front-only { height: auto; min-height: 100vh; overflow-x: hidden; overflow-y: auto; }
 :root:root body.front-only .burger-front { background: #fce8fa !important; min-height: 100vh; }
