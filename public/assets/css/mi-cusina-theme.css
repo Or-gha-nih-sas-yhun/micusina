@@ -1,0 +1,155 @@
+:root {
+    --mi-primary: #be16aa;
+    --mi-primary-dark: #8008a6;
+    --mi-soft: #fff0fb;
+    --mi-border: #eed3ef;
+    --accent: #ec16ad;
+    --ink: #290640;
+    --line: #eed3ef;
+}
+:root:root body { background: #fff8fd !important; color: #290640 !important; }
+:root:root body h1, :root:root body h2, :root:root body h3,
+:root:root body h4, :root:root body h5, :root:root body h6 { color: #290640 !important; }
+:root:root body a { color: #8810a7; }
+:root:root body a:hover { color: #ed0ba4; }
+:root:root body input, :root:root body select, :root:root body textarea {
+    background: #fffafd !important; border-color: #e6c9eb !important; color: #3b1552 !important;
+}
+:root:root body input:focus, :root:root body select:focus, :root:root body textarea:focus {
+    border-color: #c31bc2 !important; box-shadow: 0 0 0 3px #ed16ad1a !important;
+}
+:root:root body .btn-primary, :root:root body .btn-custom,
+:root:root body button[type="submit"], :root:root body .checkout-button,
+:root:root body .place-order, :root:root body .burger-primary,
+:root:root body .receipt-actions a, :root:root body .receipt-actions button {
+    background: linear-gradient(115deg, #ff4fb5, #ed00aa 48%, #8000a9) !important;
+    border-color: #cd15ba !important; color: #fff !important;
+    box-shadow: 0 8px 24px #ce19a92b;
+}
+:root:root body button[type="submit"]:hover, :root:root body .checkout-button:hover,
+:root:root body .place-order:hover, :root:root body .burger-primary:hover { filter: brightness(.94); }
+:root:root body .inner-navbar, :root:root body .cart-topbar,
+:root:root body .burger-topbar { background: #fff9fdf5 !important; border-color: #f3d8ee !important; }
+:root:root body .inner-navbar .nav-link, :root:root body .cart-topbar a,
+:root:root body .cart-topbar button, :root:root body .burger-nav a { color: #350b52 !important; }
+:root:root body .nav-link:hover, :root:root body .burger-nav a:hover { color: #ec0eae !important; }
+:root:root body .notice, :root:root body .payment-box { background: #fff0fa !important; color: #653270 !important; border-color: #e75bbd !important; }
+:root:root body .payment-box p { color: #70437d !important; }
+:root:root body .billing-card, :root:root body .order-card, :root:root body .receipt-card,
+:root:root body .card, :root:root body .mic-product-card, :root:root body .mic-marketplace-inner {
+    background: #fff !important; border-color: #eed3ef !important; box-shadow: 0 12px 36px #8020980b !important;
+}
+:root:root body .cart-page, :root:root body .orders-page, :root:root body .receipt-page,
+:root:root body .tracking-page, :root:root body .booking-page,
+:root:root body .mic-marketplace, :root:root body .container-fluid.bg-dark { background: #fff8fd !important; color: #3b1552 !important; }
+:root:root body .mic-product-title { color: #350b52 !important; }
+:root:root body .mic-product-price, :root:root body .summary-total { color: #bf139d !important; }
+:root:root body .back-link { border-color: #b339c0; color: #86129d; }
+:root:root body .site-flash { background: #821395 !important; color: #fff !important; border-color: #f258c3; }
+:root:root body .cart-shell, :root:root body .cart-main, :root:root body .cart-list,
+:root:root body .order-summary, :root:root body .checkout-details { background: #fffafd !important; border-color: #eed3ef !important; }
+:root:root body .cart-shell p, :root:root body .cart-shell label,
+:root:root body .cart-shell strong, :root:root body .cart-shell span { color: #49175f !important; }
+:root:root body .cart-shell .qty-stepper button, :root:root body .gcash-open-button,
+:root:root body .bank-open-button { background: #9211ad !important; border-color: #b622c2 !important; color: #fff !important; }
+:root:root body .cart-shell .qty-stepper button:hover { background: #c015a8 !important; }
+:root:root body .cart-shell .qty-stepper button:disabled { opacity: .45; }
+:root:root body .inner-navbar .navbar-brand, :root:root body .inner-brand,
+:root:root body .front-user-info, :root:root body .front-user-dropdown { color: #350b52 !important; }
+:root:root body .front-user-dropdown { background: #fff7fd !important; border-color: #eed3ef !important; }
+
+/* The homepage keeps real navigation and text over a food photograph. */
+:root:root body.front-only { height: auto; min-height: 100vh; overflow-x: hidden; overflow-y: auto; }
+:root:root body.front-only .burger-front { background: #fce8fa !important; min-height: 100vh; }
+:root:root body.front-only .burger-panel {
+    display: block; border-radius: 0; min-height: 100vh;
+    background: linear-gradient(120deg, #fff7fd 0%, #ffd7f5 52%, #efa9eb 100%) !important;
+    isolation: isolate;
+}
+:root:root body.front-only .burger-panel::before {
+    content: ''; position: absolute; inset: 96px 0 0 46%; z-index: -1;
+    background: url('/food_img/mi-cusina-hero-food-edge.png') right center / auto 112% no-repeat;
+    mix-blend-mode: multiply;
+}
+:root:root body.front-only .burger-panel::after {
+    content: ''; position: absolute; z-index: -1; top: 0; left: -25%;
+    width: 90%; height: 90%; border-radius: 0 0 65% 45%;
+    background: linear-gradient(120deg, #fffcfe 30%, #fff3fc 75%, #ffe5f7);
+}
+:root:root body.front-only .burger-topbar {
+    height: 96px; padding: 0 6vw; grid-template-columns: 310px 1fr 290px;
+    background: linear-gradient(100deg, #fffbfe, #fff6fd 70%, #ffd1f3) !important;
+}
+:root:root body.front-only .burger-mark img { width: 70px; height: 70px; }
+:root:root body.front-only .burger-mark::after { color: #28043d; font-size: 42px; }
+:root:root body.front-only .burger-nav { gap: clamp(16px, 2.5vw, 42px); }
+:root:root body.front-only .burger-nav a { padding: 18px 0; font-size: 17px !important; white-space: nowrap; }
+:root:root body.front-only .burger-nav a.active {
+    background: transparent !important; border-radius: 0; position: relative; color: #f000ab !important;
+}
+:root:root body.front-only .burger-nav a.active::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; border-radius: 4px; background: #f000ab;
+}
+:root:root body.front-only .burger-login { gap: 18px; }
+:root:root body.front-only .burger-login .guest-auth-link {
+    border: 2px solid #b019c8 !important; background: transparent !important;
+    color: #d510b3 !important; padding: 15px 32px; font-size: 18px !important;
+}
+:root:root body.front-only .burger-login .guest-register-link {
+    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #8000a9) !important; color: #fff !important; border-color: transparent !important;
+}
+:root:root body.front-only .burger-copy {
+    align-items: flex-start; text-align: left; width: 64%; min-height: calc(100vh - 96px);
+    padding: clamp(70px, 9vh, 130px) 0 110px 6.3vw; background: transparent !important;
+}
+:root:root body.front-only .burger-copy h1 {
+    color: #26043b !important; font-weight: 700; font-size: clamp(62px, 6.8vw, 116px);
+    line-height: 1.02; letter-spacing: -.045em; margin-bottom: 34px;
+}
+:root:root body.front-only .burger-copy h1 .headline-accent {
+    display: inline-block; position: relative; font-size: inherit; line-height: inherit;
+    font-style: italic; color: #bf039f !important; letter-spacing: -.05em;
+}
+:root:root body.front-only .headline-accent::after {
+    content: ''; position: absolute; bottom: -12px; right: 0; width: 38%; height: 16px;
+    border-bottom: 5px solid #f500b0; border-radius: 50%; transform: rotate(3deg);
+}
+:root:root body.front-only .burger-copy p { color: #5c3c87 !important; font-size: clamp(19px, 1.7vw, 28px) !important; line-height: 1.4; max-width: 660px; margin: 0 0 34px; }
+:root:root body.front-only .burger-actions { gap: 24px; flex-wrap: wrap; }
+:root:root body.front-only .burger-primary, :root:root body.front-only .burger-secondary {
+    min-height: 76px; padding: 0 32px; gap: 18px; display: inline-flex; align-items: center; font-size: 25px !important; border-radius: 999px;
+}
+:root:root body.front-only .burger-primary span { font-size: 34px; }
+:root:root body.front-only .burger-secondary { background: #fff7fd !important; border: 2px solid #a20db6 !important; color: #8f0cb0 !important; }
+:root:root body.front-only .hero-food-frame, :root:root body.front-only .burger-art,
+:root:root body.front-only .burger-thumbs { display: none !important; }
+@media (max-width: 1200px) {
+    :root:root body.front-only .burger-topbar { grid-template-columns: 240px 1fr 230px; padding: 0 3vw; }
+    :root:root body.front-only .burger-mark::after { font-size: 32px; }
+    :root:root body.front-only .burger-login .guest-auth-link { padding: 13px 22px; }
+    :root:root body.front-only .burger-nav a { font-size: 15px !important; }
+}
+@media (max-width: 991px) {
+    :root:root body.front-only .burger-topbar { height: auto; padding: 14px 22px; grid-template-columns: 1fr auto; }
+    :root:root body.front-only .burger-mark img { width: 48px; height: 48px; }
+    :root:root body.front-only .burger-nav { display: flex; justify-content: space-between; gap: 14px; }
+    :root:root body.front-only .burger-panel::before { inset: 135px 0 0 40%; opacity: .5; }
+    :root:root body.front-only .burger-panel::after { width: 110%; height: 85%; }
+    :root:root body.front-only .burger-copy { width: 85%; min-height: calc(100vh - 135px); padding: 80px 24px 110px; }
+    :root:root body.front-only .burger-copy h1 { font-size: clamp(56px, 9vw, 88px); }
+}
+@media (max-width: 575px) {
+    :root:root body.front-only .burger-topbar { padding: 12px 14px; }
+    :root:root body.front-only .burger-mark::after { font-size: 25px; }
+    :root:root body.front-only .burger-mark img { width: 38px; height: 38px; }
+    :root:root body.front-only .burger-login { gap: 6px; }
+    :root:root body.front-only .burger-login .guest-auth-link { padding: 10px 12px; font-size: 13px !important; }
+    :root:root body.front-only .burger-nav a { font-size: 13px !important; padding: 12px 0; }
+    :root:root body.front-only .burger-panel::before { inset: 45% 0 0 0; opacity: .5; }
+    :root:root body.front-only .burger-panel::after { width: 135%; height: 78%; }
+    :root:root body.front-only .burger-copy { width: 100%; min-height: calc(100svh - 120px); padding: 65px 22px 160px; }
+    :root:root body.front-only .burger-copy h1 { font-size: clamp(42px, 10.5vw, 62px); }
+    :root:root body.front-only .burger-copy p { font-size: 19px !important; }
+    :root:root body.front-only .burger-actions { gap: 12px; }
+    :root:root body.front-only .burger-primary, :root:root body.front-only .burger-secondary { min-height: 56px; padding: 0 20px; font-size: 18px !important; gap: 12px; }
+}

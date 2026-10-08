@@ -911,11 +911,11 @@
         </div>
 
         <div class="burger-copy">
-            <h1>Comfort food for<br><span class="headline-accent">your table</span></h1>
+            <h1>Comfort food<br><span class="headline-accent">for your table</span></h1>
             <p>Discover Filipino comfort food, thoughtfully made and served with love at Mi Cusina.</p>
             <div class="burger-actions">
-                <a class="burger-primary" href="{{ url('/?section=food') }}">Order Now</a>
-                <a class="burger-secondary" href="{{ url('/?section=about') }}">About Us</a>
+                <a class="burger-primary" href="{{ url('/?section=food') }}"><i class="ti-view-list-alt" aria-hidden="true"></i> Order Now <span aria-hidden="true">→</span></a>
+                <a class="burger-secondary" href="{{ url('/?section=about') }}"><i class="ti-control-play" aria-hidden="true"></i> About Us</a>
             </div>
         </div>
 
