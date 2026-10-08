@@ -80,7 +80,7 @@
 :root:root body.front-only .burger-front { background: #fce8fa !important; min-height: 100vh; }
 :root:root body.front-only .burger-panel {
     display: block; border-radius: 0; min-height: 100vh;
-    background: linear-gradient(120deg, #fff7fd 0%, #ffd7f5 52%, #efa9eb 100%) !important;
+    background: #ff9cda !important;
     isolation: isolate;
 }
 :root:root body.front-only .burger-panel::before {
@@ -99,11 +99,11 @@
 :root:root body.front-only .burger-panel::after {
     content: ''; position: absolute; z-index: 1; top: -12%; left: -35%;
     width: 100%; height: 100%; border-radius: 50%; pointer-events: none;
-    background: radial-gradient(ellipse at 48% 40%, #fffafd 35%, #fff0fb 72%, #ffd5f3 100%);
+    background: #ff9cda;
 }
 :root:root body.front-only .burger-topbar {
     height: 96px; padding: 0 6vw; grid-template-columns: 310px 1fr 290px;
-    background: linear-gradient(100deg, #fffbfe, #fff6fd 70%, #ffd1f3) !important;
+    background: #ff9cda !important;
 }
 :root:root body.front-only .burger-mark img { width: 70px; height: 70px; }
 :root:root body.front-only .burger-mark::after { color: #28043d; font-size: 42px; }
@@ -133,14 +133,14 @@
     line-height: 1.02; letter-spacing: -.045em; margin-bottom: 34px;
 }
 :root:root body.front-only .burger-copy h1 .headline-accent {
-    display: inline-block; position: relative; font-size: inherit; line-height: inherit;
+    display: inline-block; position: relative; font-size: inherit; line-height: 1.2;
+    padding: 0 .08em .12em; margin: 0 -.08em; overflow: visible;
     font-style: italic; color: #861bb0 !important; letter-spacing: -.05em;
-    background: linear-gradient(100deg, #650c90, #a12cc4 65%, #781296);
-    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background: none; -webkit-text-fill-color: #861bb0;
 }
 :root:root body.front-only .headline-accent::after {
-    content: ''; position: absolute; bottom: -12px; right: 0; width: 38%; height: 16px;
-    border-bottom: 5px solid #8b1bb3; border-radius: 50%; transform: rotate(3deg);
+    content: ''; position: absolute; bottom: 0; right: .08em; width: 40%; height: 22px;
+    border-bottom: 5px solid #8b1bb3; border-radius: 0 0 50% 50%; transform: rotate(3deg);
 }
 :root:root body.front-only .burger-copy p { color: #000 !important; font-size: clamp(19px, 1.7vw, 28px) !important; line-height: 1.4; max-width: 660px; margin: 0 0 34px; }
 :root:root body.front-only .burger-actions { gap: 24px; flex-wrap: wrap; }
