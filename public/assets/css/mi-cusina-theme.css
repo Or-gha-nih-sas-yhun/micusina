@@ -67,9 +67,17 @@
     isolation: isolate;
 }
 :root:root body.front-only .burger-panel::before {
-    content: ''; position: absolute; inset: 96px 0 0 0; z-index: -1;
-    background: url('/food_img/mi-cusina-vivid-pink-hero.png') right center / cover no-repeat;
+    content: none !important; display: none !important;
+    position: absolute; inset: 96px 0 0 0; z-index: -1;
+    width: auto; height: auto; padding: 0; pointer-events: none;
+    background: url('../../food_img/mi-cusina-vivid-pink-hero.png') right center / cover no-repeat !important;
     mix-blend-mode: normal;
+}
+:root:root body.front-only .homepage-food-image {
+    display: block !important; position: absolute; top: 96px; left: 0;
+    width: 100%; height: calc(100% - 96px); max-width: none;
+    object-fit: cover; object-position: right center; z-index: -1;
+    pointer-events: none;
 }
 :root:root body.front-only .burger-panel::after {
     content: ''; position: absolute; z-index: -1; top: 0; left: -25%;
@@ -130,6 +138,7 @@
     :root:root body.front-only .burger-nav a { font-size: 15px !important; }
 }
 @media (max-width: 991px) {
+    :root:root body.front-only .homepage-food-image { top: 135px; height: calc(100% - 135px); }
     :root:root body.front-only .burger-topbar { height: auto; padding: 14px 22px; grid-template-columns: 1fr auto; }
     :root:root body.front-only .burger-mark img { width: 48px; height: 48px; }
     :root:root body.front-only .burger-nav { display: flex; justify-content: space-between; gap: 14px; }
@@ -139,6 +148,7 @@
     :root:root body.front-only .burger-copy h1 { font-size: clamp(56px, 9vw, 88px); }
 }
 @media (max-width: 575px) {
+    :root:root body.front-only .homepage-food-image { top: 45%; height: 55%; }
     :root:root body.front-only .burger-topbar { padding: 12px 14px; }
     :root:root body.front-only .burger-mark::after { font-size: 25px; }
     :root:root body.front-only .burger-mark img { width: 38px; height: 38px; }

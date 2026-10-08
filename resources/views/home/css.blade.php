@@ -84,4 +84,4 @@
         }
     </style>
 
-<link rel="stylesheet" href="{{ asset('assets/css/mi-cusina-theme.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/mi-cusina-theme.css') }}?v={{ filemtime(public_path('assets/css/mi-cusina-theme.css')) }}">

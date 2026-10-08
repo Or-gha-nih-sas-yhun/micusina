@@ -867,6 +867,9 @@
 @php($isHomepage = request()->getPathInfo() === '/')
 <header class="burger-front {{ $isHomepage ? '' : 'is-inner-page' }}" id="home">
     <div class="burger-panel">
+        @if($isHomepage)
+            <img class="homepage-food-image" src="{{ asset('food_img/mi-cusina-vivid-pink-hero.png') }}" alt="Chicken and rice with egg, golden fries, and creamy dip on a pink table" fetchpriority="high">
+        @endif
         <div class="burger-topbar">
             <a class="burger-mark" href="{{ url('/') }}" aria-label="Mi Cusina Home">
                 <img src="{{ asset('assets/imgs/mi-cusina-transparent.png') }}" alt="Mi Cusina">
