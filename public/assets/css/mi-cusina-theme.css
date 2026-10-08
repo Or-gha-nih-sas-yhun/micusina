@@ -117,11 +117,11 @@
 }
 :root:root body.front-only .burger-login { gap: 18px; }
 :root:root body.front-only .burger-login .guest-auth-link {
-    border: 2px solid #ed12a8 !important; background: transparent !important;
-    color: #f009a1 !important; padding: 15px 32px; font-size: 18px !important;
+    border: 2px solid #8b1bb3 !important; background: transparent !important;
+    color: #781296 !important; padding: 15px 32px; font-size: 18px !important;
 }
 :root:root body.front-only .burger-login .guest-register-link {
-    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #8700ac) !important; color: #fff0fb !important; border-color: transparent !important;
+    background: linear-gradient(115deg, #a641cd, #861bb0, #650c90) !important; color: #fff0fb !important; border-color: transparent !important;
 }
 :root:root body.front-only .burger-copy {
     position: relative; z-index: 2;
@@ -134,13 +134,13 @@
 }
 :root:root body.front-only .burger-copy h1 .headline-accent {
     display: inline-block; position: relative; font-size: inherit; line-height: inherit;
-    font-style: italic; color: #ed0098 !important; letter-spacing: -.05em;
-    background: linear-gradient(100deg, #b6006f, #f0009f 65%, #9900a7);
+    font-style: italic; color: #861bb0 !important; letter-spacing: -.05em;
+    background: linear-gradient(100deg, #650c90, #a12cc4 65%, #781296);
     background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 :root:root body.front-only .headline-accent::after {
     content: ''; position: absolute; bottom: -12px; right: 0; width: 38%; height: 16px;
-    border-bottom: 5px solid #f500b0; border-radius: 50%; transform: rotate(3deg);
+    border-bottom: 5px solid #8b1bb3; border-radius: 50%; transform: rotate(3deg);
 }
 :root:root body.front-only .burger-copy p { color: #5c3c87 !important; font-size: clamp(19px, 1.7vw, 28px) !important; line-height: 1.4; max-width: 660px; margin: 0 0 34px; }
 :root:root body.front-only .burger-actions { gap: 24px; flex-wrap: wrap; }
@@ -148,10 +148,10 @@
     min-height: 76px; padding: 0 32px; gap: 18px; display: inline-flex; align-items: center; font-size: 25px !important; border-radius: 999px;
 }
 :root:root body.front-only .burger-primary span { font-size: 34px; }
-:root:root body.front-only .burger-primary { background: linear-gradient(110deg, #ff4eae, #ef00a5 48%, #8700ac) !important; box-shadow: 0 15px 35px #ef00a540; }
-:root:root body.front-only .burger-secondary { background: #fff7fd !important; border: 2px solid #aa0abd !important; color: #900bb0 !important; }
+:root:root body.front-only .burger-primary { background: linear-gradient(110deg, #a641cd, #861bb0 48%, #650c90) !important; box-shadow: 0 15px 35px #861bb040; }
+:root:root body.front-only .burger-secondary { background: #fff7fd !important; border: 2px solid #8b1bb3 !important; color: #781296 !important; }
 :root:root body.front-only .burger-actions svg { width: 34px; height: 34px; flex-shrink: 0; }
-:root:root body.front-only .burger-login .guest-register-link { background: linear-gradient(110deg, #ff4eae, #ef00a5 48%, #8700ac) !important; }
+:root:root body.front-only .burger-login .guest-register-link { background: linear-gradient(110deg, #a641cd, #861bb0 48%, #650c90) !important; }
 :root:root body.front-only .hero-food-frame, :root:root body.front-only .burger-art,
 :root:root body.front-only .burger-thumbs { display: none !important; }
 @media (max-width: 1200px) {
