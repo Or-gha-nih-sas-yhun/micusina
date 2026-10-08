@@ -917,8 +917,8 @@
             <h1>Comfort food<br><span class="headline-accent">for your table</span></h1>
             <p>Discover Filipino comfort food, thoughtfully made and served with love at Mi Cusina.</p>
             <div class="burger-actions">
-                <a class="burger-primary" href="{{ url('/?section=food') }}"><i class="ti-view-list-alt" aria-hidden="true"></i> Order Now <span aria-hidden="true">→</span></a>
-                <a class="burger-secondary" href="{{ url('/?section=about') }}"><i class="ti-control-play" aria-hidden="true"></i> About Us</a>
+                <a class="burger-primary" href="{{ url('/?section=food') }}"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 3v9m4-9v9m4-9v9M6 9h8v4a4 4 0 0 1-8 0zm4 8v12M24 3c-5 0-6 13 0 13s5-13 0-13zm0 13v13"/></svg> Order Now <span aria-hidden="true">→</span></a>
+                <a class="burger-secondary" href="{{ url('/?section=about') }}"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="16" cy="16" r="13"/><path d="m13 10 9 6-9 6z" fill="currentColor" stroke="none"/></svg> About Us</a>
             </div>
         </div>
 
