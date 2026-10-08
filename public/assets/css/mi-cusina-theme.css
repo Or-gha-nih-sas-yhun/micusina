@@ -129,7 +129,7 @@
     padding: clamp(70px, 9vh, 130px) 0 110px 6.3vw; background: transparent !important;
 }
 :root:root body.front-only .burger-copy h1 {
-    color: #26043b !important; font-weight: 700; font-size: clamp(62px, 7.1vw, 124px);
+    color: #000 !important; font-weight: 700; font-size: clamp(62px, 7.1vw, 124px);
     line-height: 1.02; letter-spacing: -.045em; margin-bottom: 34px;
 }
 :root:root body.front-only .burger-copy h1 .headline-accent {
@@ -142,7 +142,7 @@
     content: ''; position: absolute; bottom: -12px; right: 0; width: 38%; height: 16px;
     border-bottom: 5px solid #8b1bb3; border-radius: 50%; transform: rotate(3deg);
 }
-:root:root body.front-only .burger-copy p { color: #5c3c87 !important; font-size: clamp(19px, 1.7vw, 28px) !important; line-height: 1.4; max-width: 660px; margin: 0 0 34px; }
+:root:root body.front-only .burger-copy p { color: #000 !important; font-size: clamp(19px, 1.7vw, 28px) !important; line-height: 1.4; max-width: 660px; margin: 0 0 34px; }
 :root:root body.front-only .burger-actions { gap: 24px; flex-wrap: wrap; }
 :root:root body.front-only .burger-primary, :root:root body.front-only .burger-secondary {
     min-height: 76px; padding: 0 32px; gap: 18px; display: inline-flex; align-items: center; font-size: 25px !important; border-radius: 999px;
