@@ -1,6 +1,6 @@
 :root {
     --mi-primary: #f20a9d;
-    --mi-primary-dark: #ce087f;
+    --mi-primary-dark: #8700ac;
     --mi-soft: #fff0fb;
     --mi-border: #eed3ef;
     --accent: #ec16ad;
@@ -22,8 +22,8 @@
 :root:root body button[type="submit"], :root:root body .checkout-button,
 :root:root body .place-order, :root:root body .burger-primary,
 :root:root body .receipt-actions a, :root:root body .receipt-actions button {
-    background: linear-gradient(115deg, #ff4fb5, #ed00aa 48%, #dc078c) !important;
-    border-color: #f20a9d !important; color: #fff !important;
+    background: linear-gradient(115deg, #ff4fb5, #ed00aa 48%, #8700ac) !important;
+    border-color: #f20a9d !important; color: #fff0fb !important;
     box-shadow: 0 8px 24px #ce19a92b;
 }
 :root:root body button[type="submit"]:hover, :root:root body .checkout-button:hover,
@@ -37,7 +37,7 @@
 :root:root body .payment-box p { color: #70437d !important; }
 :root:root body .billing-card, :root:root body .order-card, :root:root body .receipt-card,
 :root:root body .card, :root:root body .mic-product-card, :root:root body .mic-marketplace-inner {
-    background: #fff !important; border-color: #eed3ef !important; box-shadow: 0 12px 36px #8020980b !important;
+    background: #fff0fb !important; border-color: #eed3ef !important; box-shadow: 0 12px 36px #8020980b !important;
 }
 :root:root body .cart-page, :root:root body .orders-page, :root:root body .receipt-page,
 :root:root body .tracking-page, :root:root body .booking-page,
@@ -45,18 +45,35 @@
 :root:root body .mic-product-title { color: #350b52 !important; }
 :root:root body .mic-product-price, :root:root body .summary-total { color: #ee0999 !important; }
 :root:root body .back-link { border-color: #ef30ae; color: #db0b92; }
-:root:root body .site-flash { background: #da0b91 !important; color: #fff !important; border-color: #f258c3; }
+:root:root body .site-flash { background: #da0b91 !important; color: #fff0fb !important; border-color: #f258c3; }
 :root:root body .cart-shell, :root:root body .cart-main, :root:root body .cart-list,
 :root:root body .order-summary, :root:root body .checkout-details { background: #fffafd !important; border-color: #eed3ef !important; }
 :root:root body .cart-shell p, :root:root body .cart-shell label,
 :root:root body .cart-shell strong, :root:root body .cart-shell span { color: #49175f !important; }
 :root:root body .cart-shell .qty-stepper button, :root:root body .gcash-open-button,
-:root:root body .bank-open-button { background: #e60c9d !important; border-color: #f218a8 !important; color: #fff !important; }
+:root:root body .bank-open-button { background: #e60c9d !important; border-color: #f218a8 !important; color: #fff0fb !important; }
 :root:root body .cart-shell .qty-stepper button:hover { background: #c015a8 !important; }
 :root:root body .cart-shell .qty-stepper button:disabled { opacity: .45; }
 :root:root body .inner-navbar .navbar-brand, :root:root body .inner-brand,
 :root:root body .front-user-info, :root:root body .front-user-dropdown { color: #350b52 !important; }
 :root:root body .front-user-dropdown { background: #fff7fd !important; border-color: #eed3ef !important; }
+
+/* All interface states share the violet and pink palette. */
+:root:root body p, :root:root body label, :root:root body li,
+:root:root body th, :root:root body td { color: #49175f; }
+:root:root body .text-muted, :root:root body .mic-product-description,
+:root:root body .receipt-muted { color: #79538d !important; }
+:root:root body .text-danger, :root:root body .text-success,
+:root:root body .required, :root:root body .customer-photo-error { color: #b40889 !important; }
+:root:root body .alert, :root:root body .badge,
+:root:root body .btn-danger, :root:root body .btn-success,
+:root:root body .btn-info, :root:root body .btn-warning {
+    background: #fbd1ed !important; border-color: #df63bd !important; color: #62107d !important;
+}
+:root:root body .btn-secondary, :root:root body .btn-outline-primary,
+:root:root body .btn-outline-dark { background: #f8e5fc !important; border-color: #ad44bf !important; color: #781296 !important; }
+:root:root body input::placeholder, :root:root body textarea::placeholder { color: #916798 !important; }
+:root:root body input[type="checkbox"], :root:root body input[type="radio"] { accent-color: #cd17aa; }
 
 /* The homepage keeps real navigation and text over a food photograph. */
 :root:root body.front-only { height: auto; min-height: 100vh; overflow-x: hidden; overflow-y: auto; }
@@ -104,7 +121,7 @@
     color: #f009a1 !important; padding: 15px 32px; font-size: 18px !important;
 }
 :root:root body.front-only .burger-login .guest-register-link {
-    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #dc078c) !important; color: #fff !important; border-color: transparent !important;
+    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #8700ac) !important; color: #fff0fb !important; border-color: transparent !important;
 }
 :root:root body.front-only .burger-copy {
     position: relative; z-index: 2;
