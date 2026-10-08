@@ -1,6 +1,6 @@
 :root {
-    --mi-primary: #be16aa;
-    --mi-primary-dark: #8008a6;
+    --mi-primary: #f20a9d;
+    --mi-primary-dark: #ce087f;
     --mi-soft: #fff0fb;
     --mi-border: #eed3ef;
     --accent: #ec16ad;
@@ -10,20 +10,20 @@
 :root:root body { background: #fff8fd !important; color: #290640 !important; }
 :root:root body h1, :root:root body h2, :root:root body h3,
 :root:root body h4, :root:root body h5, :root:root body h6 { color: #290640 !important; }
-:root:root body a { color: #8810a7; }
+:root:root body a { color: #d10a8c; }
 :root:root body a:hover { color: #ed0ba4; }
 :root:root body input, :root:root body select, :root:root body textarea {
     background: #fffafd !important; border-color: #e6c9eb !important; color: #3b1552 !important;
 }
 :root:root body input:focus, :root:root body select:focus, :root:root body textarea:focus {
-    border-color: #c31bc2 !important; box-shadow: 0 0 0 3px #ed16ad1a !important;
+    border-color: #f218a8 !important; box-shadow: 0 0 0 3px #ed16ad1a !important;
 }
 :root:root body .btn-primary, :root:root body .btn-custom,
 :root:root body button[type="submit"], :root:root body .checkout-button,
 :root:root body .place-order, :root:root body .burger-primary,
 :root:root body .receipt-actions a, :root:root body .receipt-actions button {
-    background: linear-gradient(115deg, #ff4fb5, #ed00aa 48%, #8000a9) !important;
-    border-color: #cd15ba !important; color: #fff !important;
+    background: linear-gradient(115deg, #ff4fb5, #ed00aa 48%, #dc078c) !important;
+    border-color: #f20a9d !important; color: #fff !important;
     box-shadow: 0 8px 24px #ce19a92b;
 }
 :root:root body button[type="submit"]:hover, :root:root body .checkout-button:hover,
@@ -43,15 +43,15 @@
 :root:root body .tracking-page, :root:root body .booking-page,
 :root:root body .mic-marketplace, :root:root body .container-fluid.bg-dark { background: #fff8fd !important; color: #3b1552 !important; }
 :root:root body .mic-product-title { color: #350b52 !important; }
-:root:root body .mic-product-price, :root:root body .summary-total { color: #bf139d !important; }
-:root:root body .back-link { border-color: #b339c0; color: #86129d; }
-:root:root body .site-flash { background: #821395 !important; color: #fff !important; border-color: #f258c3; }
+:root:root body .mic-product-price, :root:root body .summary-total { color: #ee0999 !important; }
+:root:root body .back-link { border-color: #ef30ae; color: #db0b92; }
+:root:root body .site-flash { background: #da0b91 !important; color: #fff !important; border-color: #f258c3; }
 :root:root body .cart-shell, :root:root body .cart-main, :root:root body .cart-list,
 :root:root body .order-summary, :root:root body .checkout-details { background: #fffafd !important; border-color: #eed3ef !important; }
 :root:root body .cart-shell p, :root:root body .cart-shell label,
 :root:root body .cart-shell strong, :root:root body .cart-shell span { color: #49175f !important; }
 :root:root body .cart-shell .qty-stepper button, :root:root body .gcash-open-button,
-:root:root body .bank-open-button { background: #9211ad !important; border-color: #b622c2 !important; color: #fff !important; }
+:root:root body .bank-open-button { background: #e60c9d !important; border-color: #f218a8 !important; color: #fff !important; }
 :root:root body .cart-shell .qty-stepper button:hover { background: #c015a8 !important; }
 :root:root body .cart-shell .qty-stepper button:disabled { opacity: .45; }
 :root:root body .inner-navbar .navbar-brand, :root:root body .inner-brand,
@@ -67,9 +67,9 @@
     isolation: isolate;
 }
 :root:root body.front-only .burger-panel::before {
-    content: ''; position: absolute; inset: 96px 0 0 46%; z-index: -1;
-    background: url('/food_img/mi-cusina-hero-food-edge.png') right center / auto 112% no-repeat;
-    mix-blend-mode: multiply;
+    content: ''; position: absolute; inset: 96px 0 0 0; z-index: -1;
+    background: url('/food_img/mi-cusina-vivid-pink-hero.png') right center / cover no-repeat;
+    mix-blend-mode: normal;
 }
 :root:root body.front-only .burger-panel::after {
     content: ''; position: absolute; z-index: -1; top: 0; left: -25%;
@@ -92,11 +92,11 @@
 }
 :root:root body.front-only .burger-login { gap: 18px; }
 :root:root body.front-only .burger-login .guest-auth-link {
-    border: 2px solid #b019c8 !important; background: transparent !important;
-    color: #d510b3 !important; padding: 15px 32px; font-size: 18px !important;
+    border: 2px solid #ed12a8 !important; background: transparent !important;
+    color: #f009a1 !important; padding: 15px 32px; font-size: 18px !important;
 }
 :root:root body.front-only .burger-login .guest-register-link {
-    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #8000a9) !important; color: #fff !important; border-color: transparent !important;
+    background: linear-gradient(115deg, #ff4fb5, #ec00ac, #dc078c) !important; color: #fff !important; border-color: transparent !important;
 }
 :root:root body.front-only .burger-copy {
     align-items: flex-start; text-align: left; width: 64%; min-height: calc(100vh - 96px);
@@ -108,7 +108,7 @@
 }
 :root:root body.front-only .burger-copy h1 .headline-accent {
     display: inline-block; position: relative; font-size: inherit; line-height: inherit;
-    font-style: italic; color: #bf039f !important; letter-spacing: -.05em;
+    font-style: italic; color: #ed0098 !important; letter-spacing: -.05em;
 }
 :root:root body.front-only .headline-accent::after {
     content: ''; position: absolute; bottom: -12px; right: 0; width: 38%; height: 16px;
@@ -120,7 +120,7 @@
     min-height: 76px; padding: 0 32px; gap: 18px; display: inline-flex; align-items: center; font-size: 25px !important; border-radius: 999px;
 }
 :root:root body.front-only .burger-primary span { font-size: 34px; }
-:root:root body.front-only .burger-secondary { background: #fff7fd !important; border: 2px solid #a20db6 !important; color: #8f0cb0 !important; }
+:root:root body.front-only .burger-secondary { background: #fff7fd !important; border: 2px solid #ef10a5 !important; color: #dd078e !important; }
 :root:root body.front-only .hero-food-frame, :root:root body.front-only .burger-art,
 :root:root body.front-only .burger-thumbs { display: none !important; }
 @media (max-width: 1200px) {
@@ -133,7 +133,7 @@
     :root:root body.front-only .burger-topbar { height: auto; padding: 14px 22px; grid-template-columns: 1fr auto; }
     :root:root body.front-only .burger-mark img { width: 48px; height: 48px; }
     :root:root body.front-only .burger-nav { display: flex; justify-content: space-between; gap: 14px; }
-    :root:root body.front-only .burger-panel::before { inset: 135px 0 0 40%; opacity: .5; }
+    :root:root body.front-only .burger-panel::before { inset: 135px 0 0 0; opacity: 1; }
     :root:root body.front-only .burger-panel::after { width: 110%; height: 85%; }
     :root:root body.front-only .burger-copy { width: 85%; min-height: calc(100vh - 135px); padding: 80px 24px 110px; }
     :root:root body.front-only .burger-copy h1 { font-size: clamp(56px, 9vw, 88px); }
@@ -145,7 +145,7 @@
     :root:root body.front-only .burger-login { gap: 6px; }
     :root:root body.front-only .burger-login .guest-auth-link { padding: 10px 12px; font-size: 13px !important; }
     :root:root body.front-only .burger-nav a { font-size: 13px !important; padding: 12px 0; }
-    :root:root body.front-only .burger-panel::before { inset: 45% 0 0 0; opacity: .5; }
+    :root:root body.front-only .burger-panel::before { inset: 45% 0 0 0; opacity: 1; }
     :root:root body.front-only .burger-panel::after { width: 135%; height: 78%; }
     :root:root body.front-only .burger-copy { width: 100%; min-height: calc(100svh - 120px); padding: 65px 22px 160px; }
     :root:root body.front-only .burger-copy h1 { font-size: clamp(42px, 10.5vw, 62px); }
