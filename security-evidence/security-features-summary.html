@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Cusina | Security Features</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #1c2b22;
+      background: #eef4ec;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 12px; }
+    .sheet {
+      width: min(1440px, 100%);
+      margin: auto;
+      padding: 16px;
+      border: 1px solid #b8cbb8;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 12px 36px #183b2518;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 4px 0 20px;
+      border-bottom: 3px solid #176b36;
+    }
+    .number {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 12px;
+      background: #176b36;
+      color: white;
+      font-size: 27px;
+      font-weight: 800;
+    }
+    h1 { margin: 0; color: #145b2f; font-size: 26px; }
+    .subtitle { margin: 4px 0 0; color: #52645a; font-size: 13px; }
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .panel {
+      overflow: hidden;
+      border: 1px solid #b8cbb8;
+      border-radius: 12px;
+      background: #fbfdfb;
+    }
+    .panel-title {
+      margin: 0;
+      padding: 8px 12px;
+      background: #176b36;
+      color: white;
+      font-size: 14px;
+      letter-spacing: .04em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .features { display: grid; gap: 6px; padding: 8px; }
+    .feature {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 7px;
+      border: 1px solid #dce8dc;
+      border-radius: 9px;
+      background: white;
+    }
+    .check {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 50%;
+      background: #e1f3e5;
+      color: #176b36;
+      font-weight: 900;
+    }
+    h2 { margin: 0 0 3px; font-size: 13px; color: #164f2b; }
+    .feature p { margin: 0; color: #3f4e45; font-size: 11px; line-height: 1.3; }
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 8px;
+    }
+    figure {
+      overflow: hidden;
+      margin: 0;
+      border: 1px solid #dce5dc;
+      border-radius: 9px;
+      background: white;
+    }
+    figure:last-child { grid-column: 1 / -1; }
+    figure img {
+      display: block;
+      width: 100%;
+      height: 155px;
+      object-fit: cover;
+      object-position: top center;
+      background: #f5f5f5;
+    }
+    figure:last-child img { height: 125px; object-position: center top; }
+    figcaption {
+      padding: 6px;
+      color: #176b36;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .evidence {
+      margin-top: 10px;
+      padding: 8px 11px;
+      border-left: 5px solid #3a8b4c;
+      border-radius: 8px;
+      background: #edf7ee;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .evidence strong { color: #145b2f; }
+    .caveat {
+      margin-top: 7px;
+      padding: 8px 11px;
+      border: 1px solid #edc983;
+      border-radius: 8px;
+      background: #fff8e8;
+      color: #604817;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+    footer {
+      margin-top: 8px;
+      color: #52645a;
+      font-size: 10px;
+      text-align: right;
+    }
+    @media (max-width: 900px) {
+      body { padding: 10px; }
+      .sheet { padding: 14px; }
+      .columns { grid-template-columns: 1fr; }
+      figure img { height: auto; max-height: 340px; object-fit: contain; }
+    }
+    @media print {
+      @page { size: A4 landscape; margin: 8mm; }
+      body { padding: 0; background: white; }
+      .sheet { width: 100%; padding: 14px; box-shadow: none; }
+      .columns { grid-template-columns: 1fr 1.08fr; gap: 14px; margin-top: 12px; }
+      .features, .gallery { gap: 7px; padding: 9px; }
+      .feature { padding: 7px; }
+      .feature p { font-size: 11px; }
+      figure img { height: 170px; }
+      figure:last-child img { height: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header>
+      <div class="number">2</div>
+      <div>
+        <h1>Security Features of the System</h1>
+        <p class="subtitle">Mi Cusina · What each safeguard does, why it matters, and visual evidence from the app</p>
+      </div>
+    </header>
+
+    <div class="columns">
+      <section class="panel" aria-labelledby="features-title">
+        <h2 class="panel-title" id="features-title">Implemented safeguards</h2>
+        <div class="features">
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Password handling and login throttling</h2>
+              <p>Passwords are hashed. Login attempts are limited to five per minute; this makes exposed password data harder to use and slows brute-force guessing.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Email verification and input validation</h2>
+              <p>Registration validates the submitted details and requires a six-digit email code that expires after ten minutes. This helps verify email ownership before account creation.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Two-factor authentication</h2>
+              <p>Web and mobile sign-in support authenticator codes and recovery codes. A password alone is insufficient when 2FA is enabled, reducing account takeover risk.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Authentication, roles, and ownership</h2>
+              <p>Protected API routes require authentication; customer records and staff/rider operations are checked against ownership and role. This helps prevent access to another user’s data or restricted actions.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Web and payment safeguards</h2>
+              <p>CSRF validation, browser security headers, private no-cache responses, signed payment return links, and timestamped HMAC webhook checks help limit forged requests, data leakage, and fake payment confirmations.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="check">✓</span>
+            <div>
+              <h2>Android transport and backup controls</h2>
+              <p>The Kotlin app defaults to HTTPS, blocks cleartext traffic in its main configuration, and excludes app data from backup/device transfer. Its DataStore token is app-private but is not encrypted at rest.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="screenshots-title">
+        <h2 class="panel-title" id="screenshots-title">Screenshots from the system</h2>
+        <div class="gallery">
+          <figure>
+            <img src="login.png" alt="Mi Cusina sign-in screen with email and password fields">
+            <figcaption>1. Sign-in screen</figcaption>
+          </figure>
+          <figure>
+            <img src="registration.png" alt="Mi Cusina registration form with password confirmation and verification action">
+            <figcaption>2. Account registration</figcaption>
+          </figure>
+          <figure>
+            <img src="validation.png" alt="Browser required-field validation shown when registration is submitted empty">
+            <figcaption>3. Required-input form validation</figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <aside class="evidence">
+      <strong>Behavioral evidence:</strong> focused tests passed for mobile login throttling, email-code registration, TOTP enforcement/recovery codes, protected routes, and signed payment callbacks. Payment callback tests: 11 passed. Authentication/security run: 28 passed, 1 failed.
+    </aside>
+    <aside class="caveat">
+      <strong>Verification notes:</strong> the failing header test expects <code>X-Frame-Options: DENY</code>, while middleware currently returns <code>SAMEORIGIN</code>. Passkey support is configured, but an end-to-end passkey flow was not verified. The Kotlin API client currently appears to send a masked Authorization value rather than the bearer token, so authenticated Kotlin-client requests need a fix/verification. Screenshots show the web UI and required-field behavior; other controls are evidenced by automated backend tests, not these images.
+    </aside>
+    <footer>Local web UI screenshots · No credentials or personal account data shown</footer>
+  </main>
+</body>
+</html>

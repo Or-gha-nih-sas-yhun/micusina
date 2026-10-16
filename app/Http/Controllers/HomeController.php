@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Models\Book;
 
 use App\Models\Cart;
+use App\Support\Audit;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -719,6 +720,7 @@ class HomeController extends Controller
         }
 
         Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Canceled']);
+        Audit::record('order.cancelled_by_customer', $order, ['delivery_status' => $order->delivery_status], ['delivery_status' => 'Canceled']);
         return redirect()->route('my_orders')->with('message', 'Your order has been cancelled.');
     }
 
@@ -747,6 +749,7 @@ class HomeController extends Controller
             return back()->with('message', 'This reservation can no longer be cancelled.');
         }
         $booking->update(['status' => 'Canceled']);
+        Audit::record('reservation.cancelled_by_customer', $booking, ['status' => 'Pending'], ['status' => 'Canceled']);
         return redirect()->route('bookings.index')->with('message', 'Your reservation has been cancelled. Reservation downpayments are non-refundable.');
     }
 

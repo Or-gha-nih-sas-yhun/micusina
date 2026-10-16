@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\PayMongoService;
 use App\Services\RegistrationOtpSender;
 use App\Support\MenuImages;
+use App\Support\Audit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -279,6 +280,8 @@ class MobileApiController extends Controller
             return $created;
         }, 3);
 
+        Audit::record('order.created', $orders->first(), [], ['quantity' => $orders->sum('quantity'), 'payment_method' => $data['payment_method'], 'payment_status' => $orders->first()?->payment_status]);
+
         return response()->json(['message' => 'Order placed.', 'orders' => $orders], 201);
     }
 
@@ -314,6 +317,7 @@ class MobileApiController extends Controller
             && strtolower((string) $item->payment_status) !== 'paid' && empty($item->rider_id));
         abort_unless($allowed, 422, 'This order can no longer be cancelled because it is already being prepared, paid, or dispatched.');
         Order::whereKey($orders->pluck('id'))->update(['delivery_status' => 'Canceled']);
+        Audit::record('order.cancelled_by_customer', $order, ['delivery_status' => $order->delivery_status], ['delivery_status' => 'Canceled']);
         return response()->json(['message' => 'Order cancelled.']);
     }
 
@@ -381,6 +385,7 @@ class MobileApiController extends Controller
             abort(422, 'This reservation can no longer be cancelled.');
         }
         $booking->update(['status' => 'Canceled']);
+        Audit::record('reservation.cancelled_by_customer', $booking, ['status' => $booking->getOriginal('status')], ['status' => 'Canceled']);
         return response()->json(['message' => 'Reservation cancelled. Reservation downpayments are non-refundable.', 'reservation' => $booking->fresh()]);
     }
 
@@ -460,6 +465,8 @@ class MobileApiController extends Controller
             return $lockedOrder->fresh();
         }, 3);
 
+        Audit::record('order.delivery_status_updated', $updatedOrder, ['delivery_status' => $order->delivery_status], ['delivery_status' => $nextStatus]);
+
         return response()->json(['order' => $updatedOrder]);
     }
 
@@ -475,7 +482,9 @@ class MobileApiController extends Controller
         $this->staff($request->user());
         abort_unless($request->user()->usertype === 'admin', 403, 'Only administrators can edit inventory.');
         $data = $request->validate(['stock' => ['required', 'integer', 'min:0']]);
+        $oldStock = $food->stock;
         $food->update($data);
+        Audit::record('inventory.stock_updated', $food, ['stock' => $oldStock], ['stock' => $food->stock]);
 
         return response()->json(['food' => $this->food($food->fresh())]);
     }

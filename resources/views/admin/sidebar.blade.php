@@ -59,6 +59,7 @@
                 <li class="{{ request()->is('users') ? 'active' : '' }}">
                   <a href="{{ url('users') }}"> <i class="icon-user"></i>Users @if($headerNewUserCount > 0)<span class="admin-sidebar-count" aria-label="{{ $headerNewUserCount }} customers registered today">{{ $headerNewUserCount }}</span>@endif</a>
                 </li>
+                <li class="{{ request()->is('audit-logs') ? 'active' : '' }}"><a href="{{ route('admin.audit-logs') }}"><i class="fa fa-history"></i>Audit Logs</a></li>
 
                 <li class="{{ request()->is('add_staff') ? 'active' : '' }}">
                   <a href="{{ url('add_staff') }}"> <i class="icon-user-1"></i>Create Staff</a>
