@@ -81,7 +81,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/transaction-history', [AdminController::class, 'transaction_history'])->name('admin.transaction-history');
     Route::get('/transaction-history/pdf', [AdminController::class, 'transaction_history_pdf'])->name('admin.transaction-history.pdf');
     Route::get('/users', [AdminController::class, 'users']);
-    Route::get('/audit-logs', [AdminController::class, 'audit_logs'])->name('admin.audit-logs');
     Route::get('/riders', [AdminController::class, 'riders']);
     Route::post('/assign_rider/{id}', [AdminController::class, 'assign_rider']);
     Route::post('/rider_availability/{id}', [AdminController::class, 'set_rider_availability']);

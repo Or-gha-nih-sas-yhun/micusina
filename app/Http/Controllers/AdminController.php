@@ -6,8 +6,6 @@ use App\Models\Book;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\User;
-use App\Models\AuditLog;
-use App\Support\Audit;
 use App\Notifications\RiderAssignedToOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -80,7 +78,6 @@ class AdminController extends Controller
 
         $data->save();
 
-        Audit::record('food.created', $data, [], $data->only(['title', 'category', 'price', 'stock']));
 
         return redirect('view_food')->with('message', 'Food Added Successfully');
 
@@ -119,10 +116,8 @@ class AdminController extends Controller
         ]);
 
         $food = Food::findOrFail($id);
-        $oldStock = $food->stock;
         $food->stock = $request->stock;
         $food->save();
-        Audit::record('inventory.stock_updated', $food, ['stock' => $oldStock], ['stock' => $food->stock]);
 
         return redirect()->back()->with('message', 'Stock Updated Successfully');
     }
@@ -133,7 +128,6 @@ class AdminController extends Controller
 
         $data = Food::findOrFail($id);
 
-        Audit::record('food.deleted', $data, $data->only(['title', 'category', 'price', 'stock']));
 
         $data->delete();
 
@@ -166,7 +160,6 @@ class AdminController extends Controller
         ]);
 
         $data = Food::findOrFail($id);
-        $oldValues = $data->only(['title', 'category', 'price', 'stock']);
 
         $data->title = $request->title;
 
@@ -191,7 +184,6 @@ class AdminController extends Controller
 
         $data->save();
 
-        Audit::record('food.updated', $data, $oldValues, $data->only(['title', 'category', 'price', 'stock']));
 
         return redirect('view_food');
 
@@ -430,15 +422,6 @@ class AdminController extends Controller
         return view('admin.users', compact('users'));
     }
 
-    public function audit_logs(Request $request)
-    {
-        $this->requireAdmin();
-        $logs = AuditLog::with('user:id,name,email')
-            ->when($request->filled('event'), fn ($query) => $query->where('event', 'like', '%'.$request->string('event').'%'))
-            ->latest('created_at')->paginate(50)->withQueryString();
-
-        return view('admin.audit_logs', compact('logs'));
-    }
 
     public function riders()
     {
@@ -534,9 +517,7 @@ class AdminController extends Controller
         if ($request->boolean('rider_available') && Order::where('rider_id', $rider->id)->whereNotIn('delivery_status', ['Delivered', 'Canceled'])->exists()) {
             return back()->with('message', 'A rider with an active delivery cannot be marked available.');
         }
-        $oldAvailability = $rider->rider_available;
         $rider->forceFill(['rider_available' => (bool) $request->rider_available])->save();
-        Audit::record('rider.availability_updated', $rider, ['rider_available' => $oldAvailability], ['rider_available' => $rider->rider_available]);
 
         return redirect()->back()->with('message', $rider->name.' availability updated.');
     }
@@ -546,12 +527,9 @@ class AdminController extends Controller
         $this->requireAdminOrCashier();
 
         $data = Order::findOrFail($id);
-        $oldStatus = $data->payment_status;
-
         $data->payment_status = 'Paid';
 
         $data->save();
-        Audit::record('order.payment_marked_paid', $data, ['payment_status' => $oldStatus], ['payment_status' => $data->payment_status]);
 
         return redirect()->back()->with('message', 'Payment marked as paid.');
     }
@@ -585,8 +563,6 @@ class AdminController extends Controller
         $this->requireStaffOrAdmin();
 
         $book = Book::findOrFail($id);
-        $oldStatus = $book->status;
-
         if (($book->payment_status ?? 'Pending') !== 'Paid') {
             return redirect()->back()->with('message', 'This reservation cannot be approved until payment is verified.');
         }
@@ -595,7 +571,6 @@ class AdminController extends Controller
         $book->approved_by = auth()->id();
         $book->approved_at = now();
         $book->save();
-        Audit::record('reservation.approved', $book, ['status' => $oldStatus], ['status' => $book->status]);
 
         return redirect()->back()->with('message', 'Reservation approved and added to sales.');
     }
@@ -614,11 +589,9 @@ class AdminController extends Controller
             return redirect()->back()->with('message', 'This GCash payment is not awaiting verification.');
         }
 
-        $oldPaymentStatus = $book->payment_status;
         $book->payment_status = 'Paid';
         $book->paid_at = now();
         $book->save();
-        Audit::record('reservation.payment_verified', $book, ['payment_status' => $oldPaymentStatus], ['payment_status' => $book->payment_status]);
 
         return redirect()->back()->with('message', 'GCash payment verified. The reservation can now be approved.');
     }
@@ -656,8 +629,7 @@ class AdminController extends Controller
             $staffData['staff_role'] = $request->staff_role;
         }
 
-        $staff = User::create($staffData);
-        Audit::record('staff.created', $staff, [], $staff->only(['name', 'email', 'staff_role']));
+        User::create($staffData);
 
         return redirect()->back()->with('message', 'Staff Created Successfully');
     }

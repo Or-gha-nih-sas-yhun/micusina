@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::dropIfExists('audit_logs');
+    }
+
+    public function down(): void
+    {
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
@@ -21,10 +26,5 @@ return new class extends Migration
             $table->timestamp('created_at')->index();
             $table->index(['auditable_type', 'auditable_id']);
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('audit_logs');
     }
 };
