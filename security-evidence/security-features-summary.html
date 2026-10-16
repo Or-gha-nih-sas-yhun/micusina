@@ -206,8 +206,8 @@
           <article class="feature">
             <span class="check">✓</span>
             <div>
-              <h2>Web and payment safeguards</h2>
-              <p>CSRF validation, browser security headers, private no-cache responses, signed payment return links, and timestamped HMAC webhook checks help limit forged requests, data leakage, and fake payment confirmations.</p>
+              <h2>Audit trail, web, and payment safeguards</h2>
+              <p>Admin-only audit logs record the actor, event, changed record, allowlisted before/after values, IP, and time, without credentials or payment secrets. CSRF, security headers, private caching, signed payment returns, and timestamped HMAC checks help limit forged actions and fake payments.</p>
             </div>
           </article>
           <article class="feature">
@@ -240,7 +240,7 @@
     </div>
 
     <aside class="evidence">
-      <strong>Behavioral evidence:</strong> focused tests passed for mobile login throttling, email-code registration, TOTP enforcement/recovery codes, protected routes, and signed payment callbacks. Payment callback tests: 11 passed. Authentication/security run: 28 passed, 1 failed.
+      <strong>Behavioral evidence:</strong> focused tests passed for mobile login throttling, email-code registration, TOTP enforcement/recovery codes, protected routes, and signed payment callbacks. Audit-log code is present, but no audit-specific test was run. Payment callback tests: 11 passed. Current focused run: 39 passed, 1 failed.
     </aside>
     <aside class="caveat">
       <strong>Verification notes:</strong> the failing header test expects <code>X-Frame-Options: DENY</code>, while middleware currently returns <code>SAMEORIGIN</code>. Passkey support is configured, but an end-to-end passkey flow was not verified. The Kotlin API client currently appears to send a masked Authorization value rather than the bearer token, so authenticated Kotlin-client requests need a fix/verification. Screenshots show the web UI and required-field behavior; other controls are evidenced by automated backend tests, not these images.
